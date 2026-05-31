@@ -658,7 +658,7 @@
   <script>
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       ? 'http://127.0.0.1:5000'
-      : 'https://roger95.pythonanywhere.com';
+      : 'https://rabbieshashank.pythonanywhere.com';
 
     // ── Session ID ────────────────────────────────────────────
     const sessionId = "session_" + Date.now();
@@ -844,7 +844,7 @@
       recognition.onresult = (event) => {
         let interimTranscript = '';
         let finalTranscript = '';
-        
+
         for (let i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
             finalTranscript += event.results[i][0].transcript;
@@ -852,7 +852,7 @@
             interimTranscript += event.results[i][0].transcript;
           }
         }
-        
+
         const text = finalTranscript || interimTranscript;
         if (text) {
           document.getElementById('messageInput').value = text;
@@ -865,7 +865,7 @@
         console.warn('SpeechRecognition error:', err);
         stopVoice();
       };
-      
+
       recognition.onend = () => {
         stopVoice();
         if (hasVoiceInput) {

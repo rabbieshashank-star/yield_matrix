@@ -3,7 +3,7 @@
  * Handles: login, token management, price CRUD, UI rendering
  */
 
-const API = 'https://roger95.pythonanywhere.com';
+const API = 'https://rabbieshashank.pythonanywhere.com';
 
 // ── Default crop list (always shown, can be extended) ────────────────────────
 const DEFAULT_CROPS = [

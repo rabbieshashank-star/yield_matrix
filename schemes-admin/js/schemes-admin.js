@@ -4,7 +4,7 @@
  * Handles: login, list schemes, add scheme, delete scheme, live search
  */
 
-const API = 'https://roger95.pythonanywhere.com';
+const API = 'https://rabbieshashank.pythonanywhere.com';
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
