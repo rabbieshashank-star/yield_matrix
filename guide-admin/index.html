@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Guides Admin — Yield Matrix</title>
+  <meta name="description" content="Admin login to manage crop growing guides listed in Yield Matrix." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/guide-admin.css" />
+</head>
+<body class="login-page">
+
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <main class="login-container">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="url(#grad)" stroke-width="2" fill="none"/>
+          <path d="M20 12L28 17V23L20 28L12 23V17L20 12Z" fill="url(#grad)" opacity="0.6"/>
+          <defs>
+            <linearGradient id="grad" x1="4" y1="4" x2="36" y2="36">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-name">Yield Matrix</h1>
+        <p class="brand-sub">Crop Guides Admin Portal</p>
+      </div>
+    </div>
+
+    <div class="glass-card login-card">
+      <h2 class="card-title">Admin Login</h2>
+      <p class="card-desc">Sign in with superadmin credentials to manage crop growing guides.</p>
+
+      <form id="loginForm" autocomplete="off" novalidate>
+        <div class="field-group">
+          <label for="username" class="field-label">Username</label>
+          <input type="text" id="username" class="field-input" placeholder="superadmin" required autocomplete="username" />
+        </div>
+
+        <div class="field-group">
+          <label for="password" class="field-label">Password</label>
+          <div class="input-wrapper">
+            <input type="password" id="password" class="field-input" placeholder="Enter password" required autocomplete="current-password" />
+            <button type="button" id="togglePwd" class="toggle-pwd" aria-label="Toggle password">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div id="loginError" class="error-msg" hidden></div>
+
+        <button type="submit" id="loginBtn" class="btn-primary">
+          <span id="loginBtnText">Sign In</span>
+          <span id="loginSpinner" class="spinner" hidden></span>
+        </button>
+      </form>
+    </div>
+
+    <p class="footer-note">Yield Matrix Guides Admin &copy; 2026 &mdash; Authorized personnel only</p>
+  </main>
+
+  <script src="js/guide-admin.js"></script>
+</body>
+</html>

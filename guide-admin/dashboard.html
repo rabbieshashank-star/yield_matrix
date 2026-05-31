@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Crop Guides Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/guide-admin.css" />
+</head>
+<body class="dashboard-page">
+
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <nav class="navbar glass-card">
+    <div class="nav-brand">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+        <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="url(#grad2)" stroke-width="2" fill="none"/>
+        <path d="M20 12L28 17V23L20 28L12 23V17L20 12Z" fill="url(#grad2)" opacity="0.6"/>
+        <defs>
+          <linearGradient id="grad2" x1="4" y1="4" x2="36" y2="36">
+            <stop offset="0%" stop-color="#10b981"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div>
+        <span class="nav-title">Crop Guides</span>
+        <span class="nav-subtitle">Admin Portal</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button id="logoutBtn" class="btn-outline">Logout</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-container">
+    <header class="dash-header">
+      <div>
+        <h2>Manage Crop Guides</h2>
+        <p>Add, edit, or remove dynamic crop growing guides.</p>
+      </div>
+      <button id="showAddFormBtn" class="btn-primary">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Add New Crop
+      </button>
+    </header>
+
+    <div id="statusAlert" class="alert" hidden></div>
+
+    <div class="table-card glass-card">
+      <div class="table-responsive">
+        <table id="guidesTable">
+          <thead>
+            <tr>
+              <th>Emoji</th>
+              <th>Crop Name</th>
+              <th>Crop ID</th>
+              <th>Created At</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="guidesTbody">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="tableLoading" class="table-loading" hidden>
+        <span class="spinner"></span> Loading guides...
+      </div>
+      <div id="tableEmpty" class="table-empty" hidden>
+        No crop guides found.
+      </div>
+    </div>
+  </main>
+
+  <!-- Add/Edit Modal -->
+  <div id="addModal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Crop</h3>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="addForm" novalidate>
+          <div class="form-row">
+            <div class="field-group half">
+              <label for="crop_id" class="field-label">Crop ID (lowercase, no spaces) *</label>
+              <input type="text" id="crop_id" class="field-input" placeholder="e.g., tomato" required />
+            </div>
+            <div class="field-group half">
+              <label for="emoji" class="field-label">Emoji (optional)</label>
+              <input type="text" id="emoji" class="field-input" placeholder="e.g., 🍅" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="crop_name" class="field-label">Crop Name *</label>
+            <input type="text" id="crop_name" class="field-input" placeholder="e.g., Tomato" required />
+          </div>
+
+          <div class="sections-container">
+            <h4>Guide Sections</h4>
+            <div id="sectionsList"></div>
+            <button type="button" id="addSectionBtn" class="btn-outline btn-sm" style="margin-top: 10px;">+ Add Section</button>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="cancelBtn" class="btn-outline">Cancel</button>
+            <button type="submit" id="saveBtn" class="btn-primary">
+              <span id="saveBtnText">Save</span>
+              <span id="saveSpinner" class="spinner" hidden></span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div id="deleteModal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-content glass-card modal-sm">
+      <div class="modal-header">
+        <h3>Delete Crop Guide</h3>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong id="deleteCropName"></strong>? This will remove the metadata and the JSON content file. This cannot be undone.</p>
+        <div class="modal-actions">
+          <button type="button" id="cancelDeleteBtn" class="btn-outline">Cancel</button>
+          <button type="button" id="confirmDeleteBtn" class="btn-danger">
+            <span id="delBtnText">Delete</span>
+            <span id="delSpinner" class="spinner" hidden></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/guide-admin.js"></script>
+</body>
+</html>

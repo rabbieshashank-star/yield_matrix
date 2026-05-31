@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ಬೆಳೆ ಬೆಳೆಯುವ ಮಾರ್ಗದರ್ಶಿ – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+		/* Crop guide show/hide */
+		.crop-guide { display: none; }
+		.crop-guide.active { display: block; }
+
+		/* Guide detail accordion */
+		.guide-detail { display: none; }
+		.guide-detail.active { display: block; }
+
+		.guide-header {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			cursor: pointer;
+			padding: 4px 0;
+			transition: opacity 0.2s;
+		}
+		.guide-header:hover { opacity: 0.8; }
+		.guide-content { margin-top: 16px; color: var(--text-muted); line-height: 1.6; }
+		.guide-section { margin-top: 16px; }
+		.guide-section h4 { color: var(--primary); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+		.guide-section p { margin: 4px 0; font-size: 14px; color: var(--text); }
+
+		/* Crop selector pills */
+		.crop-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+		.crop-btn {
+			padding: 9px 18px;
+			border: 1.5px solid rgba(4, 120, 87, 0.2);
+			background: rgba(255, 255, 255, 0.7);
+			backdrop-filter: blur(8px);
+			-webkit-backdrop-filter: blur(8px);
+			border-radius: 24px;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--primary);
+			transition: all 0.25s ease;
+			box-shadow: 0 2px 8px rgba(4, 120, 87, 0.06);
+		}
+		.crop-btn:hover {
+			border-color: var(--accent);
+			background: white;
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(4, 120, 87, 0.12);
+		}
+		.crop-btn.active {
+			border-color: var(--primary);
+			background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+			color: white;
+			box-shadow: 0 4px 16px rgba(4, 120, 87, 0.2);
+		}
+	</style>
+</head>
+<body>
+	<!-- Language Switcher -->
+	<div class="lang-switcher">
+		<button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+	</div>
+
+	<div class="header">
+		<a href="../index.html" class="back">←</a>
+		<h1>ಬೆಳೆ ಬೆಳೆಯುವ ಮಾರ್ಗದರ್ಶಿ</h1>
+		<p>ಕರ್ನಾಟಕದಲ್ಲಿ ನಿಮ್ಮ ಬೆಳೆಗಳನ್ನು ಬೆಳೆಯಲು ಉತ್ತಮ ಅಭ್ಯಾಸಗಳನ್ನು ತಿಳಿಯಿರಿ.</p>
+	</div>
+	<div class="container">
+		<div class="card">
+			<h2>ಬೆಳೆ ಆಯ್ಕೆ ಮಾಡಿ</h2>
+			<div class="crop-selector" id="cropSelector">
+				<span style="font-size: 14px; color: var(--text-2);"><script>document.write(typeof t !== 'undefined' ? (t('loading_crops') || 'ಬೆಳೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...') : 'ಬೆಳೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ...');</script></span>
+			</div>
+		</div>
+
+		<div id="dynamicGuidesContainer"></div>
+
+		<div class="card">
+			<h2>📋 ಎಲ್ಲಾ ಬೆಳೆಗಳಿಗೆ ಸಾಮಾನ್ಯ ಸಲಹೆಗಳು</h2>
+			<ul style="padding-left:18px; color:#555; margin-top:12px; line-height:1.8;">
+				<li><strong>ಮಣ್ಣು ಪರೀಕ್ಷೆ:</strong> pH, ಪೋಷಕಾಂಶಗಳು ಮತ್ತು ಸಾವಯವ ಅಂಶ ತಿಳಿಯಲು ಪ್ರತಿ ಋತುವಿನ ಮೊದಲು ಮಣ್ಣು ಪರೀಕ್ಷಿಸಿ.</li>
+				<li><strong>ಬೆಳೆ ಪರ್ಯಾಯ:</strong> ಮಣ್ಣಿನ ಆರೋಗ್ಯ ಕಾಪಾಡಲು ಮತ್ತು ರೋಗ ಹರಡುವುದನ್ನು ತಡೆಯಲು ಬೆಳೆಗಳನ್ನು ಬದಲಾಯಿಸಿ.</li>
+				<li><strong>ಸಾವಯವ ಗೊಬ್ಬರ:</strong> ನಾಟಿಗೂ ಮುನ್ನ ಚೆನ್ನಾಗಿ ಕೊಳೆತ ತಿಪ್ಪೆ ಗೊಬ್ಬರ (5-10 ಟನ್/ಹೆ) ಬೆರೆಸಿ.</li>
+				<li><strong>ಬೀಜ ಸಂಸ್ಕರಣೆ:</strong> ಬಿತ್ತನೆಗೂ ಮೊದಲು ಯಾವಾಗಲೂ ಟ್ರೈಕೋಡರ್ಮಾ ಅಥವಾ ಶಿಲೀಂಧ್ರನಾಶಕದಿಂದ ಬೀಜ ಸಂಸ್ಕರಿಸಿ.</li>
+				<li><strong>ಕೀಟ ಮೇಲ್ವಿಚಾರಣೆ:</strong> ವಾರಕ್ಕೊಮ್ಮೆ ಹೊಲ ತಪಾಸಣೆ ಮಾಡಿ ಮತ್ತು ಮುಂಚಿನ ಕೀಟ ಪತ್ತೆಗಾಗಿ ಫೆರೊಮೋನ್ ಬಲೆ ಬಳಸಿ.</li>
+				<li><strong>ಸಮಗ್ರ ಕೀಟ ನಿರ್ವಹಣೆ:</strong> ಸಾಂಸ್ಕೃತಿಕ, ಯಾಂತ್ರಿಕ ಮತ್ತು ರಾಸಾಯನಿಕ ವಿಧಾನಗಳನ್ನು ಸಂಯೋಜಿಸಿ ಸಮಗ್ರ ಕೀಟ ನಿರ್ವಹಣೆ ಬಳಸಿ.</li>
+				<li><strong>ಹವಾಮಾನ ಪರಿಶೀಲನೆ:</strong> ನೀರಾವರಿ ಮತ್ತು ಸಿಂಪಡಣೆ ನಿರ್ಧರಿಸಲು ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ ಗಮನಿಸಿ.</li>
+				<li><strong>ದಾಖಲೆ ನಿರ್ವಹಣೆ:</strong> ಒಳಹರಿವಿನ ವೆಚ್ಚ ಮತ್ತು ಇಳುವರಿ ಮಾಹಿತಿಗಾಗಿ ದೈನಂದಿನ ಜಮೀನಿನ ದಾಖಲೆ ಇಡಿ.</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="../js/i18n.js"></script>
+	<script>
+		const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+			? 'http://127.0.0.1:5000'
+			: 'https://roger95.pythonanywhere.com';
+
+		function showCrop(cropId, clickedBtn) {
+			document.querySelectorAll('.crop-guide').forEach(guide => {
+				guide.classList.remove('active');
+			});
+			const target = document.getElementById(cropId);
+			if (target) target.classList.add('active');
+
+			document.querySelectorAll('.crop-btn').forEach(btn => {
+				btn.classList.remove('active');
+			});
+			if (clickedBtn) clickedBtn.classList.add('active');
+		}
+
+		function toggleDetail(element) {
+			const detail = element.nextElementSibling;
+			detail.classList.toggle('active');
+			element.style.opacity = detail.classList.contains('active') ? '0.8' : '1';
+		}
+
+		window.onload = async () => {
+			const selector = document.getElementById('cropSelector');
+			const container = document.getElementById('dynamicGuidesContainer');
+			
+			try {
+				const res = await fetch(`${API_BASE}/api/crop-guides`);
+				const data = await res.json();
+				
+				if (data.success && data.guides && data.guides.length > 0) {
+					selector.innerHTML = '';
+					container.innerHTML = '';
+					
+					data.guides.forEach((guide, index) => {
+						const btn = document.createElement('button');
+						btn.className = `crop-btn ${index === 0 ? 'active' : ''}`;
+						btn.onclick = () => showCrop(guide.crop_id, btn);
+						btn.innerHTML = `${guide.emoji ? guide.emoji + ' ' : ''}${guide.crop_name}`;
+						selector.appendChild(btn);
+						
+						const guideDiv = document.createElement('div');
+						guideDiv.id = guide.crop_id;
+						guideDiv.className = `crop-guide ${index === 0 ? 'active' : ''}`;
+						
+						let sectionsHtml = '';
+						if (guide.sections && guide.sections.length > 0) {
+							guide.sections.forEach(sec => {
+								sectionsHtml += `
+								<div class="guide-section">
+									<h4>${sec.title}</h4>
+									<p>${sec.content.replace(/\\n/g, '<br>')}</p>
+								</div>`;
+							});
+						} else {
+							sectionsHtml = `<p style="margin-top:16px;">${typeof t !== 'undefined' ? (t('no_detailed_guide') || 'ವಿವರವಾದ ಮಾರ್ಗದರ್ಶಿ ಲಭ್ಯವಿಲ್ಲ.') : 'ವಿವರವಾದ ಮಾರ್ಗದರ್ಶಿ ಲಭ್ಯವಿಲ್ಲ.'}</p>`;
+						}
+						
+						guideDiv.innerHTML = `
+						<div class="card">
+							<div class="guide-header" onclick="toggleDetail(this)">
+								<span style="font-size:24px;">${guide.emoji || '🌱'}</span>
+								<div>
+									<h3 style="margin:0;">${guide.crop_name} ${typeof t !== 'undefined' ? (t('growing_guide') || 'ಬೆಳೆಯುವ ಮಾರ್ಗದರ್ಶಿ') : 'ಬೆಳೆಯುವ ಮಾರ್ಗದರ್ಶಿ'}</h3>
+									<p style="margin:2px 0; font-size:12px; color:#888;">${typeof t !== 'undefined' ? (t('tap_to_expand_details') || 'ವಿವರ ತೆರೆಯಲು ಒತ್ತಿ') : 'ವಿವರ ತೆರೆಯಲು ಒತ್ತಿ'}</p>
+								</div>
+								<span class="arrow">→</span>
+							</div>
+							<div class="guide-detail">
+								<div class="guide-content">
+									${sectionsHtml}
+								</div>
+							</div>
+						</div>`;
+						container.appendChild(guideDiv);
+					});
+					
+					const firstHeader = document.querySelector('.guide-header');
+					if (firstHeader) firstHeader.click();
+				} else {
+					selector.innerHTML = `<span style="font-size: 14px; color: var(--text-2);">${typeof t !== 'undefined' ? (t('no_crop_guides_available') || 'ಯಾವುದೇ ಬೆಳೆ ಮಾರ್ಗದರ್ಶಿ ಲಭ್ಯವಿಲ್ಲ.') : 'ಯಾವುದೇ ಬೆಳೆ ಮಾರ್ಗದರ್ಶಿ ಲಭ್ಯವಿಲ್ಲ.'}</span>`;
+				}
+			} catch (err) {
+				console.error("Failed to load crop guides", err);
+				selector.innerHTML = `<span style="font-size: 14px; color: var(--danger);">${typeof t !== 'undefined' ? (t('error_loading_crop_guides') || 'ಬೆಳೆ ಮಾರ್ಗದರ್ಶಿ ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ.') : 'ಬೆಳೆ ಮಾರ್ಗದರ್ಶಿ ಲೋಡ್ ಮಾಡುವಲ್ಲಿ ದೋಷ.'}</span>`;
+			}
+		};
+	</script>
+	<script src="../js/offline.js"></script>
+</body>
+</html>

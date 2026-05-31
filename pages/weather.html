@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಹವಾಮಾನ – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+      .weather-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+      .weather-box { background: rgba(255, 255, 255, 0.5); padding: 16px; border-radius: 12px; text-align: center; border: 1px solid rgba(4, 120, 87, 0.1); }
+      .weather-box .label { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+      .weather-box .value { font-size: 24px; font-weight: 700; margin-top: 4px; color: var(--text); font-family: 'Outfit', sans-serif; }
+      .advisory { grid-column: span 2; padding: 16px; border-radius: 12px; text-align: center; font-weight: 600; margin-top: 12px; }
+      .advisory.good { background: rgba(16, 185, 129, 0.1); color: var(--primary); border: 1px solid rgba(16, 185, 129, 0.2); }
+      .advisory.bad  { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+      .advisory.warn { background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.2); }
+      .forecast-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(4, 120, 87, 0.1); align-items: center; }
+      .forecast-row:last-child { border-bottom: none; }
+      .forecast-day { font-weight: 600; width: 90px; color: var(--text); }
+      .forecast-icon { width: 40px; text-align: center; font-size: 26px; }
+      .forecast-temp { color: var(--text-muted); font-weight: 500; }
+      .forecast-rain { color: var(--primary); font-weight: 700; }
+      .alert-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 16px; border-radius: 12px; margin: 16px 0; display: none; }
+      .alert-box h4 { color: var(--danger); margin-bottom: 4px; font-family: 'Outfit', sans-serif; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="../index.html" class="back">←</a>
+        <h1>ಹವಾಮಾನ ಮಾಹಿತಿ</h1>
+        <p id="locationText">ಮೈಸೂರು, ಕರ್ನಾಟಕ</p>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>ಇಂದಿನ ಹವಾಮಾನ</h2>
+            <button class="btn btn-primary" id="getWeatherBtn" onclick="getLocation()">📍 ನನ್ನ ಸ್ಥಳ ಬಳಸಿ</button>
+            <div class="loader" id="loader"></div>
+
+            <div id="weatherData" style="display:none;">
+                <div class="alert-box" id="weatherAlert">
+                    <h4>⚠️ ಹವಾಮಾನ ಎಚ್ಚರಿಕೆ</h4>
+                    <p id="alertText"></p>
+                </div>
+
+                <div class="weather-grid">
+                    <div class="weather-box">
+                        <div class="label">ತಾಪಮಾನ</div>
+                        <div class="value" id="temp">--°C</div>
+                    </div>
+                    <div class="weather-box">
+                        <div class="label">ಮಳೆ</div>
+                        <div class="value" id="rain">-- mm</div>
+                    </div>
+                    <div class="weather-box">
+                        <div class="label">ಗಾಳಿ ವೇಗ</div>
+                        <div class="value" id="wind">-- km/h</div>
+                    </div>
+                    <div class="weather-box">
+                        <div class="label">ಆರ್ದ್ರತೆ</div>
+                        <div class="value" id="humidity">--%</div>
+                    </div>
+                    <div class="advisory" id="sprayAdvice">
+                        <div class="label">ಸ್ಪ್ರೇ ಸಲಹೆ</div>
+                        <div class="value">--</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" id="forecastCard" style="display:none;">
+            <h2>5-ದಿನಗಳ ಮುನ್ಸೂಚನೆ</h2>
+            <div id="forecastList"></div>
+        </div>
+
+        <div id="nextStepsContainer"></div>
+    </div>
+
+    <script>
+        const DEFAULT_LAT  = 12.2958;
+        const DEFAULT_LON  = 76.6394;
+        const DEFAULT_NAME = 'ಮೈಸೂರು, ಕರ್ನಾಟಕ';
+
+        const WX_LABELS = {
+            0:'ಸ್ಪಷ್ಟ ಆಕಾಶ', 1:'ಮುಖ್ಯವಾಗಿ ಸ್ಪಷ್ಟ', 2:'ಅಲ್ಪ ಮೋಡ', 3:'ಮೋಡ ಕವಿದ',
+            45:'ಮಂಜು', 48:'ಮಂಜು',
+            51:'ತಂಪಾದ ಹನಿ', 53:'ಮಧ್ಯಮ ಹನಿ', 55:'ದಟ್ಟ ಹನಿ',
+            61:'ಸಣ್ಣ ಮಳೆ', 63:'ಮಧ್ಯಮ ಮಳೆ', 65:'ಭಾರೀ ಮಳೆ',
+            80:'ಮಳೆ ಹನಿ', 81:'ಮಧ್ಯಮ ಮಳೆ ಹನಿ', 82:'ತೀವ್ರ ಮಳೆ ಹನಿ',
+            95:'ಗುಡುಗು ಸಿಡಿಲು', 96:'ಆಲಿಕಲ್ಲಿನೊಂದಿಗೆ ಗುಡುಗು', 99:'ತೀವ್ರ ಗುಡುಗು'
+        };
+
+        const ICON_MAP = {
+            0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+            51:'🌦️',53:'🌦️',55:'🌦️',61:'🌧️',63:'🌧️',65:'🌧️',
+            80:'🌧️',81:'🌧️',82:'🌧️',95:'⛈️',96:'⛈️',99:'⛈️'
+        };
+
+        const DAYS = ['ಭಾನು','ಸೋಮ','ಮಂಗಳ','ಬುಧ','ಗುರು','ಶುಕ್ರ','ಶನಿ'];
+
+        function showLoader(show) {
+            document.getElementById('loader').style.display = show ? 'block' : 'none';
+            document.getElementById('getWeatherBtn').disabled = show;
+        }
+
+        function getLocation() {
+            showLoader(true);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    pos => fetchWeather(pos.coords.latitude, pos.coords.longitude, 'ನಿಮ್ಮ ಜಮೀನು'),
+                    ()  => fetchWeather(DEFAULT_LAT, DEFAULT_LON, DEFAULT_NAME)
+                );
+            } else {
+                fetchWeather(DEFAULT_LAT, DEFAULT_LON, DEFAULT_NAME);
+            }
+        }
+
+        async function fetchWeather(lat, lon, locationName) {
+            document.getElementById('locationText').innerText = locationName;
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
+            try {
+                const data   = await (await fetch(url)).json();
+                const cur    = data.current;
+                const daily  = data.daily;
+
+                document.getElementById('temp').innerText     = `${Math.round(cur.temperature_2m)}°C`;
+                document.getElementById('rain').innerText     = daily.precipitation_sum[0] > 0 ? `${Math.round(daily.precipitation_sum[0])} mm` : '0 mm';
+                document.getElementById('wind').innerText     = `${Math.round(cur.wind_speed_10m)} km/h`;
+                document.getElementById('humidity').innerText = `${cur.relative_humidity_2m}%`;
+
+                // Spray advisory
+                const hasRain = daily.precipitation_sum[0] > 0;
+                const wind    = cur.wind_speed_10m;
+                const adv     = document.getElementById('sprayAdvice');
+                if (hasRain) {
+                    adv.className = 'advisory bad';
+                    adv.innerHTML = '<div class="label">ಸ್ಪ್ರೇ ಸಲಹೆ</div><div class="value">ಮಳೆ ನಿರೀಕ್ಷಿತ — ಸ್ಪ್ರೇ ಮಾಡಬೇಡಿ</div>';
+                } else if (wind > 15) {
+                    adv.className = 'advisory warn';
+                    adv.innerHTML = `<div class="label">ಸ್ಪ್ರೇ ಸಲಹೆ</div><div class="value">ಎಚ್ಚರಿಕೆ — ತೀವ್ರ ಗಾಳಿ ${Math.round(wind)} km/h</div>`;
+                } else {
+                    adv.className = 'advisory good';
+                    adv.innerHTML = '<div class="label">ಸ್ಪ್ರೇ ಸಲಹೆ</div><div class="value">ಕೀಟನಾಶಕ ಸ್ಪ್ರೇ ಮಾಡಲು ಸೂಕ್ತ ದಿನ</div>';
+                }
+
+                // Alerts
+                const alertBox = document.getElementById('weatherAlert');
+                const code     = daily.weather_code[0];
+                if (code >= 95) {
+                    document.getElementById('alertText').innerText = 'ಗುಡುಗು ಸಿಡಿಲಿನ ಮುನ್ನೆಚ್ಚರಿಕೆ. ಜಮೀನಿನ ಕೆಲಸವನ್ನು ತಪ್ಪಿಸಿ.';
+                    alertBox.style.display = 'block';
+                } else if (wind > 30) {
+                    document.getElementById('alertText').innerText = `ತೀವ್ರ ಗಾಳಿ ಮುನ್ನೆಚ್ಚರಿಕೆ: ${Math.round(wind)} km/h. ಬೆಳೆಗಳನ್ನು ರಕ್ಷಿಸಿ.`;
+                    alertBox.style.display = 'block';
+                }
+
+                // 5-day forecast
+                const list = document.getElementById('forecastList');
+                list.innerHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    const d    = new Date(daily.time[i]);
+                    const name = i === 0 ? 'ಇಂದು' : DAYS[d.getDay()];
+                    list.innerHTML += `
+                        <div class="forecast-row">
+                            <div class="forecast-day">${name}</div>
+                            <div class="forecast-icon">${ICON_MAP[daily.weather_code[i]] || '🌤️'}</div>
+                            <div class="forecast-temp">${Math.round(daily.temperature_2m_min[i])}° / ${Math.round(daily.temperature_2m_max[i])}°</div>
+                            <div class="forecast-rain">💧 ${Math.round(daily.precipitation_sum[i])}mm</div>
+                        </div>`;
+                }
+
+                document.getElementById('weatherData').style.display  = 'block';
+                document.getElementById('forecastCard').style.display  = 'block';
+                showNextSteps();
+            } catch(e) {
+                alert('ಹವಾಮಾನ ಡೇಟಾ ಲೋಡ್ ಆಗಲಿಲ್ಲ: ' + e.message);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        function showNextSteps() {
+            document.getElementById('nextStepsContainer').innerHTML = `
+            <div style="margin-top:24px;">
+                <h3 style="font-size:18px;margin-bottom:12px;">ಮುಂದೆ ಏನು ಮಾಡಬೇಕು?</h3>
+                <a href="disease.html" class="feature-card">
+                    <div class="icon">📷</div>
+                    <div class="content"><h3>ರೋಗ ತಪಾಸಣೆ</h3><p>ಹೆಚ್ಚಿನ ಆರ್ದ್ರತೆ? ಶಿಲೀಂಧ್ರ ಅಪಾಯ ಪರಿಶೀಲಿಸಿ</p></div>
+                    <div class="arrow">→</div>
+                </a>
+                <a href="irrigation.html" class="feature-card">
+                    <div class="icon">💧</div>
+                    <div class="content"><h3>ನೀರಾವರಿ ಮಾರ್ಗದರ್ಶಿ</h3><p>ಮಳೆ ಮುನ್ಸೂಚನೆ ಆಧಾರದ ಮೇಲೆ ನೀರಾವರಿ ಯೋಜಿಸಿ</p></div>
+                    <div class="arrow">→</div>
+                </a>
+            </div>`;
+        }
+
+        window.onload = () => fetchWeather(DEFAULT_LAT, DEFAULT_LON, DEFAULT_NAME);
+    </script>
+    <script src="../js/offline.js"></script>
+</body>
+</html>

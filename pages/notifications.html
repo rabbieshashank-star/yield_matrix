@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಅಧಿಸೂಚನೆಗಳು – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── NOTIFICATION CARDS ── */
+        .notification-section {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(4, 120, 87, 0.07);
+        }
+        .notification-section h2 {
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ── PERMISSION BADGE ── */
+        .permission-status {
+            padding: 14px 20px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 14px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .permission-status.granted { background: rgba(16, 185, 129, 0.12); color: var(--primary); border: 1px solid rgba(16, 185, 129, 0.3); }
+        .permission-status.denied  { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.25); }
+        .permission-status.default { background: rgba(245, 158, 11, 0.1); color: #92400e; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        /* ── PREFERENCE ITEMS ── */
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(4, 120, 87, 0.08);
+        }
+        .preference-item:last-child { border-bottom: none; }
+        .preference-label { display: flex; flex-direction: column; gap: 4px; }
+        .preference-label strong { color: var(--text); font-size: 15px; font-weight: 600; }
+        .preference-label small { color: var(--text-muted); font-size: 13px; }
+
+        /* ── TOGGLE SWITCH ── */
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 28px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: rgba(4, 120, 87, 0.15); transition: 0.3s; border-radius: 28px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        input:checked + .toggle-slider { background: var(--accent); }
+        input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+        /* ── BUTTONS ── */
+        .btn-enable {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+            color: white; border: none; border-radius: 14px;
+            padding: 12px 24px; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(4, 120, 87, 0.2); margin-top: 12px;
+        }
+        .btn-enable:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(4, 120, 87, 0.25); }
+
+        .button-group { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .btn-outline {
+            padding: 10px 20px; border: 1.5px solid rgba(4, 120, 87, 0.25);
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(8px);
+            border-radius: 12px; font-size: 14px; font-weight: 600;
+            color: var(--primary); cursor: pointer; transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: var(--primary); background: white; }
+
+        /* ── TEST NOTIFICATION BOX ── */
+        .notification-demo {
+            background: rgba(209, 250, 229, 0.5);
+            backdrop-filter: blur(8px);
+            border-left: 4px solid var(--accent);
+            padding: 16px 20px; border-radius: 14px; margin-top: 16px;
+        }
+        .notification-demo h3 { color: var(--primary); font-family: 'Outfit', sans-serif; margin-bottom: 12px; font-size: 16px; }
+        .demo-buttons-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .demo-btn {
+            padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+            border: 1px solid rgba(4, 120, 87, 0.25); border-radius: 20px;
+            background: rgba(255,255,255,0.7); color: var(--primary);
+            transition: all 0.2s;
+        }
+        .demo-btn:hover { background: var(--primary); color: white; border-color: transparent; }
+
+        /* ── INFO LIST ── */
+        .info-list { padding-left: 20px; margin-top: 12px; }
+        .info-list li { color: var(--text); font-size: 14px; line-height: 1.9; }
+
+        @media (max-width: 600px) {
+            .preference-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .button-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+<!-- Language Switcher -->
+<div class="lang-switcher">
+    <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <a href="../index.html" class="back">←</a>
+    <h1>🔔 ಅಧಿಸೂಚನೆಗಳು ಮತ್ತು ಎಚ್ಚರಿಕೆಗಳು</h1>
+    <p>ಹವಾಮಾನ, ಕೀಟ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ಮತ್ತು ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಬಗ್ಗೆ ನೇರ ಅಪ್‌ಡೇಟ್ ಪಡೆಯಿರಿ</p>
+</div>
+
+<div class="container">
+
+        <!-- Permission Status -->
+        <div id="permissionStatus" class="permission-status default">
+            <span id="permissionText">ಅಧಿಸೂಚನೆಗಳು ಇನ್ನೂ ಸಕ್ರಿಯಗೊಂಡಿಲ್ಲ. ಸಕ್ರಿಯಗೊಳಿಸಲು ಕೆಳಗೆ ಒತ್ತಿ.</span>
+        </div>
+
+        <!-- Enable Notifications Button -->
+        <div class="notification-section" id="enableSection">
+            <h2>✅ ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</h2>
+            <p>ಹವಾಮಾನ, ಕೀಟ, ಮಾರುಕಟ್ಟೆ ಪ್ರವೃತ್ತಿ ಮತ್ತು ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಬಗ್ಗೆ ನೇರ ಎಚ್ಚರಿಕೆ ಕಳುಹಿಸಲು ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್‌ಗೆ ಅನುಮತಿ ನೀಡಿ. ನಿಮ್ಮ ಗೌಪ್ಯತೆ ಸಂರಕ್ಷಿತ — ಯಾವ ಮಾಹಿತಿಯೂ ಸಂಗ್ರಹಿಸಲ್ಪಡುವುದಿಲ್ಲ.</p>
+            <button class="btn-enable" onclick="requestNotificationPermission()" id="enableBtn">
+                🔔 ಅಧಿಸೂಚನೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ
+            </button>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="notification-section" id="preferencesSection" style="display: none;">
+            <h2><span class="section-icon">⚙️</span> ಅಧಿಸೂಚನೆ ಆದ್ಯತೆಗಳು</h2>
+
+            <!-- Weather Alerts -->
+            <div class="preference-item">
+                <div class="preference-label">
+                    <strong>⛈️ ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು</strong>
+                    <small>ಭಾರೀ ಮಳೆ, ಚಂಡಮಾರುತ ಮತ್ತು ತೀವ್ರ ಹವಾಮಾನ ಪರಿಸ್ಥಿತಿ</small>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="weatherToggle" onchange="updatePreference('weather', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Pest Warnings -->
+            <div class="preference-item">
+                <div class="preference-label">
+                    <strong>🐛 ಕೀಟ ಮತ್ತು ರೋಗ ಎಚ್ಚರಿಕೆಗಳು</strong>
+                    <small>ಅಧಿಕ ಅಪಾಯದ ಕೀಟ ಮತ್ತು ರೋಗ ಬೆದರಿಕೆಗಳು</small>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="pestsToggle" onchange="updatePreference('pests', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Market Alerts -->
+            <div class="preference-item">
+                <div class="preference-label">
+                    <strong>📈 ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ಎಚ್ಚರಿಕೆಗಳು</strong>
+                    <small>ನಿಮ್ಮ ಬೆಳೆಗಳ ಗಮನಾರ್ಹ ಬೆಲೆ ಬದಲಾವಣೆ (&gt;15%)</small>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="marketToggle" onchange="updatePreference('market', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Scheme Alerts -->
+            <div class="preference-item">
+                <div class="preference-label">
+                    <strong>📋 ಸರ್ಕಾರಿ ಯೋಜನೆ ಎಚ್ಚರಿಕೆಗಳು</strong>
+                    <small>ಗಡುವು ಮತ್ತು ಹೊಸ ಯೋಜನೆ ಅಧಿಸೂಚನೆಗಳು</small>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="schemesToggle" onchange="updatePreference('schemes', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Sound Alerts -->
+            <div class="preference-item">
+                <div class="preference-label">
+                    <strong>🔊 ಧ್ವನಿ ಎಚ್ಚರಿಕೆಗಳು</strong>
+                    <small>ಅಧಿಸೂಚನೆ ಧ್ವನಿ ನುಡಿಸಿ</small>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="soundToggle" onchange="updatePreference('soundEnabled', this.checked)">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <!-- Test Notifications -->
+            <div class="notification-demo">
+                <h3>ಅಧಿಸೂಚನೆ ಪರೀಕ್ಷಿಸಿ</h3>
+                <p>ವಿವಿಧ ಅಧಿಸೂಚನೆ ವಿಧಗಳನ್ನು ಪ್ರಯತ್ನಿಸಿ:</p>
+                <div class="demo-buttons-row">
+                    <button class="demo-btn" onclick="testWeatherNotification()">⛈️ ಹವಾಮಾನ</button>
+                    <button class="demo-btn" onclick="testPestNotification()">🐛 ಕೀಟ</button>
+                    <button class="demo-btn" onclick="testPriceNotification()">📈 ಬೆಲೆ</button>
+                    <button class="demo-btn" onclick="testSchemeNotification()">📋 ಯೋಜನೆ</button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button class="btn-outline" onclick="startMonitoring()">🟢 ಮೇಲ್ವಿಚಾರಣೆ ಪ್ರಾರಂಭಿಸಿ</button>
+                <button class="btn-outline" onclick="disableNotifications()">🔴 ಅಧಿಸೂಚನೆ ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ</button>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="notification-section">
+            <h2>ℹ️ ಇದು ಹೇಗೆ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ</h2>
+            <ul class="info-list">
+                <li>ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು ನಿಮ್ಮ ಬೆಳೆಗಳ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರಬಹುದಾದ ಭಾರೀ ಮಳೆ, ಗುಡುಗು ಮತ್ತು ತೀವ್ರ ಆರ್ದ್ರತೆ ಬಗ್ಗೆ ತಿಳಿಸುತ್ತದೆ</li>
+                <li>ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಅಪಾಯಕಾರಿ ಕೀಟ ಅಥವಾ ರೋಗಕ್ಕೆ ಅನುಕೂಲಕರ ಪರಿಸ್ಥಿತಿ ಇದ್ದಾಗ ಕೀಟ ಎಚ್ಚರಿಕೆ ಸಕ್ರಿಯಗೊಳ್ಳುತ್ತದೆ</li>
+                <li>ಬೆಳೆ ಬೆಲೆಗಳಲ್ಲಿ ಗಮನಾರ್ಹ ಬದಲಾವಣೆ (ದಿನಕ್ಕೆ 15%ಕ್ಕಿಂತ ಹೆಚ್ಚು) ಆದಾಗ ಮಾರುಕಟ್ಟೆ ಎಚ್ಚರಿಕೆ ಬರುತ್ತದೆ</li>
+                <li>ಯೋಜನೆ ಅಧಿಸೂಚನೆಗಳು ಮುಖ್ಯ ಸರ್ಕಾರಿ ಕಾರ್ಯಕ್ರಮದ ಗಡುವನ್ನು ನೆನಪಿಸುತ್ತವೆ</li>
+                <li>ಎಲ್ಲಾ ಅಧಿಸೂಚನೆಗಳು ಸಂಪೂರ್ಣ ಉಚಿತ ಮತ್ತು ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್ ತೆರೆದಿಲ್ಲದಿದ್ದಾಗಲೂ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತವೆ</li>
+                <li>ಖಾತೆ ಅಗತ್ಯವಿಲ್ಲ — ಅಧಿಸೂಚನೆಗಳು ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಸ್ಥಳೀಯವಾಗಿ ನಿರ್ವಹಿಸಲ್ಪಡುತ್ತವೆ</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../js/i18n.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/offline.js"></script>
+    <script>
+        function initNotificationUI() {
+            const status = notificationManager.getNotificationStatus();
+            updatePermissionStatus(status.permission);
+            
+            if (status.enabled) {
+                document.getElementById('enableSection').style.display = 'none';
+                document.getElementById('preferencesSection').style.display = 'block';
+                loadPreferences();
+            }
+        }
+
+        function updatePermissionStatus(permission) {
+            const statusDiv = document.getElementById('permissionStatus');
+            const statusText = document.getElementById('permissionText');
+            
+            statusDiv.className = 'permission-status ' + permission;
+            
+            if (permission === 'granted') {
+                statusText.textContent = '✅ ಅಧಿಸೂಚನೆಗಳು ಸಕ್ರಿಯ — ನೀವು ಎಚ್ಚರಿಕೆಗಳನ್ನು ಸ್ವೀಕರಿಸುವಿರಿ';
+            } else if (permission === 'denied') {
+                statusText.textContent = '❌ ಅಧಿಸೂಚನೆಗಳು ನಿಷ್ಕ್ರಿಯ — ಸಕ್ರಿಯಗೊಳಿಸಲು ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್ ಪರಿಶೀಲಿಸಿ';
+            } else {
+                statusText.textContent = '⏳ ಅಧಿಸೂಚನೆಗಳು ನಿಷ್ಕ್ರಿಯ — ಸಕ್ರಿಯಗೊಳಿಸಲು ಕೆಳಗಿನ ಗುಂಡಿ ಒತ್ತಿ';
+            }
+        }
+
+        async function requestNotificationPermission() {
+            const permission = await notificationManager.requestPermission();
+            updatePermissionStatus(permission);
+            
+            if (permission === 'granted') {
+                document.getElementById('enableSection').style.display = 'none';
+                document.getElementById('preferencesSection').style.display = 'block';
+                loadPreferences();
+                
+                notificationManager.showNotification(
+                    '🎉 ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್ ಅಧಿಸೂಚನೆಗಳಿಗೆ ಸ್ವಾಗತ!',
+                    'ಹವಾಮಾನ, ಕೀಟ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ಮತ್ತು ಸರ್ಕಾರಿ ಯೋಜನೆಗಳ ಬಗ್ಗೆ ಎಚ್ಚರಿಕೆ ಸ್ವೀಕರಿಸಲು ಇದೀಗ ಸಿದ್ಧರಾಗಿದ್ದೀರಿ.',
+                    { requireInteraction: false }
+                );
+            }
+        }
+
+        function loadPreferences() {
+            const prefs = notificationManager.loadPreferences();
+            document.getElementById('weatherToggle').checked = prefs.weather;
+            document.getElementById('pestsToggle').checked = prefs.pests;
+            document.getElementById('marketToggle').checked = prefs.market;
+            document.getElementById('schemesToggle').checked = prefs.schemes;
+            document.getElementById('soundToggle').checked = prefs.soundEnabled;
+        }
+
+        function updatePreference(key, value) {
+            const prefs = notificationManager.loadPreferences();
+            prefs[key] = value;
+            notificationManager.savePreferences(prefs);
+        }
+
+        function testWeatherNotification() {
+            notificationManager.notifyWeatherAlert({
+                temperature: 38,
+                humidity: 85,
+                rainfall: 15,
+                condition: 'ಭಾರೀ ಮಳೆ ನಿರೀಕ್ಷಿತ'
+            });
+        }
+
+        function testPestNotification() {
+            notificationManager.notifyPestThreat({
+                name: 'ಕಾಂಡ ಕೊರೆಯುವ ಹುಳು',
+                riskLevel: 'ಹೆಚ್ಚು',
+                description: 'ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ಕಾಂಡ ಕೊರೆಯುವ ಹುಳುವಿನ ಚಟುವಟಿಕೆ ಪತ್ತೆಯಾಗಿದೆ',
+                recommendation: 'ಶಿಫಾರಸು ಮಾಡಿದ ಕೀಟನಾಶಕ ಸಿಂಪಡಿಸಿ ಮತ್ತು ದಿನವೂ ಬೆಳೆ ಗಮನಿಸಿ'
+            });
+        }
+
+        function testPriceNotification() {
+            notificationManager.notifyPriceSpike({
+                name: 'ಟೊಮೆಟೊ',
+                currentPrice: 42,
+                change: 18.5,
+                trend: 'ಊರ್ಧ್ವಮುಖ'
+            });
+        }
+
+        function testSchemeNotification() {
+            notificationManager.notifySchemeDeadline({
+                name: 'ಪಿಎಂ-ಕಿಸಾನ್',
+                description: 'ನೇರ ಪ್ರಯೋಜನ ವರ್ಗಾವಣೆ ಯೋಜನೆ',
+                deadline: '2026-06-30',
+                benefits: 'ವರ್ಷಕ್ಕೆ ₹6000 ಮೂರು ಕಂತುಗಳಲ್ಲಿ'
+            });
+        }
+
+        function startMonitoring() {
+            notificationManager.setupAutomaticMonitoring(3600000);
+            alert('ಮೇಲ್ವಿಚಾರಣೆ ಪ್ರಾರಂಭವಾಗಿದೆ! ನೀವು ಪ್ರತಿ ಗಂಟೆಗೆ ಅಧಿಸೂಚನೆ ಸ್ವೀಕರಿಸುವಿರಿ.');
+        }
+
+        function disableNotifications() {
+            if (confirm('ನೀವು ಖಂಡಿತವಾಗಿ ಅಧಿಸೂಚನೆಗಳನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲು ಬಯಸುವಿರಾ?')) {
+                document.getElementById('enableSection').style.display = 'block';
+                document.getElementById('preferencesSection').style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initI18n();
+            initNotificationUI();
+        });
+    </script>
+</body>
+</html>

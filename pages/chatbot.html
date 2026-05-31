@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yield Matrix — ಕೃಷಿ ಸಹಾಯಕ</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      height: 100vh;
+      height: 100dvh;
+      /* Dynamic viewport height fallback for mobile address bars */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      /* glass background inherited from style.css */
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: rgba(4, 120, 87, 0.6);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 8px 32px rgba(4, 120, 87, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      position: relative;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-back {
+      color: white;
+      text-decoration: none;
+      font-size: 22px;
+      transition: transform 0.2s;
+      line-height: 1;
+    }
+
+    .nav-back:hover {
+      transform: translateX(-4px);
+    }
+
+    nav h1 {
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .nav-badge {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* Lang buttons inside nav for chatbot */
+    .nav-lang-btn {
+      padding: 5px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .nav-lang-btn:hover,
+    .nav-lang-btn.active {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ── CHAT LAYOUT ── */
+    .chat-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+      overflow: hidden;
+    }
+
+    /* ── CHAT HEADER ── */
+    .chat-header {
+      padding: 16px 0 12px;
+      border-bottom: 1px solid rgba(4, 120, 87, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .bot-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bot-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2);
+    }
+
+    .bot-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .bot-status {
+      font-size: 12px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: 0.4
+      }
+    }
+
+    .clear-btn {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(4, 120, 87, 0.1);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .clear-btn:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: white;
+    }
+
+    /* ── MESSAGES ── */
+    #messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    #messages::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    #messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #messages::-webkit-scrollbar-thumb {
+      background: rgba(4, 120, 87, 0.2);
+      border-radius: 4px;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .avatar.bot {
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+    }
+
+    .avatar.user {
+      background: var(--accent);
+    }
+
+    .bubble {
+      max-width: 75%;
+      padding: 14px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .bubble.bot {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 4px 16px rgba(4, 120, 87, 0.08);
+    }
+
+    .bubble.user {
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 16px rgba(4, 120, 87, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-align: right;
+      font-weight: 500;
+    }
+
+    .message.bot .message-time {
+      text-align: left;
+    }
+
+    /* ── TYPING INDICATOR ── */
+    .typing {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .typing-bubble {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      padding: 16px 20px;
+      border-radius: 20px;
+      border-bottom-left-radius: 4px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      box-shadow: 0 4px 16px rgba(4, 120, 87, 0.08);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-6px);
+      }
+    }
+
+    /* ── QUICK REPLIES ── */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 8px 0;
+      flex-shrink: 0;
+    }
+
+    .quick-btn {
+      background: white;
+      border: 1px solid rgba(4, 120, 87, 0.2);
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      white-space: nowrap;
+      box-shadow: 0 2px 4px rgba(4, 120, 87, 0.05);
+    }
+
+    .quick-btn:hover {
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+      color: white;
+      border-color: transparent;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(4, 120, 87, 0.15);
+    }
+
+    /* ── INPUT AREA ── */
+    .input-area {
+      padding: 16px 0 calc(60px + env(safe-area-inset-bottom, 0px));
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.5);
+      background: transparent;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      padding: 8px 8px 8px 16px;
+      transition: all 0.2s;
+      box-shadow: 0 8px 24px rgba(4, 120, 87, 0.08);
+    }
+
+    .input-row:focus-within {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 8px 28px rgba(4, 120, 87, 0.12);
+    }
+
+    #messageInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: var(--text);
+      resize: none;
+      max-height: 100px;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+      background: transparent;
+      margin-bottom: 8px;
+    }
+
+    #messageInput::placeholder {
+      color: var(--text-muted);
+    }
+
+    .input-btns {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .voice-btn {
+      width: 38px;
+      height: 38px;
+      background: var(--primary-soft);
+      border: 1px solid rgba(4, 120, 87, 0.1);
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .voice-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .voice-btn.recording {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: white;
+      animation: recordPulse 1s infinite;
+    }
+
+    @keyframes recordPulse {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.1)
+      }
+    }
+
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: transform 0.2s, background 0.2s;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.15);
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .send-btn:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* ── WELCOME ── */
+    .welcome {
+      text-align: center;
+      padding: 36px 24px;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 8px 32px rgba(4, 120, 87, 0.08);
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .welcome-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .welcome h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    /* ── VOICE STATUS ── */
+    #voiceStatus {
+      display: none;
+      text-align: center;
+      font-size: 12px;
+      color: var(--danger);
+      padding: 4px 0;
+      font-weight: 600;
+    }
+
+    /* ── MOBILE MEDIA QUERIES ── */
+    @media (max-width: 600px) {
+      nav {
+        padding: 10px 16px;
+      }
+
+      .chat-wrapper {
+        padding: 0 12px;
+      }
+
+      .chat-header {
+        padding: 10px 0;
+      }
+
+      .bubble {
+        padding: 10px 14px;
+        max-width: 85%;
+      }
+
+      .welcome {
+        padding: 24px 16px;
+        border-radius: 20px;
+      }
+
+      .quick-replies {
+        gap: 6px;
+        padding: 4px 0;
+      }
+
+      .quick-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .input-area {
+        padding: 12px 0 calc(50px + env(safe-area-inset-bottom, 0px));
+      }
+
+      .input-row {
+        padding: 6px 6px 6px 12px;
+        border-radius: 20px;
+      }
+
+      #messageInput {
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .voice-btn,
+      .send-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR (lang switcher lives here for correct layout in fixed-height viewport) -->
+  <nav>
+    <div class="nav-left">
+      <a href="../index.html" class="nav-back" data-i18n="back">←</a>
+      <h1 data-i18n="app_name">🌾 Yield Matrix</h1>
+      <span class="nav-badge" data-i18n="chatbot_title">AI Assistant</span>
+    </div>
+    <div class="nav-right">
+      <button class="nav-lang-btn" data-lang="kn" onclick="setLanguage('kn')" data-i18n="ಕನ್ನಡ">ಕನ್ನಡ</button>
+    </div>
+  </nav>
+
+  <!-- CHAT WRAPPER -->
+  <div class="chat-wrapper">
+
+    <!-- CHAT HEADER -->
+    <div class="chat-header">
+      <div class="bot-info">
+        <div class="bot-avatar">🌾</div>
+        <div>
+          <div class="bot-name">ಕೃಷಿ ಸಹಾಯಕ</div>
+          <div class="bot-status">
+            <div class="status-dot"></div>
+            ಆನ್‌ಲೈನ್ — ಕನ್ನಡದಲ್ಲಿ ಮಾತನಾಡಿ
+          </div>
+        </div>
+      </div>
+      <button class="clear-btn" onclick="clearChat()" data-i18n="clear_chat">🗑️ Clear Chat</button>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="messages">
+      <!-- Welcome message -->
+      <div class="welcome">
+        <div class="welcome-icon">🌱</div>
+        <h3 data-i18n="ನಮಸ್ಕಾರ_ನಾನು_ನಿಮ್ಮ_ಕೃಷಿ_ಸಹಾಯಕ">ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ</h3>
+        <p>ನಿಮ್ಮ ಕೃಷಿ ಸಮಸ್ಯೆಗಳನ್ನು ಕನ್ನಡದಲ್ಲಿ ಕೇಳಿ<br />
+          ಬೆಳೆ ರೋಗ, ಮಳೆ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ — ಎಲ್ಲದಕ್ಕೂ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ</p>
+      </div>
+    </div>
+
+    <div class="quick-replies" id="quickReplies">
+      <button class="quick-btn" onclick="sendQuick('ನನ್ನ ಬೆಳೆಗೆ ಯಾವ ರೋಗ ಬಂದಿದೆ?')" data-i18n="ಬೆಳೆ_ರೋಗ">🌿 ಬೆಳೆ
+        ರೋಗ</button>
+      <button class="quick-btn" onclick="sendQuick('ಈ ಸೀಸನ್‌ನಲ್ಲಿ ಯಾವ ಬೆಳೆ ಬೆಳೆಯಬೇಕು?')" data-i18n="ಯಾವ_ಬೆಳೆ">🌱 ಯಾವ
+        ಬೆಳೆ?</button>
+      <button class="quick-btn" onclick="sendQuick('ಇಂದು ನೀರು ಹಾಕಬೇಕೇ?')" data-i18n="ನೀರಾವರಿ">💧 ನೀರಾವರಿ</button>
+      <button class="quick-btn" onclick="sendQuick('ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಟೊಮೇಟೊ ಬೆಲೆ ಎಷ್ಟು?')" data-i18n="ಮಾರುಕಟ್ಟೆ_ಬೆಲೆ">🛒
+        ಮಾರುಕಟ್ಟೆ ಬೆಲೆ</button>
+      <button class="quick-btn" onclick="sendQuick('ರೈತರಿಗೆ ಯಾವ ಸರ್ಕಾರಿ ಯೋಜನೆಗಳಿವೆ?')" data-i18n="ಸರ್ಕಾರಿ_ಯೋಜನೆ">🚨
+        ಸರ್ಕಾರಿ ಯೋಜನೆ</button>
+    </div>
+
+    <!-- VOICE STATUS -->
+    <div id="voiceStatus">🎙️ ಮಾತನಾಡಿ... ಕೇಳುತ್ತಿದ್ದೇನೆ</div>
+
+    <!-- INPUT AREA -->
+    <div class="input-area">
+      <div class="input-row">
+        <textarea id="messageInput" placeholder="ಕನ್ನಡದಲ್ಲಿ ಟೈಪ್ ಮಾಡಿ ಅಥವಾ ಮಾತನಾಡಿ..." rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <div class="input-btns">
+          <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="ಮಾತನಾಡಿ">🎙️</button>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/i18n.js"></script>
+  <script>
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://127.0.0.1:5000'
+      : 'https://roger95.pythonanywhere.com';
+
+    // ── Session ID ────────────────────────────────────────────
+    const sessionId = "session_" + Date.now();
+    let isRecording = false;
+    let recognition = null;
+    let recordingTimeout = null;
+    let isWaiting = false;
+    let hasVoiceInput = false;
+
+    // ── Auto resize textarea ──────────────────────────────────
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    }
+
+    // ── Handle Enter key ──────────────────────────────────────
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // ── Send quick reply ──────────────────────────────────────
+    function sendQuick(text) {
+      document.getElementById('messageInput').value = text;
+      sendMessage();
+    }
+
+    // ── Send message ──────────────────────────────────────────
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      if (!message || isWaiting) return;
+
+      // Clear input
+      input.value = '';
+      input.style.height = 'auto';
+
+      // Hide quick replies after first message
+      document.getElementById('quickReplies').style.display = 'none';
+
+      // Remove welcome screen if present
+      const welcome = document.querySelector('.welcome');
+      if (welcome) welcome.remove();
+
+      // Add user message
+      addMessage(message, 'user');
+
+      // Show typing
+      const typingId = showTyping();
+      isWaiting = true;
+      document.getElementById('sendBtn').disabled = true;
+
+      try {
+        const res = await fetch(`${API_BASE}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            session_id: sessionId,
+            farmer_context: {
+              location: 'Karnataka',
+              season: getCurrentSeason()
+            }
+          })
+        });
+
+        const data = await res.json();
+        removeTyping(typingId);
+
+        if (data.success) {
+          addMessage(data.reply, 'bot');
+          // No auto-speak — user presses the 🔊 button on each bubble
+        } else {
+          addMessage('ಕ್ಷಮಿಸಿ, ಒಂದು ತಪ್ಪಾಯಿತು. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.', 'bot');
+        }
+
+      } catch (err) {
+        removeTyping(typingId);
+        addMessage('ಸರ್ವರ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. Flask ಚಾಲೂ ಇದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.', 'bot');
+      } finally {
+        isWaiting = false;
+        document.getElementById('sendBtn').disabled = false;
+      }
+    }
+
+    // ── Add message bubble ────────────────────────────────────
+    function addMessage(text, sender) {
+      const messages = document.getElementById('messages');
+      const time = new Date().toLocaleTimeString('kn-IN', {
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+
+      // Speak button only on bot messages
+      const speakBtn = sender === 'bot'
+        ? `<button onclick="speakText(this)" data-text="${text.replace(/"/g, '&quot;')}" 
+           title="ಕೇಳಿ"
+           style="background:none;border:none;cursor:pointer;font-size:14px;opacity:.55;
+                  padding:2px 6px;border-radius:8px;transition:opacity .2s;"
+           onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.55">
+           🔊</button>`
+        : '';
+
+      div.innerHTML = `
+      <div class="avatar ${sender}">${sender === 'bot' ? '🌾' : '👨‍🌾'}</div>
+      <div>
+        <div class="bubble ${sender}">${text} ${speakBtn}</div>
+        <div class="message-time">${time}</div>
+      </div>
+    `;
+
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // ── Typing indicator ──────────────────────────────────────
+    function showTyping() {
+      const messages = document.getElementById('messages');
+      const id = 'typing_' + Date.now();
+      const div = document.createElement('div');
+      div.className = 'typing';
+      div.id = id;
+      div.innerHTML = `
+      <div class="avatar bot">🌾</div>
+      <div class="typing-bubble">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    `;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+      return id;
+    }
+
+    function removeTyping(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    // ── Voice Input (Kannada) ─────────────────────────────────
+    function toggleVoice() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert('ನಿಮ್ಮ ಬ್ರೌಸರ್ ಧ್ವನಿ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. Chrome ಬಳಸಿ.');
+        return;
+      }
+
+      if (isRecording) {
+        stopVoice();
+      } else {
+        startVoice();
+      }
+    }
+
+    function startVoice() {
+      if (isRecording) return; // Safeguard against double triggers
+      isRecording = true;
+      hasVoiceInput = false;
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'kn-IN';
+      recognition.continuous = false;
+      recognition.interimResults = true; // Required for reliable real-time updates on Android Chrome
+
+      recognition.onstart = () => {
+        document.getElementById('voiceBtn').classList.add('recording');
+        document.getElementById('voiceBtn').textContent = '⏹️';
+        document.getElementById('voiceStatus').style.display = 'block';
+
+        // Automatically stop recording after 7 seconds
+        recordingTimeout = setTimeout(() => {
+          if (isRecording) {
+            stopVoice();
+          }
+        }, 7000);
+      };
+
+      recognition.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalTranscript += event.results[i][0].transcript;
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+        
+        const text = finalTranscript || interimTranscript;
+        if (text) {
+          document.getElementById('messageInput').value = text;
+          autoResize(document.getElementById('messageInput'));
+          hasVoiceInput = true;
+        }
+      };
+
+      recognition.onerror = (err) => {
+        console.warn('SpeechRecognition error:', err);
+        stopVoice();
+      };
+      
+      recognition.onend = () => {
+        stopVoice();
+        if (hasVoiceInput) {
+          hasVoiceInput = false;
+          sendMessage();
+        }
+      };
+
+      recognition.start();
+    }
+
+    function stopVoice() {
+      if (!isRecording) return; // Safeguard against duplicate calls or recursive loops
+      isRecording = false;
+
+      if (recordingTimeout) {
+        clearTimeout(recordingTimeout);
+        recordingTimeout = null;
+      }
+
+      if (recognition) {
+        try {
+          recognition.stop();
+        } catch (e) {
+          console.warn('SpeechRecognition stop ignored:', e.message);
+        }
+      }
+
+      document.getElementById('voiceBtn').classList.remove('recording');
+      document.getElementById('voiceBtn').textContent = '🎙️';
+      document.getElementById('voiceStatus').style.display = 'none';
+    }
+
+    // ── Voice Output: pick best Kannada voice, fallback to en-IN ──────────
+    function getBestVoice(lang) {
+      const voices = window.speechSynthesis.getVoices();
+      let v = voices.find(v => v.lang === lang);
+      if (!v) v = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+      // en-IN handles Indic scripts better than en-US on most systems
+      if (!v && lang.startsWith('kn')) v = voices.find(v => v.lang === 'en-IN');
+      return v || null;
+    }
+
+    function speakText(btn) {
+      const text = btn.getAttribute('data-text');
+      if (!text || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+
+      const doSpeak = () => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'kn-IN';
+        utterance.rate = 0.85;
+        utterance.pitch = 1;
+        const voice = getBestVoice('kn-IN');
+        if (voice) utterance.voice = voice;
+        window.speechSynthesis.speak(utterance);
+      };
+
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = () => doSpeak();
+      } else {
+        doSpeak();
+      }
+    }
+
+    // ── Clear chat ────────────────────────────────────────────
+    async function clearChat() {
+      try {
+        await fetch(`${API_BASE}/clear-chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId })
+        });
+      } catch (e) { }
+
+      const messages = document.getElementById('messages');
+      messages.innerHTML = `
+      <div class="welcome">
+        <div class="welcome-icon">🌱</div>
+        <h3>ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ</h3>
+        <p>ನಿಮ್ಮ ಕೃಷಿ ಸಮಸ್ಯೆಗಳನ್ನು ಕನ್ನಡದಲ್ಲಿ ಕೇಳಿ<br/>
+        ಬೆಳೆ ರೋಗ, ಮಳೆ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ — ಎಲ್ಲದಕ್ಕೂ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ</p>
+      </div>
+    `;
+      document.getElementById('quickReplies').style.display = 'flex';
+    }
+
+    // ── Get current season ────────────────────────────────────
+    function getCurrentSeason() {
+      const month = new Date().getMonth() + 1;
+      if (month >= 6 && month <= 10) return "Kharif";
+      if (month >= 11 || month <= 3) return "Rabi";
+      return "Zaid";
+    }
+  </script>
+
+  <script src="../js/offline.js"></script>
+</body>
+
+</html>

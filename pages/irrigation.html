@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ಸ್ಮಾರ್ಟ್ ನೀರಾವರಿ – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <style>
+        #irrigation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+        .irrigation-card { background: rgba(255,255,255,0.55); backdrop-filter: blur(18px); border-radius: 20px; padding: 22px; border: 1px solid rgba(255,255,255,0.7); box-shadow: 0 8px 32px rgba(4,120,87,0.08); transition: transform 0.3s ease; }
+        .irrigation-card:hover { transform: translateY(-4px); }
+        .irrigation-card h3 { font-family:'Outfit',sans-serif; font-size:18px; color:var(--primary); margin-bottom:12px; border-bottom:1px solid rgba(4,120,87,0.1); padding-bottom:8px; }
+        .irrigation-item { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; color:var(--text); font-weight:500; }
+        .irrigation-item span:first-child { color:var(--text-muted); font-weight:600; }
+        .advice-box { background:rgba(209,250,229,0.6); border:1px solid rgba(16,185,129,0.25); border-radius:16px; padding:20px; margin-top:12px; margin-bottom:24px; }
+        .advice-box p { font-size:14px; color:var(--primary); line-height:1.6; margin-bottom:8px; font-weight:500; }
+        .advice-box p:last-child { margin-bottom:0; }
+        .irrigation-card .advice-box { margin-top:12px; margin-bottom:0; padding:12px; border-radius:12px; background:rgba(209,250,229,0.5); }
+        .irrigation-card .advice-box p { font-size:13px; font-weight:600; }
+        .form-card { background:rgba(255,255,255,0.55)!important; backdrop-filter:blur(20px)!important; border:1px solid rgba(255,255,255,0.7)!important; box-shadow:0 8px 32px rgba(4,120,87,0.08)!important; }
+    </style>
+</head>
+<body>
+<div class="header">
+    <a href="../index.html" class="back">←</a>
+    <h1>ಸ್ಮಾರ್ಟ್ ನೀರಾವರಿ ವೇಳಾಪಟ್ಟಿ</h1>
+    <p>ಮುನ್ಸೂಚನೆ ಆಧಾರಿತ ಸಲಹೆ — ಬೆಳೆಗೆ ಅಗತ್ಯ ಇದ್ದಾಗ ಮಾತ್ರ ನೀರು ಹಾಕಿ.</p>
+</div>
+<div class="container">
+    <div class="form-card">
+        <h3>ಜಮೀನಿನ ವಿವರಗಳು</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>🌾 ಬೆಳೆ</label>
+                <select id="cropSelect">
+                    <option value="Ragi">ರಾಗಿ</option>
+                    <option value="Tomato">ಟೊಮೇಟೊ</option>
+                    <option value="Paddy">ಭತ್ತ</option>
+                    <option value="Onion">ಈರುಳ್ಳಿ</option>
+                    <option value="Turmeric">ಅರಿಶಿನ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>💧 ನೀರಾವರಿ ವಿಧಾನ</label>
+                <select id="irrigationType">
+                    <option value="Drip">ಹನಿ ನೀರಾವರಿ</option>
+                    <option value="Sprinkler">ಸ್ಪ್ರಿಂಕ್ಲರ್</option>
+                    <option value="Furrow">ಜೋಯನೆ</option>
+                    <option value="Flood">ಪ್ರವಾಹ</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>📍 ಸ್ಥಳ</label>
+                <input id="location" type="text" value="ಸ್ಥಳ ಪತ್ತೆ ಆಗುತ್ತಿದೆ..." disabled/>
+                <div id="locationHint" style="font-size:12px;color:#556B5C;margin-top:6px;">ನಿಮ್ಮ ನಿಖರ ಯೋಜನೆಗಾಗಿ ಸ್ಥಳ ಅನುಮತಿ ನೀಡಿ.</div>
+                <button type="button" class="btn btn-secondary" onclick="requestLocation()" style="margin-top:10px;">📍 ಪ್ರಸ್ತುತ ಸ್ಥಳ ಪತ್ತೆ ಮಾಡಿ</button>
+            </div>
+            <div class="form-group">
+                <label>📐 ವಿಸ್ತೀರ್ಣ (ಎಕರೆ)</label>
+                <input id="area" type="number" min="0.1" step="0.1" placeholder="2.0" value="1.0"/>
+            </div>
+        </div>
+        <button id="planBtn" class="btn btn-primary" onclick="getIrrigationPlan()">ನೀರಾವರಿ ಯೋಜನೆ ಪಡೆಯಿರಿ</button>
+    </div>
+
+    <div id="loading" class="card" style="display:none;text-align:center;">
+        <div class="spinner"></div>
+        <p>ಮುಂದಿನ 5 ದಿನಗಳ ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ ತರಲಾಗುತ್ತಿದೆ…</p>
+    </div>
+
+    <div id="results"></div>
+</div>
+
+<script>
+    const DEFAULT_LAT = 12.3041464, DEFAULT_LON = 76.6529521;
+    let currentLat = DEFAULT_LAT, currentLon = DEFAULT_LON;
+
+    function requestLocation() {
+        if (!navigator.geolocation) { useDefault(); return; }
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                currentLat = pos.coords.latitude;
+                currentLon = pos.coords.longitude;
+                document.getElementById('location').value = 'ಪ್ರಸ್ತುತ ಸ್ಥಳ';
+                document.getElementById('locationHint').innerText = `ನಿರ್ದೇಶಾಂಕ: ${currentLat.toFixed(4)}, ${currentLon.toFixed(4)}`;
+            },
+            () => useDefault()
+        );
+    }
+
+    function useDefault() {
+        currentLat = DEFAULT_LAT; currentLon = DEFAULT_LON;
+        document.getElementById('location').value = 'ಮೈಸೂರು, ಕರ್ನಾಟಕ';
+        document.getElementById('locationHint').innerText = 'ಡೀಫಾಲ್ಟ್ ಮೈಸೂರು ಸ್ಥಳ ಬಳಸಲಾಗುತ್ತಿದೆ.';
+    }
+
+    window.onload = requestLocation;
+
+    function getWeatherAdvice(code, rain) {
+        if (code >= 95)  return 'ಗುಡುಗು ಸಿಡಿಲು ನಿರೀಕ್ಷಿತ — ನೀರಾವರಿ ಮಾಡಬೇಡಿ, ಜಮೀನನ್ನು ಸುರಕ್ಷಿತಗೊಳಿಸಿ.';
+        if (rain >= 10)  return 'ಭಾರೀ ಮಳೆ ನಿರೀಕ್ಷಿತ — ನೀರಾವರಿ ಮುಂದೂಡಿ.';
+        if (rain >= 3)   return 'ಸಣ್ಣ ಮಳೆ ನಿರೀಕ್ಷಿತ — ನೀರಿನ ಪ್ರಮಾಣ ಕಡಿಮೆ ಮಾಡಿ.';
+        return 'ಶುಷ್ಕ ಮುನ್ಸೂಚನೆ — ಯೋಜನೆಯ ಪ್ರಕಾರ ನೀರು ಹಾಕಿ, ಮಣ್ಣಿನ ತೇವಾಂಶ ಪರಿಶೀಲಿಸಿ.';
+    }
+
+    function getWaterEstimate(crop, type, rain) {
+        const base = crop === 'Paddy' ? 10 : crop === 'Tomato' ? 6 : crop === 'Turmeric' ? 5 : 4;
+        const tf   = type === 'Drip' ? 0.7 : type === 'Sprinkler' ? 0.9 : type === 'Furrow' ? 1.0 : 1.2;
+        const rf   = rain >= 5 ? 0.6 : rain >= 2 ? 0.8 : 1.0;
+        return Math.round(base * tf * rf * 10) / 10;
+    }
+
+    const KN_DAYS = ['ಭಾನು','ಸೋಮ','ಮಂಗಳ','ಬುಧ','ಗುರು','ಶುಕ್ರ','ಶನಿ'];
+
+    async function getIrrigationPlan() {
+        const crop = document.getElementById('cropSelect').value;
+        const type = document.getElementById('irrigationType').value;
+        const area = parseFloat(document.getElementById('area').value) || 1;
+        const btn  = document.getElementById('planBtn');
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('results').innerHTML     = '';
+        btn.disabled = true;
+        try {
+            const url  = `https://api.open-meteo.com/v1/forecast?latitude=${currentLat}&longitude=${currentLon}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
+            const data = await (await fetch(url)).json();
+            const days = data.daily.time.slice(0,5).map((date,i) => {
+                const rain = data.daily.precipitation_sum[i];
+                return { date, rain, high:data.daily.temperature_2m_max[i], low:data.daily.temperature_2m_min[i], code:data.daily.weather_code[i], advice:getWeatherAdvice(data.daily.weather_code[i], rain), waterQty:getWaterEstimate(crop,type,rain) };
+            });
+
+            const cropNames = { Ragi:'ರಾಗಿ', Tomato:'ಟೊಮೇಟೊ', Paddy:'ಭತ್ತ', Onion:'ಈರುಳ್ಳಿ', Turmeric:'ಅರಿಶಿನ' };
+            const typeNames = { Drip:'ಹನಿ ನೀರಾವರಿ', Sprinkler:'ಸ್ಪ್ರಿಂಕ್ಲರ್', Furrow:'ಜೋಯನೆ', Flood:'ಪ್ರವಾಹ' };
+
+            const cards = days.map(d => {
+                const date = new Date(d.date);
+                const name = days.indexOf(d) === 0 ? 'ಇಂದು' : KN_DAYS[date.getDay()];
+                return `<div class="irrigation-card">
+                    <h3>${name} — ${date.getDate()}/${date.getMonth()+1}</h3>
+                    <div class="irrigation-item"><span>ತಾಪಮಾನ:</span><span>${Math.round(d.low)}° / ${Math.round(d.high)}°</span></div>
+                    <div class="irrigation-item"><span>ಮಳೆ:</span><span>${d.rain} mm</span></div>
+                    <div class="irrigation-item"><span>ನೀರಿನ ಪ್ರಮಾಣ:</span><span>${d.waterQty} mm</span></div>
+                    <div class="advice-box"><p>${d.advice}</p></div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('results').innerHTML = `
+                <div class="advice-box">
+                    <p><strong>ಬೆಳೆ:</strong> ${cropNames[crop] || crop}</p>
+                    <p><strong>ನೀರಾವರಿ ವಿಧಾನ:</strong> ${typeNames[type] || type}</p>
+                    <p><strong>ವಿಸ್ತೀರ್ಣ:</strong> ${area} ಎಕರೆ</p>
+                    <p>ಈ ಯೋಜನೆಯನ್ನು ಮಣ್ಣಿನ ತೇವಾಂಶ ಪರಿಶೀಲನೆಯೊಂದಿಗೆ ಬಳಸಿ. ಮಣ್ಣು ಇನ್ನೂ ಒದ್ದೆ ಇದ್ದರೆ ಸರಿಹೊಂದಿಸಿ.</p>
+                </div>
+                <div id="irrigation-grid">${cards}</div>`;
+        } catch(e) {
+            document.getElementById('results').innerHTML = `<div class="card"><p>ಹವಾಮಾನ ಮುನ್ಸೂಚನೆ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</p></div>`;
+        } finally {
+            document.getElementById('loading').style.display = 'none';
+            btn.disabled = false;
+        }
+    }
+</script>
+<script src="../js/offline.js"></script>
+</body>
+</html>

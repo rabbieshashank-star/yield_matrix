@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ರೋಗ ಪತ್ತೆ – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="header">
+    <a href="../index.html" class="back">←</a>
+    <h1>📸 ಬೆಳೆ ರೋಗ ಪತ್ತೆ</h1>
+    <p>ಬೆಳೆಯ ಸ್ಪಷ್ಟ ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಿ. AI ರೋಗ ಪತ್ತೆ ಮಾಡಿ ಚಿಕಿತ್ಸೆ ಸೂಚಿಸುತ್ತದೆ.</p>
+  </div>
+
+  <div class="container">
+    <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">🌿</div>
+      <p class="upload-text">ಬೆಳೆಯ ಎಲೆಯ ಫೋಟೋ ಅಪ್ಲೋಡ್ ಮಾಡಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ ಮಾಡಿ<br><small>JPG, PNG ಬೆಂಬಲಿತ</small></p>
+      <button class="btn-upload" onclick="event.stopPropagation(); document.getElementById('fileInput').click()">ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ</button>
+      <img id="preview" alt="ಪೂರ್ವವೀಕ್ಷಣೆ"/>
+    </div>
+    <input type="file" id="fileInput" accept="image/*" onchange="handleImage(event)"/>
+
+    <button id="scanBtn" onclick="scanDisease()">🔬 ರೋಗಕ್ಕಾಗಿ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</button>
+
+    <div id="error"></div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>🤖 AI ನಿಮ್ಮ ಬೆಳೆಯನ್ನು ವಿಶ್ಲೇಷಿಸುತ್ತಿದೆ...</p>
+      <p class="loading-note">ಇದಕ್ಕೆ ಕೆಲವು ಸೆಕೆಂಡುಗಳು ಬೇಕಾಗಬಹುದು</p>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://127.0.0.1:5000'
+        : 'https://roger95.pythonanywhere.com';
+
+    let selectedFile = null;
+
+    function handleImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      selectedFile = file;
+      const preview   = document.getElementById('preview');
+      const uploadBox = document.getElementById('uploadBox');
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+      uploadBox.classList.add('has-image');
+      uploadBox.querySelector('.upload-icon').style.display = 'none';
+      uploadBox.querySelector('.upload-text').style.display = 'none';
+      uploadBox.querySelector('.btn-upload').textContent    = '📷 ಫೋಟೋ ಬದಲಾಯಿಸಿ';
+      document.getElementById('scanBtn').style.display      = 'block';
+      document.getElementById('result').style.display       = 'none';
+      document.getElementById('result').innerHTML           = '';
+      document.getElementById('error').style.display        = 'none';
+    }
+
+    async function scanDisease() {
+      if (!selectedFile) return;
+      const scanBtn   = document.getElementById('scanBtn');
+      const loading   = document.getElementById('loading');
+      const resultDiv = document.getElementById('result');
+      const errorDiv  = document.getElementById('error');
+
+      scanBtn.disabled      = true;
+      scanBtn.textContent   = '🔍 ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...';
+      loading.style.display = 'block';
+      resultDiv.style.display = 'none';
+      errorDiv.style.display  = 'none';
+
+      try {
+        const formData = new FormData();
+        formData.append('image', selectedFile);
+        const response = await fetch(`${API_BASE}/detect-disease`, { method:'POST', body:formData });
+        const data     = await response.json();
+        loading.style.display = 'none';
+        if (data.success) showResult(data.data);
+        else showError(data.error);
+      } catch(err) {
+        loading.style.display = 'none';
+        showError('ಸರ್ವರ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. Flask ಪೋರ್ಟ್ 5000 ನಲ್ಲಿ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ ಎಂದು ಪರಿಶೀಲಿಸಿ.');
+      } finally {
+        scanBtn.disabled    = false;
+        scanBtn.textContent = '🔬 ರೋಗಕ್ಕಾಗಿ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ';
+      }
+    }
+
+    function showResult(d) {
+      const resultDiv  = document.getElementById('result');
+      const isDisease  = d.disease_detected;
+      const sevColor   = d.severity === 'Severe' ? 'red' : d.severity === 'Moderate' ? 'orange' : 'green';
+      const treatItems = (d.treatment  || []).map(t => `<li>${t}</li>`).join('');
+      const prevItems  = (d.prevention || []).map(p => `<li>${p}</li>`).join('');
+
+      const urgentBox = d.is_urgent ? `
+        <div class="urgent-box">
+          <div class="urgent-icon">🚨</div>
+          <div class="urgent-text">
+            <strong>ತುರ್ತು ಕ್ರಮ ಅಗತ್ಯವಿದೆ</strong>
+            ${d.urgency_message}
+          </div>
+        </div>` : '';
+
+      const treatSection = isDisease ? `
+        <div class="section">
+          <div class="section-title">💊 ಚಿಕಿತ್ಸಾ ಹಂತಗಳು</div>
+          <ol>${treatItems}</ol>
+        </div>
+        <div class="section">
+          <div class="section-title">🛡️ ತಡೆಗಟ್ಟುವ ಸಲಹೆಗಳು</div>
+          <ul>${prevItems}</ul>
+        </div>` : '';
+
+      resultDiv.innerHTML = `
+        ${urgentBox}
+        <div class="result-card">
+          <div class="result-header ${isDisease ? 'disease' : 'healthy'}">
+            <div class="result-icon">${isDisease ? '⚠️' : '✅'}</div>
+            <div>
+              <div class="result-status">${isDisease ? 'ರೋಗ ಕಂಡುಬಂದಿದೆ' : 'ಬೆಳೆ ಆರೋಗ್ಯಕರವಾಗಿ ತೋರುತ್ತದೆ'}</div>
+              <div class="result-crop">${d.disease_name}${d.crop_identified ? ' • ' + d.crop_identified : ''}</div>
+            </div>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">ತೀವ್ರತೆ</div>
+              <div class="info-value ${sevColor}">${d.severity}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">ವಿಶ್ವಾಸಾರ್ಹತೆ</div>
+              <div class="info-value">${d.confidence}</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label">ಬಾಧಿತ ಭಾಗ</div>
+              <div class="info-value">${d.affected_part}</div>
+            </div>
+          </div>
+          ${treatSection}
+        </div>
+        <button id="scanAgainBtn" onclick="resetScanner()">📸 ಮತ್ತೊಂದು ಫೋಟೋ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</button>`;
+
+      resultDiv.style.display = 'block';
+      resultDiv.scrollIntoView({ behavior:'smooth' });
+    }
+
+    function showError(msg) {
+      const e = document.getElementById('error');
+      e.innerHTML = `❌ <strong>ದೋಷ:</strong> ${msg}`;
+      e.style.display = 'block';
+    }
+
+    function resetScanner() {
+      selectedFile = null;
+      document.getElementById('preview').style.display    = 'none';
+      document.getElementById('preview').src              = '';
+      document.getElementById('fileInput').value          = '';
+      document.getElementById('scanBtn').style.display    = 'none';
+      document.getElementById('result').style.display     = 'none';
+      document.getElementById('result').innerHTML         = '';
+      document.getElementById('error').style.display      = 'none';
+      const box = document.getElementById('uploadBox');
+      box.classList.remove('has-image');
+      box.querySelector('.upload-icon').style.display     = 'block';
+      box.querySelector('.upload-text').style.display     = 'block';
+      box.querySelector('.btn-upload').textContent        = 'ಫೋಟೋ ಆಯ್ಕೆ ಮಾಡಿ';
+    }
+  </script>
+  <script src="../js/offline.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "name": "Yield Matrix – ರೈತರ ಸಹಾಯಕ",
+  "short_name": "Yield Matrix",
+  "description": "ಕರ್ನಾಟಕದ ಸಣ್ಣ ರೈತರಿಗೆ ಉಚಿತ AI ಸಾಧನಗಳು – ಹವಾಮಾನ, ರೋಗ ಪತ್ತೆ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ ಮತ್ತು ಹೆಚ್ಚಿನವು.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a1628",
+  "theme_color": "#1a6b3a",
+  "lang": "kn",
+  "categories": ["agriculture", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "ಹವಾಮಾನ ಮಾಹಿತಿ",
+      "short_name": "ಹವಾಮಾನ",
+      "description": "3-ದಿನಗಳ ಮುನ್ಸೂಚನೆ",
+      "url": "/pages/weather.html",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ಬೆಳೆ ರೋಗ ಪತ್ತೆ",
+      "short_name": "ರೋಗ ಪತ್ತೆ",
+      "description": "ಫೋಟೋ ಮೂಲಕ ರೋಗ ಪತ್ತೆ",
+      "url": "/pages/disease.html",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "ಮಾರುಕಟ್ಟೆ ಬೆಲೆ",
+      "short_name": "ಬೆಲೆ",
+      "description": "ಇಂದಿನ ಮಂಡಿ ದರಗಳು",
+      "url": "/pages/market.html",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI ಚ್ಯಾಟ್‌ಬಾಟ್",
+      "short_name": "ಚ್ಯಾಟ್",
+      "description": "ಕನ್ನಡದಲ್ಲಿ ಕೃಷಿ ಸಲಹೆ",
+      "url": "/pages/chatbot.html",
+      "icons": [{ "src": "icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

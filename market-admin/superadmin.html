@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>District Management — Yield Matrix Super Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <style>
+    /* Purple accent overrides for superadmin */
+    .sa-header { background: rgba(8,15,26,0.9); border-bottom: 1px solid rgba(168,85,247,0.2); }
+    .sa-accent { color: #a855f7; }
+    .sa-badge-pill {
+      display:inline-flex;align-items:center;gap:5px;
+      background:rgba(168,85,247,0.12);border:1px solid rgba(168,85,247,0.25);
+      color:#a855f7;border-radius:999px;font-size:11px;font-weight:700;
+      padding:3px 10px;letter-spacing:0.04em;text-transform:uppercase;
+    }
+    .district-row {
+      display:flex;align-items:center;gap:12px;
+      padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.05);
+      transition:background 0.2s;
+    }
+    .district-row:last-child { border-bottom:none; }
+    .district-row:hover { background:rgba(168,85,247,0.05); }
+    .district-name { font-weight:600;flex:1; }
+    .district-date { font-size:0.78rem;color:var(--text-3); }
+    .btn-reset-pwd {
+      background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);
+      border-radius:6px;color:#22d3ee;font-size:0.75rem;padding:5px 10px;
+      cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;
+    }
+    .btn-reset-pwd:hover { background:rgba(34,211,238,0.15); }
+    .btn-del-district {
+      background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);
+      border-radius:6px;color:var(--danger);font-size:0.75rem;padding:5px 10px;
+      cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s;
+    }
+    .btn-del-district:hover { background:rgba(248,113,113,0.18); }
+    .empty-districts { text-align:center;padding:40px 20px;color:var(--text-2);font-size:0.9rem; }
+    .reset-form { display:none;margin-top:8px;gap:8px;align-items:center; }
+    .reset-form.open { display:flex; }
+    .reset-form input { flex:1; }
+    .count-badge {
+      background:rgba(168,85,247,0.12);color:#a855f7;
+      border-radius:999px;font-size:0.75rem;font-weight:700;
+      padding:2px 8px;margin-left:8px;
+    }
+  </style>
+</head>
+<body class="dashboard-page">
+  <div class="bg-blob blob-1" style="background:#a855f7"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- Header -->
+  <header class="dash-header sa-header">
+    <div class="dash-header-inner">
+      <div class="brand brand-sm">
+        <div class="brand-icon brand-icon-sm">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="url(#gsa)" stroke-width="2" fill="none"/>
+            <path d="M20 12L28 17V23L20 28L12 23V17L20 12Z" fill="url(#gsa)" opacity="0.6"/>
+            <defs>
+              <linearGradient id="gsa" x1="4" y1="4" x2="36" y2="36">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-name brand-name-sm" style="background:linear-gradient(135deg,#a855f7,#22d3ee);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Yield Matrix</span>
+          <span class="brand-sub brand-sub-sm">Super Admin</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="sa-badge-pill">🔐 Superadmin</span>
+        <button id="saLogoutBtn" class="btn-ghost">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-main">
+
+    <!-- Stats -->
+    <div class="stats-row" style="grid-template-columns:repeat(2,1fr);max-width:500px;">
+      <div class="stat-card glass-card">
+        <div class="stat-icon">🏛️</div>
+        <div>
+          <div class="stat-value" id="statDistrictCount">—</div>
+          <div class="stat-label">Districts</div>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-icon">✅</div>
+        <div>
+          <div class="stat-value">Active</div>
+          <div class="stat-label">Portal Status</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+
+      <!-- Add district form -->
+      <div class="glass-card form-card">
+        <h2 class="section-title"><span class="title-icon">➕</span> Add New District</h2>
+        <p class="section-desc">Create a login account for a new district operator.</p>
+
+        <form id="addDistrictForm" novalidate>
+          <div class="field-group">
+            <label for="distName" class="field-label">District Name</label>
+            <input type="text" id="distName" class="field-input" placeholder="e.g. Mandya" required />
+          </div>
+          <div class="field-group">
+            <label for="distPassword" class="field-label">Password</label>
+            <input type="text" id="distPassword" class="field-input" placeholder="Set a login password" required />
+          </div>
+          <div id="addError" class="error-msg" hidden></div>
+          <div id="addSuccess" class="success-msg" hidden></div>
+          <button type="submit" id="addBtn" class="btn-primary mt-8" style="background:linear-gradient(135deg,#a855f7,#22d3ee);">
+            <span id="addBtnText">Add District</span>
+            <span id="addSpinner" class="spinner" hidden></span>
+          </button>
+        </form>
+      </div>
+
+      <!-- District list -->
+      <div class="glass-card table-card">
+        <div class="table-header">
+          <h2 class="section-title">
+            <span class="title-icon">🏛️</span>
+            Registered Districts
+            <span class="count-badge" id="districtCountBadge">0</span>
+          </h2>
+          <button id="refreshDistricts" class="btn-ghost btn-sm">↺ Refresh</button>
+        </div>
+
+        <div id="distLoading" class="loading-state">
+          <div class="spin-ring" style="border-top-color:#a855f7"></div>
+          <p>Loading districts…</p>
+        </div>
+
+        <div id="distEmpty" class="empty-districts" hidden>
+          <div style="font-size:2rem;margin-bottom:8px;">🏛️</div>
+          <p>No districts added yet.</p>
+          <p style="font-size:0.8rem;color:var(--text-3);">Use the form to add the first district.</p>
+        </div>
+
+        <div id="distList" hidden></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Delete district confirm modal -->
+  <div id="delDistModal" class="modal-overlay">
+    <div class="modal glass-card">
+      <h3 class="modal-title">Remove District</h3>
+      <p class="modal-body">
+        Are you sure you want to remove <strong id="delDistName"></strong>?
+        <br><span style="color:var(--danger);font-size:0.85rem;">⚠️ All price data for this district will also be deleted.</span>
+      </p>
+      <div class="modal-actions">
+        <button id="cancelDelDist" class="btn-ghost">Cancel</button>
+        <button id="confirmDelDist" class="btn-danger">Remove District</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/superadmin.js"></script>
+</body>
+</html>

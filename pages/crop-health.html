@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಬೆಳೆ ಆರೋಗ್ಯ – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── Health Score Ring ── */
+        .score-ring-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+        .score-ring {
+            position: relative;
+            width: 110px;
+            height: 110px;
+        }
+        .score-ring svg {
+            transform: rotate(-90deg);
+        }
+        .score-ring circle {
+            fill: none;
+            stroke-width: 10;
+        }
+        .score-ring .bg { stroke: rgba(255,255,255,0.1); }
+        .score-ring .fg {
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+        .score-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .score-label span {
+            font-size: 11px;
+            opacity: .65;
+        }
+
+        /* ── Status Badge ── */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .status-healthy   { background: rgba(34,197,94,.25);  color: #4ade80; }
+        .status-stressed  { background: rgba(234,179,8,.25);   color: #fbbf24; }
+        .status-diseased  { background: rgba(239,68,68,.25);   color: #f87171; }
+        .status-unknown   { background: rgba(148,163,184,.2);  color: #94a3b8; }
+
+        /* ── Lists inside result card ── */
+        .result-section { margin-top: 16px; }
+        .result-section h4 {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            opacity: .55;
+            margin-bottom: 8px;
+        }
+        .result-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .result-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 14px;
+            line-height: 1.45;
+        }
+        .result-list li::before {
+            content: '•';
+            color: #22c55e;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* ── Urgency banner ── */
+        .urgency-banner {
+            background: rgba(239,68,68,.18);
+            border: 1px solid rgba(239,68,68,.4);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .urgency-banner .icon { font-size: 20px; flex-shrink: 0; }
+        .urgency-banner p { margin: 0; font-size: 14px; line-height: 1.5; color: #fca5a5; }
+
+        /* ── Weather info pill ── */
+        .weather-pill {
+            background: rgba(99,179,237,.15);
+            border: 1px solid rgba(99,179,237,.3);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 13px;
+            color: #93c5fd;
+            display: inline-block;
+        }
+
+        /* ── Image preview ── */
+        #imagePreview {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 12px;
+            display: none;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="header">
+        <a href="../index.html" class="back">←</a>
+        <h1>ಬೆಳೆ ಆರೋಗ್ಯ ಮೇಲ್ವಿಚಾರಣೆ</h1>
+        <p>AI ಹವಾಮಾನ ಮಾಹಿತಿಯೊಂದಿಗೆ ಬೆಳೆ ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಿಸುತ್ತದೆ</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Upload Card -->
+        <div class="card">
+            <h2>ಹಂತ 1: ಬೆಳೆಯ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</h2>
+            <p>ನಿಮ್ಮ ಬೆಳೆಯ ಸ್ಪಷ್ಟ ಫೋಟೋ ತೆಗೆಯಿರಿ. AI ಪ್ರಸ್ತುತ ಹವಾಮಾನ ಬಳಸಿ ಆರೋಗ್ಯ ಪರಿಶೀಲಿಸುತ್ತದೆ.</p>
+
+            <input type="file" id="imageInput" accept="image/*" capture="environment" style="display:none;">
+
+            <button class="btn btn-primary" id="takePhotoBtn"
+                    onclick="document.getElementById('imageInput').click()">
+                📷 ಫೋಟೋ ತೆಗೆಯಿರಿ / ಆಯ್ಕೆ ಮಾಡಿ
+            </button>
+
+            <img id="imagePreview" alt="ಬೆಳೆ ಪೂರ್ವವೀಕ್ಷಣೆ">
+
+            <button class="btn btn-secondary" id="analyzeBtn"
+                    onclick="analyzeHealth()" style="display:none;">
+                🔍 ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಿಸಿ
+            </button>
+
+            <div class="loader" id="loader"></div>
+        </div>
+
+        <!-- Weather Context Card -->
+        <div class="card" id="weatherContext" style="display:none;">
+            <h2>🌤️ ಪ್ರಸ್ತುತ ಹವಾಮಾನ ಸಂದರ್ಭ</h2>
+            <p id="weatherInfo">ಹವಾಮಾನ ಲೋಡ್ ಆಗುತ್ತಿದೆ…</p>
+        </div>
+
+        <!-- Results Card -->
+        <div class="card" id="resultBox" style="display:none;">
+            <h2>🌿 ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಣೆ</h2>
+
+            <!-- Score + Status -->
+            <div class="score-ring-wrap">
+                <div class="score-ring">
+                    <svg viewBox="0 0 110 110" width="110" height="110">
+                        <circle class="bg" cx="55" cy="55" r="49"/>
+                        <circle class="fg" id="scoreCircle"
+                                cx="55" cy="55" r="49"
+                                stroke-dasharray="307.87"
+                                stroke-dashoffset="307.87"/>
+                    </svg>
+                    <div class="score-label">
+                        <strong id="scoreNum">--</strong>
+                        <span>/100</span>
+                    </div>
+                </div>
+                <span class="status-badge" id="statusBadge">—</span>
+            </div>
+
+            <!-- Crop identified + confidence -->
+            <p id="cropMeta" style="font-size:13px;opacity:.7;text-align:center;margin-top:-8px;"></p>
+
+            <!-- Observations -->
+            <div class="result-section">
+                <h4>ಅವಲೋಕನಗಳು</h4>
+                <ul class="result-list" id="observationList"></ul>
+            </div>
+
+            <!-- Weather impact -->
+            <div class="result-section" id="weatherImpactSection">
+                <h4>ಹವಾಮಾನ ಪರಿಣಾಮ</h4>
+                <p id="weatherImpactText" style="font-size:14px;margin:0;"></p>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="result-section">
+                <h4>ಶಿಫಾರಸುಗಳು</h4>
+                <ul class="result-list" id="recommendList"></ul>
+            </div>
+
+            <!-- Urgency -->
+            <div class="urgency-banner" id="urgencyBanner" style="display:none;">
+                <div class="icon">🚨</div>
+                <p id="urgencyText"></p>
+            </div>
+
+            <button class="btn btn-secondary" id="listenBtn"
+                    onclick="speakResult()" style="margin-top:16px;">
+                🔊 ಆಲಿಸಿ
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Next Steps -->
+    <div id="nextStepsContainer"></div>
+
+    <script src="../js/i18n.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000'
+            : 'https://roger95.pythonanywhere.com';
+        let currentResultText = '';
+        let currentWeather    = '';
+
+        // ── Image selection ──────────────────────────────────────────────
+        document.getElementById('imageInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const preview = document.getElementById('imagePreview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                document.getElementById('analyzeBtn').style.display = 'block';
+                loadWeatherContext();
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // ── Weather fetch ─────────────────────────────────────────────────
+        async function loadWeatherContext() {
+            try {
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=12.2958&longitude=76.6394&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m&timezone=auto`;
+                const res  = await fetch(url);
+                const data = await res.json();
+                const c    = data.current;
+                currentWeather = `ತಾಪಮಾನ: ${c.temperature_2m}°C, ತೇವಾಂಶ: ${c.relative_humidity_2m}%, ಗಾಳಿ: ${c.wind_speed_10m} km/h`;
+                document.getElementById('weatherInfo').innerHTML =
+                    `<span class="weather-pill">🌡️ ${c.temperature_2m}°C</span> &nbsp;`+
+                    `<span class="weather-pill">💧 ${c.relative_humidity_2m}%</span> &nbsp;`+
+                    `<span class="weather-pill">🌬️ ${c.wind_speed_10m} km/h</span>`;
+                document.getElementById('weatherContext').style.display = 'block';
+            } catch {
+                currentWeather = 'ಹವಾಮಾನ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ';
+                document.getElementById('weatherInfo').innerText = currentWeather;
+                document.getElementById('weatherContext').style.display = 'block';
+            }
+        }
+
+        // ── Main analysis ─────────────────────────────────────────────────
+        async function analyzeHealth() {
+            const file = document.getElementById('imageInput').files[0];
+            if (!file) return;
+
+            showLoader(true);
+            document.getElementById('resultBox').style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('weather_context', currentWeather);
+
+                const res  = await fetch(`${API_BASE}/analyze-crop-health`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const json = await res.json();
+
+                if (!json.success) {
+                    alert('ದೋಷ: ' + (json.error || 'ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ'));
+                    return;
+                }
+
+                renderResult(json.data);
+
+            } catch (err) {
+                alert('AI ಸರ್ವರ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಬ್ಯಾಕೆಂಡ್ ಪೋರ್ಟ್ 5000 ನಲ್ಲಿ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿ.');
+                console.error(err);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        // ── Render results ────────────────────────────────────────────────
+        function renderResult(d) {
+            const score  = Math.max(0, Math.min(100, d.overall_score || 0));
+            const circum = 307.87;
+            const offset = circum - (circum * score / 100);
+            const circle = document.getElementById('scoreCircle');
+            circle.style.strokeDashoffset = offset;
+
+            const colorMap = {
+                'ಆರೋಗ್ಯಕರ':    { stroke: '#4ade80', badge: 'status-healthy',  icon: '✅' },
+                'ಒತ್ತಡದಲ್ಲಿದೆ': { stroke: '#fbbf24', badge: 'status-stressed', icon: '⚠️' },
+                'ರೋಗಗ್ರಸ್ತ':   { stroke: '#f87171', badge: 'status-diseased', icon: '🔴' },
+                'ಅಜ್ಞಾತ':     { stroke: '#94a3b8', badge: 'status-unknown',  icon: '❓' }
+            };
+            const col = colorMap[d.health_status] || colorMap['ಅಜ್ಞಾತ'];
+            circle.style.stroke = col.stroke;
+            document.getElementById('scoreNum').innerText = score;
+
+            const badge = document.getElementById('statusBadge');
+            badge.className = 'status-badge ' + col.badge;
+            badge.innerHTML = `${col.icon} ${d.health_status}`;
+
+            document.getElementById('cropMeta').innerText =
+                `ಬೆಳೆ: ${d.crop_identified || 'ಅಜ್ಞಾತ'}  ·  ವಿಶ್ವಾಸ: ${d.confidence || '—'}`;
+
+            const obList = document.getElementById('observationList');
+            obList.innerHTML = '';
+            (d.observations || []).forEach(o => {
+                const li = document.createElement('li');
+                li.textContent = o;
+                obList.appendChild(li);
+            });
+
+            const wi = d.weather_impact || 'ಅನ್ವಯಿಸುವುದಿಲ್ಲ';
+            document.getElementById('weatherImpactText').innerText = wi;
+            document.getElementById('weatherImpactSection').style.display =
+                wi === 'ಅನ್ವಯಿಸುವುದಿಲ್ಲ' ? 'none' : 'block';
+
+            const recList = document.getElementById('recommendList');
+            recList.innerHTML = '';
+            (d.recommendations || []).forEach(r => {
+                const li = document.createElement('li');
+                li.textContent = r;
+                recList.appendChild(li);
+            });
+
+            if (d.is_urgent && d.urgency_message) {
+                document.getElementById('urgencyText').innerText = d.urgency_message;
+                document.getElementById('urgencyBanner').style.display = 'flex';
+            } else {
+                document.getElementById('urgencyBanner').style.display = 'none';
+            }
+
+            currentResultText = [
+                `ಬೆಳೆ: ${d.crop_identified}.`,
+                `ಆರೋಗ್ಯ ಸ್ಥಿತಿ: ${d.health_status}. ಅಂಕ: ${score} 100 ರಲ್ಲಿ.`,
+                `ಅವಲೋಕನಗಳು: ${(d.observations || []).join('. ')}.`,
+                `ಶಿಫಾರಸುಗಳು: ${(d.recommendations || []).join('. ')}.`,
+                d.is_urgent ? `ತುರ್ತು: ${d.urgency_message}` : ''
+            ].join(' ');
+
+            document.getElementById('resultBox').style.display = 'block';
+            showNextSteps();
+        }
+
+        // ── Text-to-speech (Kannada) ──────────────────────────────────────
+        function getBestVoice(lang) {
+            const voices = window.speechSynthesis.getVoices();
+            let v = voices.find(v => v.lang === lang);
+            if (!v) v = voices.find(v => v.lang.startsWith(lang.split('-')[0]));
+            if (!v && lang.startsWith('kn')) v = voices.find(v => v.lang === 'en-IN');
+            return v || null;
+        }
+
+        function speakResult() {
+            if (!currentResultText) return;
+            if (!window.speechSynthesis) {
+                alert('ನಿಮ್ಮ ಬ್ರೌಸರ್ ಭಾಷಣ ಬೆಂಬಲಿಸುವುದಿಲ್ಲ.');
+                return;
+            }
+            window.speechSynthesis.cancel();
+
+            const doSpeak = () => {
+                const utterance = new SpeechSynthesisUtterance(currentResultText);
+                utterance.lang  = 'kn-IN';
+                utterance.rate  = 0.85;
+                utterance.pitch = 1;
+                const voice = getBestVoice('kn-IN');
+                if (voice) utterance.voice = voice;
+                window.speechSynthesis.speak(utterance);
+            };
+
+            if (window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.onvoiceschanged = () => { doSpeak(); };
+            } else {
+                doSpeak();
+            }
+        }
+
+        // ── Next steps ────────────────────────────────────────────────────
+        function showNextSteps() {
+            const container = document.getElementById('nextStepsContainer');
+            if (!container) return;
+            container.innerHTML = `
+            <div style="margin-top:24px;">
+                <h3 style="font-size:18px; margin-bottom:12px;">ಮುಂದೆ ಏನು ಮಾಡಬೇಕು?</h3>
+                <a href="disease.html" class="feature-card">
+                    <div class="icon">📷</div>
+                    <div class="content">
+                        <h3>ರೋಗ ಪರಿಶೀಲನೆ</h3>
+                        <p>ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಣೆ ರೋಗದ ಚಿಹ್ನೆ ತೋರಿಸಿದರೆ</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+                <a href="irrigation.html" class="feature-card">
+                    <div class="icon">💧</div>
+                    <div class="content">
+                        <h3>ಸ್ಮಾರ್ಟ್ ನೀರಾವರಿ</h3>
+                        <p>ಆರೋಗ್ಯದ ಆಧಾರದ ಮೇಲೆ ನೀರು ಹಾಕುವಿಕೆ ಸರಿಪಡಿಸಿ</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+            </div>`;
+        }
+    </script>
+    <script src="../js/offline.js"></script>
+</body>
+</html>

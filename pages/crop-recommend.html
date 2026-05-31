@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yield Matrix — Crop Recommendation</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Goal selector */
+    .goal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .goal-option {
+      border: 1.5px solid rgba(4, 120, 87, 0.2);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .goal-option:hover {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .goal-option.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.1);
+    }
+
+    .goal-option input {
+      display: none;
+    }
+
+    .goal-icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .goal-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* ── RESULTS ── */
+    #results {
+      display: none;
+    }
+
+    .section-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 24px 0 12px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Primary crop card */
+    .crop-card {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      border: 1px solid rgba(4, 120, 87, 0.1);
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.05);
+    }
+
+    .crop-header {
+      background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .crop-rank {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+
+    .crop-name {
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .crop-kannada {
+      color: var(--primary-soft);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .crop-demand {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .crop-demand.High {
+      background: #F0FFF4;
+      color: #2D6A4F;
+    }
+
+    .crop-demand.Medium {
+      background: #FFFBEB;
+      color: #B45309;
+    }
+
+    .crop-demand.Low {
+      background: #FFF0F0;
+      color: #E63946;
+    }
+
+    .crop-why {
+      padding: 16px 20px 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-style: italic;
+      border-bottom: 1px solid rgba(4, 120, 87, 0.1);
+    }
+
+    .crop-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: rgba(4, 120, 87, 0.1);
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 14px 8px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .stat-value.profit {
+      color: var(--primary);
+      font-size: 13px;
+    }
+
+    /* Secondary crop card */
+    .secondary-card {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      border: 1px solid rgba(4, 120, 87, 0.1);
+      padding: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.05);
+    }
+
+    .secondary-badge {
+      background: var(--primary-soft);
+      border: 1px solid rgba(4, 120, 87, 0.2);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .secondary-info {
+      flex: 1;
+    }
+
+    .secondary-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .secondary-kannada {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .secondary-detail {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .secondary-income {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    /* Advice box */
+    .advice-box {
+      background: var(--primary-soft);
+      border: 1px solid rgba(4, 120, 87, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 12px;
+      margin-bottom: 24px;
+    }
+
+    .advice-box p {
+      font-size: 14px;
+      color: var(--primary);
+      line-height: 1.6;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .advice-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 600px) {
+      .goal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .crop-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')" data-i18n="ಕನ್ನಡ">ಕನ್ನಡ</button>
+  </div>
+
+  <div class="header">
+    <a href="../index.html" class="back" data-i18n="back">←</a>
+    <h1 data-i18n="recommend_title">Crop Recommendation</h1>
+    <p data-i18n="recommend_subtitle">Tell us about your farm — we'll suggest the best crops for maximum yield and
+      profit</p>
+  </div>
+
+  <div class="container">
+    <!-- FORM -->
+    <div class="form-card">
+      <h3 data-i18n="your_farm_details">📋 Your Farm Details</h3>
+      <div class="form-grid">
+
+        <!-- District -->
+        <div class="form-group">
+          <label data-i18n="district">📍 District</label>
+          <select id="district">
+            <option value="" data-i18n="select_your_district">Select your district</option>
+          </select>
+        </div>
+
+        <!-- Soil Type -->
+        <div class="form-group">
+          <label data-i18n="soil_type">🌱 Soil Type</label>
+          <select id="soilType">
+            <option value="" data-i18n="select_soil_type">Select soil type</option>
+            <option value="Black Cotton Soil" data-i18n="black_cotton_soil">Black Cotton Soil</option>
+            <option value="Red Loamy Soil" data-i18n="red_loamy_soil">Red Loamy Soil</option>
+            <option value="Sandy Soil" data-i18n="sandy_soil">Sandy Soil</option>
+            <option value="Loamy Soil" data-i18n="loamy_soil">Loamy Soil</option>
+            <option value="Clay Soil" data-i18n="clay_soil">Clay Soil</option>
+            <option value="Laterite Soil" data-i18n="laterite_soil">Laterite Soil</option>
+          </select>
+        </div>
+
+        <!-- Water Source -->
+        <div class="form-group">
+          <label data-i18n="water_source">💧 Water Source</label>
+          <select id="waterSource">
+            <option value="" data-i18n="select_water_source">Select water source</option>
+            <option value="Rainfed" data-i18n="rainfed_only">Rainfed only</option>
+            <option value="Borewell" data-i18n="borewell">Borewell</option>
+            <option value="Canal Irrigation" data-i18n="canal_irrigation">Canal Irrigation</option>
+            <option value="River / Tank" data-i18n="river_tank">River / Tank</option>
+            <option value="Drip Irrigation" data-i18n="drip_irrigation">Drip Irrigation</option>
+          </select>
+        </div>
+
+        <!-- Season -->
+        <div class="form-group">
+          <label data-i18n="season">🗓️ Season</label>
+          <select id="season">
+            <option value="" data-i18n="select_season">Select season</option>
+            <option value="Kharif (June - October)" data-i18n="kharif_june_october">Kharif (June - October)</option>
+            <option value="Rabi (November - March)" data-i18n="rabi_november_march">Rabi (November - March)</option>
+            <option value="Zaid (March - June)" data-i18n="zaid_march_june">Zaid (March - June)</option>
+          </select>
+        </div>
+
+        <!-- Land Size -->
+        <div class="form-group">
+          <label data-i18n="land_size_acres">📐 Land Size (Acres)</label>
+          <input type="number" id="landSize" placeholder="e.g. 2.5" min="0.1" step="0.1" />
+        </div>
+
+        <!-- Goal -->
+        <div class="form-group full">
+          <label data-i18n="farming_goal">🎯 Farming Goal</label>
+          <div class="goal-grid">
+            <div class="goal-option selected" onclick="selectGoal(this, 'Maximum Profit')">
+              <span class="goal-icon">💰</span>
+              <span class="goal-label" data-i18n="max_profit">Max Profit</span>
+            </div>
+            <div class="goal-option" onclick="selectGoal(this, 'Easy to Grow')">
+              <span class="goal-icon">😊</span>
+              <span class="goal-label" data-i18n="easy_to_grow">Easy to Grow</span>
+            </div>
+            <div class="goal-option" onclick="selectGoal(this, 'Organic Farming')">
+              <span class="goal-icon">🌿</span>
+              <span class="goal-label" data-i18n="organic_farming">Organic Farming</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="btn btn-primary" id="recommendBtn" onclick="getRecommendations()" data-i18n="get_recommendation">
+        🌱 Get Crop Recommendations
+      </button>
+    </div>
+
+    <!-- ERROR -->
+    <div id="error"></div>
+
+    <!-- LOADING -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p style="color:#556B5C; font-size:15px;" data-i18n="ai_is_finding_the_best_crops_for_your_farm">🤖 AI is finding
+        the best crops for your farm...</p>
+      <p style="font-size:12px; color:#95D5B2; margin-top:6px;" data-i18n="analysing_soil_season_and_market_conditions">
+        Analysing soil, season, and market conditions</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results"></div>
+
+  </div>
+
+  <script src="../js/i18n.js"></script>
+  <script>
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://127.0.0.1:5000'
+      : 'https://roger95.pythonanywhere.com';
+
+    let selectedGoal = "Maximum Profit";
+
+    // ── Load districts from backend ─────────────────────────
+    async function loadDistricts() {
+      try {
+        const res = await fetch(`${API_BASE}/get-districts`);
+        const data = await res.json();
+        const select = document.getElementById("district");
+        data.districts.sort().forEach(d => {
+          const opt = document.createElement("option");
+          opt.value = d; opt.textContent = d;
+          select.appendChild(opt);
+        });
+      } catch (e) {
+        console.error("Could not load districts:", e);
+      }
+    }
+
+    // ── Goal selection ──────────────────────────────────────
+    function selectGoal(el, goal) {
+      document.querySelectorAll('.goal-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedGoal = goal;
+    }
+
+    // ── Get recommendations ─────────────────────────────────
+    async function getRecommendations() {
+      const district = document.getElementById("district").value;
+      const soilType = document.getElementById("soilType").value;
+      const water = document.getElementById("waterSource").value;
+      const season = document.getElementById("season").value;
+      const landSize = document.getElementById("landSize").value;
+
+      // Validate
+      if (!district || !soilType || !water || !season || !landSize) {
+        showError(t('fill_all_fields_recommend') || "Please fill in all fields before getting recommendations.");
+        return;
+      }
+
+      const btn = document.getElementById("recommendBtn");
+      const loading = document.getElementById("loading");
+      const results = document.getElementById("results");
+      const errorDiv = document.getElementById("error");
+
+      btn.disabled = true;
+      btn.textContent = t('finding_best_crops') || "🔍 Finding best crops...";
+      loading.style.display = "block";
+      results.style.display = "none";
+      results.innerHTML = "";
+      errorDiv.style.display = "none";
+
+      try {
+        const res = await fetch(`${API_BASE}/recommend-crops`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            district, soil_type: soilType,
+            water_source: water, season,
+            land_size: landSize, goal: selectedGoal
+          })
+        });
+
+        const data = await res.json();
+        loading.style.display = "none";
+
+        if (data.success) {
+          showResults(data.data, district, landSize);
+        } else {
+          showError(data.error);
+        }
+      } catch (err) {
+        loading.style.display = "none";
+        showError(t('cannot_connect_flask') || "Cannot connect to server. Make sure Flask is running.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = t('get_recommendation') || "🌱 Get Crop Recommendations";
+      }
+    }
+
+    // ── Show results ────────────────────────────────────────
+    function showResults(d, district, landSize) {
+      const results = document.getElementById("results");
+
+      // Primary crops HTML
+      const primaryHTML = d.primary_crops.map(crop => {
+        const demandClass = crop.market_demand || "Medium";
+        return `
+        <div class="crop-card">
+          <div class="crop-header">
+            <div>
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+                <span class="crop-rank">#${crop.rank} ${t('pick') || 'Pick'}</span>
+                <span class="crop-demand ${demandClass}">${typeof t !== 'undefined' ? (t(demandClass) || demandClass) : demandClass} ${t('demand') || 'Demand'}</span>
+              </div>
+              <div class="crop-name">${crop.name}</div>
+              <div class="crop-kannada">${crop.kannada_name}</div>
+            </div>
+          </div>
+          <div class="crop-why">💡 ${crop.why_suitable}</div>
+          <div class="crop-stats">
+            <div class="stat-item">
+              <div class="stat-label">${t('yield_acre') || 'Yield/Acre'}</div>
+              <div class="stat-value">${crop.yield_per_acre}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">${t('profit_acre') || 'Profit/Acre'}</div>
+              <div class="stat-value profit">${crop.profit_per_acre}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">${t('water_need') || 'Water Need'}</div>
+              <div class="stat-value">${crop.water_requirement}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">${t('difficulty') || 'Difficulty'}</div>
+              <div class="stat-value">${crop.difficulty}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-label">${t('duration') || 'Duration'}</div>
+              <div class="stat-value">${crop.duration_days}</div>
+            </div>
+          </div>
+        </div>
+      `;
+      }).join("");
+
+      // Secondary crops HTML
+      const secondaryHTML = d.secondary_crops.map(crop => `
+      <div class="secondary-card">
+        <span class="secondary-badge">${crop.type}</span>
+        <div class="secondary-info">
+          <div class="secondary-name">${crop.name}</div>
+          <div class="secondary-kannada">${crop.kannada_name}</div>
+          <div class="secondary-detail">📍 ${crop.where_to_grow}</div>
+          <div class="secondary-detail">✅ ${crop.benefit}</div>
+          <div class="secondary-income">💰 ${t('extra') || 'Extra:'} ${crop.extra_income}</div>
+        </div>
+      </div>
+    `).join("");
+
+      results.innerHTML = `
+      <div class="section-label">${t('top_3_crops_for') || '🏆 Top 3 Primary Crops for'} ${typeof t !== 'undefined' ? (t(district) || district) : district}</div>
+      ${primaryHTML}
+
+      <div class="section-label">${t('secondary_crop_suggestions') || '🌿 Secondary Crop Suggestions'}</div>
+      ${secondaryHTML}
+
+      <div class="advice-box">
+        <p>🗓️ <strong>${t('season_tip') || 'Season Tip:'}</strong> ${d.season_advice}</p>
+        <p>🌱 <strong>${t('soil_tip') || 'Soil Tip:'}</strong> ${d.soil_advice}</p>
+      </div>
+
+      <button id="tryAgainBtn" onclick="resetForm()" data-i18n="try_different_farm_details">
+        🔄 Try Different Farm Details
+      </button>
+    `;
+
+      results.style.display = "block";
+      results.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ── Show error ──────────────────────────────────────────
+    function showError(msg) {
+      const errorDiv = document.getElementById("error");
+      errorDiv.innerHTML = `❌ <strong>${typeof t !== 'undefined' ? (t('error') || 'Error') : 'Error'}:</strong> ${msg}`;
+      errorDiv.style.display = "block";
+    }
+
+    // ── Reset form ──────────────────────────────────────────
+    function resetForm() {
+      document.getElementById("results").style.display = "none";
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("error").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Load districts on page load
+    loadDistricts();
+  </script>
+
+  <script src="../js/offline.js"></script>
+</body>
+
+</html>

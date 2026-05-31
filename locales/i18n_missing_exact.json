@@ -1,0 +1,11 @@
+{
+  "missing": {
+    "home": "Home",
+    "weather": "Weather",
+    "market": "Market",
+    "offline_title": "📴 You are offline",
+    "offline_message": "Yield Matrix is currently offline. The app is still available with cached pages and tools you previously visited.",
+    "go_home": "Go back to Home"
+  },
+  "checked": 74
+}

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಬೆದರಿಕೆ ಎಚ್ಚರಿಕೆಗಳು – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── Weather summary grid ── */
+        .wx-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .wx-box {
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .wx-box .wx-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            opacity: .55;
+        }
+
+        .wx-box .wx-val {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* ── Overall risk banner ── */
+        .risk-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .risk-banner .risk-icon {
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .risk-banner p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 400;
+            opacity: .85;
+        }
+
+        .risk-danger {
+            background: rgba(239, 68, 68, .2);
+            border: 1px solid rgba(239, 68, 68, .4);
+        }
+
+        .risk-high {
+            background: rgba(251, 146, 60, .2);
+            border: 1px solid rgba(251, 146, 60, .4);
+        }
+
+        .risk-medium {
+            background: rgba(251, 191, 36, .18);
+            border: 1px solid rgba(251, 191, 36, .4);
+        }
+
+        .risk-low {
+            background: rgba(34, 197, 94, .18);
+            border: 1px solid rgba(34, 197, 94, .4);
+        }
+
+        /* ── Threat card ── */
+        .threat-card {
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid transparent;
+        }
+
+        .threat-card.tc-danger {
+            background: rgba(239, 68, 68, .12);
+            border-color: #ef4444;
+        }
+
+        .threat-card.tc-high {
+            background: rgba(251, 146, 60, .12);
+            border-color: #fb923c;
+        }
+
+        .threat-card.tc-medium {
+            background: rgba(251, 191, 36, .12);
+            border-color: #fbbf24;
+        }
+
+        .threat-card.tc-low {
+            background: rgba(148, 163, 184, .1);
+            border-color: #94a3b8;
+        }
+
+        .threat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .threat-icon {
+            font-size: 24px;
+        }
+
+        .threat-name {
+            font-size: 16px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .threat-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, .3);
+            color: #fca5a5;
+        }
+
+        .badge-high {
+            background: rgba(251, 146, 60, .3);
+            color: #fdba74;
+        }
+
+        .badge-medium {
+            background: rgba(251, 191, 36, .3);
+            color: #fde68a;
+        }
+
+        .badge-low {
+            background: rgba(148, 163, 184, .2);
+            color: #cbd5e1;
+        }
+
+        .threat-type-chip {
+            font-size: 11px;
+            opacity: .6;
+            margin-bottom: 6px;
+        }
+
+        .threat-crops {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 6px 0;
+        }
+
+        .crop-tag {
+            background: rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 12px;
+        }
+
+        .threat-detail {
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 5px 0 0;
+            opacity: .85;
+        }
+
+        .threat-action {
+            margin-top: 8px;
+            background: rgba(255, 255, 255, .08);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .urgent-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(239, 68, 68, .25);
+            color: #fca5a5;
+            border-radius: 20px;
+            padding: 1px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+
+        /* ── Activity pills ── */
+        .activity-list {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .activity-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .activity-list li::before {
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .activity-safe li::before {
+            content: '✅';
+        }
+
+        .activity-avoid li::before {
+            content: '🚫';
+        }
+
+        /* ── Forecast advice box ── */
+        .forecast-advice {
+            background: rgba(99, 179, 237, .1);
+            border: 1px solid rgba(99, 179, 237, .25);
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-top: 14px;
+            font-size: 13px;
+            color: #93c5fd;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .forecast-advice .fa-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="header">
+        <a href="../index.html" class="back">←</a>
+        <h1>ಬೆದರಿಕೆ ಎಚ್ಚರಿಕೆಗಳು</h1>
+        <p>ನೇರ ಹವಾಮಾನ ಬಳಸಿ AI ಕೀಟ, ರೋಗ ಮತ್ತು ಚಂಡಮಾರುತ ಎಚ್ಚರಿಕೆಗಳು</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Trigger Card -->
+        <div class="card">
+            <h2>ಜಮೀನಿನ ಎಚ್ಚರಿಕೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ</h2>
+            <p>ನಿಮ್ಮ ಬೆಳೆ ಹೆಸರು ನಮೂದಿಸಿ, ನಾವು ಸ್ಮಾರ್ಟ್ AI ಬೆದರಿಕೆ ವಿಶ್ಲೇಷಣೆಗಾಗಿ ನೇರ ಹವಾಮಾನ ತರುತ್ತೇವೆ.</p>
+            <div style="margin-bottom: 16px; text-align: left;">
+                <label for="cropInput"
+                    style="display:block;margin-bottom:6px;font-size:13px;opacity:0.8;font-weight:600;">ಬೆಳೆ ಹೆಸರು</label>
+                <input type="text" id="cropInput" placeholder="ಉದಾ: ಟೊಮೆಟೊ, ಭತ್ತ, ಹತ್ತಿ"
+                    style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(0,0,0,0.2);color:#000000;font-family:inherit;font-size:15px;outline:none;" />
+            </div>
+            <button class="btn btn-primary" id="getAlertsBtn" onclick="getLocation()">🌦️ AI ಬೆದರಿಕೆ ವಿಶ್ಲೇಷಣೆ ಪಡೆಯಿರಿ</button>
+            <div class="loader" id="loader"></div>
+        </div>
+
+        <!-- Weather Summary Card -->
+        <div class="card" id="weatherCard" style="display:none;">
+            <h2>🌤️ ಪ್ರಸ್ತುತ ಹವಾಮಾನ</h2>
+            <p id="locationLabel" style="opacity:.6;font-size:13px;margin:-4px 0 0;"></p>
+            <div class="wx-grid">
+                <div class="wx-box">
+                    <div class="wx-label">ತಾಪಮಾನ</div>
+                    <div class="wx-val" id="wxTemp">--°C</div>
+                </div>
+                <div class="wx-box">
+                    <div class="wx-label">ಆರ್ದ್ರತೆ</div>
+                    <div class="wx-val" id="wxHumidity">--%</div>
+                </div>
+                <div class="wx-box">
+                    <div class="wx-label">ಗಾಳಿ ವೇಗ</div>
+                    <div class="wx-val" id="wxWind">-- km/h</div>
+                </div>
+                <div class="wx-box">
+                    <div class="wx-label">ಮಳೆ</div>
+                    <div class="wx-val" id="wxRain">-- mm</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Threat Results Card -->
+        <div class="card" id="threatCard" style="display:none;">
+            <h2>🤖 AI ಬೆದರಿಕೆ ವಿಶ್ಲೇಷಣೆ</h2>
+
+            <!-- Overall risk banner -->
+            <div id="riskBanner" class="risk-banner risk-low">
+                <div class="risk-icon" id="riskIcon">✅</div>
+                <div>
+                    <strong id="riskLevel">—</strong>
+                    <p id="riskSummary"></p>
+                </div>
+            </div>
+
+            <!-- Individual threats -->
+            <div id="threatList"></div>
+
+            <!-- Safe / Avoid activities -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+                <div>
+                    <h4
+                        style="font-size:13px;opacity:.55;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">
+                        ಮಾಡಬಹುದು</h4>
+                    <ul class="activity-list activity-safe" id="safeList"></ul>
+                </div>
+                <div>
+                    <h4
+                        style="font-size:13px;opacity:.55;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;">
+                        ತಪ್ಪಿಸಿ</h4>
+                    <ul class="activity-list activity-avoid" id="avoidList"></ul>
+                </div>
+            </div>
+
+            <!-- Forecast advice -->
+            <div class="forecast-advice" id="forecastAdvice" style="display:none;">
+                <div class="fa-icon">📅</div>
+                <p id="forecastAdviceText" style="margin:0;"></p>
+            </div>
+        </div>
+
+        <div id="nextStepsContainer"></div>
+    </div>
+
+    <script src="../js/i18n.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/common.js"></script>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000'
+            : 'https://roger95.pythonanywhere.com';
+        const DEFAULT_LAT = 12.2958;
+        const DEFAULT_LON = 76.6394;
+        const DEFAULT_NAME = 'ಮೈಸೂರು, ಕರ್ನಾಟಕ';
+
+        function showLoader(show) {
+            document.getElementById('loader').style.display = show ? 'block' : 'none';
+            document.getElementById('getAlertsBtn').disabled = show;
+        }
+
+        function getLocation() {
+            const cropInput = document.getElementById('cropInput').value.trim();
+            if (!cropInput) {
+                alert('ದಯವಿಟ್ಟು ಮೊದಲು ನಿಮ್ಮ ಬೆಳೆ ಹೆಸರು ನಮೂದಿಸಿ (ಉದಾ: ಟೊಮೆಟೊ).');
+                document.getElementById('cropInput').focus();
+                return;
+            }
+
+            showLoader(true);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => fetchAndAnalyze(pos.coords.latitude, pos.coords.longitude, 'ನಿಮ್ಮ ಜಮೀನು', cropInput),
+                    () => fetchAndAnalyze(DEFAULT_LAT, DEFAULT_LON, DEFAULT_NAME, cropInput)
+                );
+            } else {
+                fetchAndAnalyze(DEFAULT_LAT, DEFAULT_LON, DEFAULT_NAME, cropInput);
+            }
+        }
+
+        // ── WMO code helpers ──────────────────────────────────────────────
+        function wxLabel(code) {
+            const m = {
+                0: 'ಸ್ವಚ್ಛ ಆಕಾಶ', 1: 'ಮುಖ್ಯವಾಗಿ ಸ್ವಚ್ಛ', 2: 'ಭಾಗಶಃ ಮೋಡ', 3: 'ಮೋಡ ಕವಿದ',
+                45: 'ಮಂಜು', 48: 'ಹಿಮ ಮಂಜು',
+                51: 'ಹಗುರ ಹನಿ', 53: 'ಮಧ್ಯಮ ಹನಿ', 55: 'ದಟ್ಟ ಹನಿ',
+                61: 'ಸ್ವಲ್ಪ ಮಳೆ', 63: 'ಮಧ್ಯಮ ಮಳೆ', 65: 'ಭಾರೀ ಮಳೆ',
+                80: 'ಮಳೆ ಚಿಮ್ಮುವಿಕೆ', 81: 'ಮಧ್ಯಮ ಚಿಮ್ಮುವಿಕೆ', 82: 'ಭಾರೀ ಚಿಮ್ಮುವಿಕೆ',
+                95: 'ಗುಡುಗು ಸಹಿತ ಮಳೆ', 96: 'ಗುಡುಗು+ಆಲಿಕಲ್ಲು', 99: 'ತೀವ್ರ ಗುಡುಗು ಸಹಿತ ಮಳೆ'
+            };
+            return m[code] || 'ಅಜ್ಞಾತ';
+        }
+
+        // ── Step 1: fetch weather, Step 2: call AI backend ────────────────
+        async function fetchAndAnalyze(lat, lon, locationName, crop) {
+            document.getElementById('locationLabel').innerText = locationName;
+
+            try {
+                const wxUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                    `&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m` +
+                    `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum` +
+                    `&timezone=auto`;
+
+                const wxRes = await fetch(wxUrl);
+                const wxData = await wxRes.json();
+
+                if (!wxData.current) throw new Error('ಹವಾಮಾನ ಮಾಹಿತಿ ಲಭ್ಯವಿಲ್ಲ');
+
+                const cur = wxData.current;
+                const daily = wxData.daily;
+
+                document.getElementById('wxTemp').innerText = `${Math.round(cur.temperature_2m)}°C`;
+                document.getElementById('wxHumidity').innerText = `${cur.relative_humidity_2m}%`;
+                document.getElementById('wxWind').innerText = `${Math.round(cur.wind_speed_10m)} km/h`;
+                document.getElementById('wxRain').innerText = `${Math.round(daily.precipitation_sum[0] || 0)} mm`;
+                document.getElementById('weatherCard').style.display = 'block';
+
+                const dayNames = ['ಭಾನು', 'ಸೋಮ', 'ಮಂಗಳ', 'ಬುಧ', 'ಗುರು', 'ಶುಕ್ರ', 'ಶನಿ'];
+                const forecast5 = [];
+                for (let i = 0; i < 5; i++) {
+                    const d = new Date(daily.time[i]);
+                    forecast5.push({
+                        day: i === 0 ? 'ಇಂದು' : dayNames[d.getDay()],
+                        max_temp: Math.round(daily.temperature_2m_max[i]),
+                        min_temp: Math.round(daily.temperature_2m_min[i]),
+                        rain: Math.round(daily.precipitation_sum[i] || 0),
+                        code: daily.weather_code[i]
+                    });
+                }
+
+                const payload = {
+                    temperature: cur.temperature_2m,
+                    humidity: cur.relative_humidity_2m,
+                    wind_speed: cur.wind_speed_10m,
+                    precipitation: daily.precipitation_sum[0] || 0,
+                    weather_code: cur.weather_code,
+                    condition_label: wxLabel(cur.weather_code),
+                    location: locationName,
+                    forecast_5day: forecast5,
+                    crop: crop
+                };
+
+                const aiRes = await fetch(`${API_BASE}/detect-threats`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const aiJson = await aiRes.json();
+
+                if (!aiJson.success) {
+                    alert('AI ದೋಷ: ' + (aiJson.error || 'ವಿಶ್ಲೇಷಣೆ ವಿಫಲವಾಗಿದೆ'));
+                    return;
+                }
+
+                renderThreats(aiJson.data);
+
+            } catch (err) {
+                alert('ಸಂಪರ್ಕ ವಿಫಲ: ' + err.message);
+                console.error(err);
+            } finally {
+                showLoader(false);
+            }
+        }
+
+        // ── Render AI results ─────────────────────────────────────────────
+        function renderThreats(d) {
+            const riskMap = {
+                'ಅಪಾಯಕಾರಿ': { cls: 'risk-danger', icon: '🔴', label: '⚠️ ಅಪಾಯಕಾರಿ ಅಪಾಯ' },
+                'ಹೆಚ್ಚು': { cls: 'risk-high', icon: '🟠', label: '🔶 ಹೆಚ್ಚಿನ ಅಪಾಯ' },
+                'ಮಧ್ಯಮ': { cls: 'risk-medium', icon: '🟡', label: '⚡ ಮಧ್ಯಮ ಅಪಾಯ' },
+                'ಕಡಿಮೆ': { cls: 'risk-low', icon: '✅', label: '✅ ಕಡಿಮೆ ಅಪಾಯ' }
+            };
+            const risk = riskMap[d.overall_risk] || riskMap['ಕಡಿಮೆ'];
+            const banner = document.getElementById('riskBanner');
+            banner.className = 'risk-banner ' + risk.cls;
+            document.getElementById('riskIcon').innerText = risk.icon;
+            document.getElementById('riskLevel').innerText = risk.label;
+            document.getElementById('riskSummary').innerText = d.summary || '';
+
+            const badgeMap = {
+                'ಅಪಾಯಕಾರಿ': { card: 'tc-danger', badge: 'badge-danger' },
+                'ಹೆಚ್ಚು': { card: 'tc-high', badge: 'badge-high' },
+                'ಮಧ್ಯಮ': { card: 'tc-medium', badge: 'badge-medium' },
+                'ಕಡಿಮೆ': { card: 'tc-low', badge: 'badge-low' }
+            };
+
+            const threatList = document.getElementById('threatList');
+            threatList.innerHTML = '';
+            (d.threats || []).forEach(t => {
+                const bm = badgeMap[t.risk_level] || badgeMap['ಕಡಿಮೆ'];
+                const cropsHtml = (t.affected_crops || [])
+                    .map(c => `<span class="crop-tag">${c}</span>`)
+                    .join('');
+                const urgentHtml = t.is_urgent
+                    ? `<span class="urgent-badge">🚨 ತುರ್ತು</span>` : '';
+
+                threatList.innerHTML += `
+                <div class="threat-card ${bm.card}">
+                    <div class="threat-header">
+                        <div class="threat-icon">${t.icon || '⚠️'}</div>
+                        <div class="threat-name">${t.name}${urgentHtml}</div>
+                        <span class="threat-badge ${bm.badge}">${t.risk_level}</span>
+                    </div>
+                    <div class="threat-type-chip">📂 ${t.type}</div>
+                    <div class="threat-crops">${cropsHtml}</div>
+                    <p class="threat-detail">🔍 ${t.why}</p>
+                    <p class="threat-detail">👁️ ಲಕ್ಷಣ: ${t.signs}</p>
+                    <div class="threat-action">✅ ಕ್ರಮ: ${t.action}</div>
+                </div>`;
+            });
+
+            const safeList = document.getElementById('safeList');
+            safeList.innerHTML = '';
+            (d.safe_activities || []).forEach(a => {
+                const li = document.createElement('li');
+                li.textContent = a;
+                safeList.appendChild(li);
+            });
+
+            const avoidList = document.getElementById('avoidList');
+            avoidList.innerHTML = '';
+            (d.avoid_activities || []).forEach(a => {
+                const li = document.createElement('li');
+                li.textContent = a;
+                avoidList.appendChild(li);
+            });
+
+            if (d.forecast_advice) {
+                document.getElementById('forecastAdviceText').innerText = d.forecast_advice;
+                document.getElementById('forecastAdvice').style.display = 'flex';
+            }
+
+            document.getElementById('threatCard').style.display = 'block';
+            showNextSteps();
+        }
+
+        function showNextSteps() {
+            const container = document.getElementById('nextStepsContainer');
+            container.innerHTML = `
+            <div style="margin-top:24px;">
+                <h3 style="font-size:18px;margin-bottom:12px;">ಮುಂದೇನು ಮಾಡಬೇಕು?</h3>
+                <a href="disease.html" class="feature-card">
+                    <div class="icon">📷</div>
+                    <div class="content">
+                        <h3>ರೋಗ ಪರಿಶೀಲನೆ</h3>
+                        <p>AI ರೋಗ ಪತ್ತೆಗಾಗಿ ಬೆಳೆ ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+                <a href="crop-health.html" class="feature-card">
+                    <div class="icon">🌱</div>
+                    <div class="content">
+                        <h3>ಬೆಳೆ ಆರೋಗ್ಯ</h3>
+                        <p>ಹವಾಮಾನ ಸಂದರ್ಭದೊಂದಿಗೆ AI ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಣೆ</p>
+                    </div>
+                    <div class="arrow">→</div>
+                </a>
+            </div>`;
+        }
+    </script>
+    <script src="../js/offline.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1926 @@
+{
+  "chatbot.html": [
+    {
+      "line": 292,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 293,
+      "tag": "a",
+      "text": "📸 Disease",
+      "key": "disease"
+    },
+    {
+      "line": 294,
+      "tag": "a",
+      "text": "🌱 Crops",
+      "key": "crops"
+    },
+    {
+      "line": 313,
+      "tag": "button",
+      "text": "🗑️ Clear Chat",
+      "key": "clear_chat"
+    },
+    {
+      "line": 321,
+      "tag": "h3",
+      "text": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ",
+      "key": "ನಮಸ್ಕಾರ_ನಾನು_ನಿಮ್ಮ_ಕೃಷಿ_ಸಹಾಯಕ"
+    },
+    {
+      "line": 329,
+      "tag": "button",
+      "text": "🌿 ಬೆಳೆ ರೋಗ",
+      "key": "ಬೆಳೆ_ರೋಗ"
+    },
+    {
+      "line": 330,
+      "tag": "button",
+      "text": "🌱 ಯಾವ ಬೆಳೆ?",
+      "key": "ಯಾವ_ಬೆಳೆ"
+    },
+    {
+      "line": 331,
+      "tag": "button",
+      "text": "💧 ನೀರಾವರಿ",
+      "key": "ನೀರಾವರಿ"
+    },
+    {
+      "line": 332,
+      "tag": "button",
+      "text": "🛒 ಮಾರುಕಟ್ಟೆ ಬೆಲೆ",
+      "key": "ಮಾರುಕಟ್ಟೆ_ಬೆಲೆ"
+    },
+    {
+      "line": 333,
+      "tag": "button",
+      "text": "🚨 ಸರ್ಕಾರಿ ಯೋಜನೆ",
+      "key": "ಸರ್ಕಾರಿ_ಯೋಜನೆ"
+    },
+    {
+      "line": 564,
+      "tag": "h3",
+      "text": "ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ",
+      "key": "ನಮಸ್ಕಾರ_ನಾನು_ನಿಮ್ಮ_ಕೃಷಿ_ಸಹಾಯಕ"
+    }
+  ],
+  "crop-health.html": [
+    {
+      "line": 18,
+      "tag": "h2",
+      "text": "Step 1: Upload Crop Photo",
+      "key": "step_1_upload_crop_photo"
+    },
+    {
+      "line": 21,
+      "tag": "button",
+      "text": "📷 Take Photo",
+      "key": "take_photo"
+    },
+    {
+      "line": 32,
+      "tag": "button",
+      "text": "🔊 Listen",
+      "key": "listen"
+    },
+    {
+      "line": 38,
+      "tag": "p",
+      "text": "Loading weather...",
+      "key": "loading_weather"
+    },
+    {
+      "line": 150,
+      "tag": "h3",
+      "text": "What to do next?",
+      "key": "what_to_do_next"
+    }
+  ],
+  "crop-recommend.html": [
+    {
+      "line": 277,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 278,
+      "tag": "a",
+      "text": "📸 Disease Scanner",
+      "key": "disease_scanner"
+    },
+    {
+      "line": 288,
+      "tag": "h3",
+      "text": "📋 Your Farm Details",
+      "key": "your_farm_details"
+    },
+    {
+      "line": 293,
+      "tag": "label",
+      "text": "📍 District",
+      "key": "district"
+    },
+    {
+      "line": 295,
+      "tag": "option",
+      "text": "Select your district",
+      "key": "select_your_district"
+    },
+    {
+      "line": 301,
+      "tag": "label",
+      "text": "🌱 Soil Type",
+      "key": "soil_type"
+    },
+    {
+      "line": 303,
+      "tag": "option",
+      "text": "Select soil type",
+      "key": "select_soil_type"
+    },
+    {
+      "line": 304,
+      "tag": "option",
+      "text": "Black Cotton Soil",
+      "key": "black_cotton_soil"
+    },
+    {
+      "line": 305,
+      "tag": "option",
+      "text": "Red Loamy Soil",
+      "key": "red_loamy_soil"
+    },
+    {
+      "line": 306,
+      "tag": "option",
+      "text": "Sandy Soil",
+      "key": "sandy_soil"
+    },
+    {
+      "line": 307,
+      "tag": "option",
+      "text": "Loamy Soil",
+      "key": "loamy_soil"
+    },
+    {
+      "line": 308,
+      "tag": "option",
+      "text": "Clay Soil",
+      "key": "clay_soil"
+    },
+    {
+      "line": 309,
+      "tag": "option",
+      "text": "Laterite Soil",
+      "key": "laterite_soil"
+    },
+    {
+      "line": 315,
+      "tag": "label",
+      "text": "💧 Water Source",
+      "key": "water_source"
+    },
+    {
+      "line": 317,
+      "tag": "option",
+      "text": "Select water source",
+      "key": "select_water_source"
+    },
+    {
+      "line": 318,
+      "tag": "option",
+      "text": "Rainfed only",
+      "key": "rainfed_only"
+    },
+    {
+      "line": 319,
+      "tag": "option",
+      "text": "Borewell",
+      "key": "borewell"
+    },
+    {
+      "line": 320,
+      "tag": "option",
+      "text": "Canal Irrigation",
+      "key": "canal_irrigation"
+    },
+    {
+      "line": 321,
+      "tag": "option",
+      "text": "River / Tank",
+      "key": "river_tank"
+    },
+    {
+      "line": 322,
+      "tag": "option",
+      "text": "Drip Irrigation",
+      "key": "drip_irrigation"
+    },
+    {
+      "line": 328,
+      "tag": "label",
+      "text": "🗓️ Season",
+      "key": "season"
+    },
+    {
+      "line": 330,
+      "tag": "option",
+      "text": "Select season",
+      "key": "select_season"
+    },
+    {
+      "line": 331,
+      "tag": "option",
+      "text": "Kharif (June - October)",
+      "key": "kharif_june_october"
+    },
+    {
+      "line": 332,
+      "tag": "option",
+      "text": "Rabi (November - March)",
+      "key": "rabi_november_march"
+    },
+    {
+      "line": 333,
+      "tag": "option",
+      "text": "Zaid (March - June)",
+      "key": "zaid_march_june"
+    },
+    {
+      "line": 339,
+      "tag": "label",
+      "text": "📐 Land Size (Acres)",
+      "key": "land_size_acres"
+    },
+    {
+      "line": 345,
+      "tag": "label",
+      "text": "🎯 Farming Goal",
+      "key": "farming_goal"
+    },
+    {
+      "line": 349,
+      "tag": "span",
+      "text": "Max Profit",
+      "key": "max_profit"
+    },
+    {
+      "line": 353,
+      "tag": "span",
+      "text": "Easy to Grow",
+      "key": "easy_to_grow"
+    },
+    {
+      "line": 357,
+      "tag": "span",
+      "text": "Organic Farming",
+      "key": "organic_farming"
+    },
+    {
+      "line": 375,
+      "tag": "p",
+      "text": "🤖 AI is finding the best crops for your farm...",
+      "key": "ai_is_finding_the_best_crops_for_your_farm"
+    },
+    {
+      "line": 376,
+      "tag": "p",
+      "text": "Analysing soil, season, and market conditions",
+      "key": "analysing_soil_season_and_market_conditions"
+    },
+    {
+      "line": 537,
+      "tag": "button",
+      "text": "🔄 Try Different Farm Details",
+      "key": "try_different_farm_details"
+    }
+  ],
+  "disease.html": [
+    {
+      "line": 15,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 28,
+      "tag": "p",
+      "text": "Click to upload a crop leaf photoJPG, PNG supported",
+      "key": "click_to_upload_a_crop_leaf_photojpg_png_supported"
+    },
+    {
+      "line": 47,
+      "tag": "p",
+      "text": "🤖 AI is analysing your crop...",
+      "key": "ai_is_analysing_your_crop"
+    },
+    {
+      "line": 48,
+      "tag": "p",
+      "text": "This may take a few seconds",
+      "key": "this_may_take_a_few_seconds"
+    },
+    {
+      "line": 206,
+      "tag": "button",
+      "text": "📸 Scan Another Photo",
+      "key": "scan_another_photo"
+    }
+  ],
+  "forum.html": [
+    {
+      "line": 61,
+      "tag": "h2",
+      "text": "Recent Questions",
+      "key": "recent_questions"
+    },
+    {
+      "line": 68,
+      "tag": "h2",
+      "text": "Most Helpful Answers",
+      "key": "most_helpful_answers"
+    },
+    {
+      "line": 74,
+      "tag": "h2",
+      "text": "Post Your Question",
+      "key": "post_your_question"
+    },
+    {
+      "line": 78,
+      "tag": "option",
+      "text": "Select Category",
+      "key": "select_category"
+    },
+    {
+      "line": 79,
+      "tag": "option",
+      "text": "Pest Control",
+      "key": "pest_control"
+    },
+    {
+      "line": 80,
+      "tag": "option",
+      "text": "Irrigation",
+      "key": "irrigation"
+    },
+    {
+      "line": 81,
+      "tag": "option",
+      "text": "Soil Health",
+      "key": "soil_health"
+    },
+    {
+      "line": 82,
+      "tag": "option",
+      "text": "Market Prices",
+      "key": "market_prices"
+    },
+    {
+      "line": 83,
+      "tag": "option",
+      "text": "Seed Selection",
+      "key": "seed_selection"
+    },
+    {
+      "line": 84,
+      "tag": "option",
+      "text": "Disease",
+      "key": "disease"
+    },
+    {
+      "line": 85,
+      "tag": "option",
+      "text": "Equipment",
+      "key": "equipment"
+    },
+    {
+      "line": 86,
+      "tag": "option",
+      "text": "Other",
+      "key": "other"
+    },
+    {
+      "line": 90,
+      "tag": "button",
+      "text": "📤 Post Question",
+      "key": "post_question"
+    },
+    {
+      "line": 96,
+      "tag": "button",
+      "text": "← Back to Questions",
+      "key": "back_to_questions"
+    },
+    {
+      "line": 99,
+      "tag": "h3",
+      "text": "Post an Answer",
+      "key": "post_an_answer"
+    },
+    {
+      "line": 102,
+      "tag": "button",
+      "text": "📤 Post Answer",
+      "key": "post_answer"
+    },
+    {
+      "line": 109,
+      "tag": "h2",
+      "text": "💡 Community Guidelines",
+      "key": "community_guidelines"
+    },
+    {
+      "line": 300,
+      "tag": "p",
+      "text": "No answers yet. Be the first to help! 🤝",
+      "key": "no_answers_yet_be_the_first_to_help"
+    }
+  ],
+  "guide.html": [
+    {
+      "line": 30,
+      "tag": "h2",
+      "text": "Select a Crop",
+      "key": "select_a_crop"
+    },
+    {
+      "line": 32,
+      "tag": "button",
+      "text": "🌾 Paddy",
+      "key": "paddy"
+    },
+    {
+      "line": 33,
+      "tag": "button",
+      "text": "🍅 Tomato",
+      "key": "tomato"
+    },
+    {
+      "line": 34,
+      "tag": "button",
+      "text": "🧡 Turmeric",
+      "key": "turmeric"
+    },
+    {
+      "line": 35,
+      "tag": "button",
+      "text": "🌱 Ragi",
+      "key": "ragi"
+    },
+    {
+      "line": 36,
+      "tag": "button",
+      "text": "🎋 Sugarcane",
+      "key": "sugarcane"
+    },
+    {
+      "line": 37,
+      "tag": "button",
+      "text": "🧅 Onion",
+      "key": "onion"
+    },
+    {
+      "line": 45,
+      "tag": "h3",
+      "text": "Paddy (Rice) Growing Guide",
+      "key": "paddy_rice_growing_guide"
+    },
+    {
+      "line": 45,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 51,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 52,
+      "tag": "p",
+      "text": "Kharif: June to August (monsoon crop)",
+      "key": "kharif_june_to_august_monsoon_crop"
+    },
+    {
+      "line": 53,
+      "tag": "p",
+      "text": "Rabi: September to October (winter crop)",
+      "key": "rabi_september_to_october_winter_crop"
+    },
+    {
+      "line": 56,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 60,
+      "tag": "h4",
+      "text": "🌱 Seed Rate & Preparation",
+      "key": "seed_rate_preparation"
+    },
+    {
+      "line": 61,
+      "tag": "p",
+      "text": "Seed rate: 40-50 kg/hectare for direct sowing",
+      "key": "seed_rate_40_50_kg_hectare_for_direct_sowing"
+    },
+    {
+      "line": 62,
+      "tag": "p",
+      "text": "Soak seeds for 24 hours before sowing",
+      "key": "soak_seeds_for_24_hours_before_sowing"
+    },
+    {
+      "line": 63,
+      "tag": "p",
+      "text": "Treat seeds with Trichoderma for disease prevention",
+      "key": "treat_seeds_with_trichoderma_for_disease_prevention"
+    },
+    {
+      "line": 66,
+      "tag": "h4",
+      "text": "🧂 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 67,
+      "tag": "p",
+      "text": "Loamy or clay-loam soil preferred",
+      "key": "loamy_or_clay_loam_soil_preferred"
+    },
+    {
+      "line": 68,
+      "tag": "p",
+      "text": "pH: 6.0-7.5",
+      "key": "ph_6_0_7_5"
+    },
+    {
+      "line": 69,
+      "tag": "p",
+      "text": "Field should be leveled for uniform water distribution",
+      "key": "field_should_be_leveled_for_uniform_water_distribution"
+    },
+    {
+      "line": 72,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 73,
+      "tag": "p",
+      "text": "Maintain 5-10 cm standing water during growing season",
+      "key": "maintain_5_10_cm_standing_water_during_growing_season"
+    },
+    {
+      "line": 74,
+      "tag": "p",
+      "text": "Drain 10 days before harvest",
+      "key": "drain_10_days_before_harvest"
+    },
+    {
+      "line": 75,
+      "tag": "p",
+      "text": "Total water requirement: 100-150 cm (with rainfall)",
+      "key": "total_water_requirement_100_150_cm_with_rainfall"
+    },
+    {
+      "line": 78,
+      "tag": "h4",
+      "text": "🌾 Manuring",
+      "key": "manuring"
+    },
+    {
+      "line": 79,
+      "tag": "p",
+      "text": "Farmyard manure: 5-10 tons/hectare",
+      "key": "farmyard_manure_5_10_tons_hectare"
+    },
+    {
+      "line": 80,
+      "tag": "p",
+      "text": "Nitrogen: 60 kg/ha, Phosphorus: 30 kg/ha, Potassium: 30 kg/ha",
+      "key": "nitrogen_60_kg_ha_phosphorus_30_kg_ha_potassium_30_kg_ha"
+    },
+    {
+      "line": 84,
+      "tag": "h4",
+      "text": "🐛 Pest Management",
+      "key": "pest_management"
+    },
+    {
+      "line": 85,
+      "tag": "p",
+      "text": "Stem borer: Spray quinolphos 25 EC (2 ml/L)",
+      "key": "stem_borer_spray_quinolphos_25_ec_2_ml_l"
+    },
+    {
+      "line": 86,
+      "tag": "p",
+      "text": "Leaf folder: Use Bacillus thuringiensis (2 g/L)",
+      "key": "leaf_folder_use_bacillus_thuringiensis_2_g_l"
+    },
+    {
+      "line": 87,
+      "tag": "p",
+      "text": "Gall midge: Spray monocrotophos 36 SL (1 ml/L)",
+      "key": "gall_midge_spray_monocrotophos_36_sl_1_ml_l"
+    },
+    {
+      "line": 90,
+      "tag": "h4",
+      "text": "🦠 Disease Management",
+      "key": "disease_management"
+    },
+    {
+      "line": 91,
+      "tag": "p",
+      "text": "Blast: Spray tricyclazole 75 WP (0.6 g/L) at boot stage",
+      "key": "blast_spray_tricyclazole_75_wp_0_6_g_l_at_boot_stage"
+    },
+    {
+      "line": 92,
+      "tag": "p",
+      "text": "Sheath blight: Use hexaconazole 5 EC (2 ml/L)",
+      "key": "sheath_blight_use_hexaconazole_5_ec_2_ml_l"
+    },
+    {
+      "line": 95,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 96,
+      "tag": "p",
+      "text": "Harvest when 80% grains turn golden yellow",
+      "key": "harvest_when_80_grains_turn_golden_yellow"
+    },
+    {
+      "line": 97,
+      "tag": "p",
+      "text": "Crop duration: 120-150 days depending on variety",
+      "key": "crop_duration_120_150_days_depending_on_variety"
+    },
+    {
+      "line": 98,
+      "tag": "p",
+      "text": "Yield: 40-60 quintals/hectare",
+      "key": "yield_40_60_quintals_hectare"
+    },
+    {
+      "line": 109,
+      "tag": "h3",
+      "text": "Tomato Growing Guide",
+      "key": "tomato_growing_guide"
+    },
+    {
+      "line": 109,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 115,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 116,
+      "tag": "p",
+      "text": "Summer: December to January (harvest April-June)",
+      "key": "summer_december_to_january_harvest_april_june"
+    },
+    {
+      "line": 117,
+      "tag": "p",
+      "text": "Monsoon: June to July (harvest September-November)",
+      "key": "monsoon_june_to_july_harvest_september_november"
+    },
+    {
+      "line": 120,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 121,
+      "tag": "p",
+      "text": "For fresh market: Arka Vikas, Arka Meghali, Lakshmi",
+      "key": "for_fresh_market_arka_vikas_arka_meghali_lakshmi"
+    },
+    {
+      "line": 122,
+      "tag": "p",
+      "text": "For processing: Roma, Bhagya, Pusa Ruby",
+      "key": "for_processing_roma_bhagya_pusa_ruby"
+    },
+    {
+      "line": 125,
+      "tag": "h4",
+      "text": "🌱 Nursery & Transplanting",
+      "key": "nursery_transplanting"
+    },
+    {
+      "line": 126,
+      "tag": "p",
+      "text": "Raise nursery for 6-8 weeks (25-30 cm height)",
+      "key": "raise_nursery_for_6_8_weeks_25_30_cm_height"
+    },
+    {
+      "line": 128,
+      "tag": "p",
+      "text": "Transplant 1-2 seedlings per pit",
+      "key": "transplant_1_2_seedlings_per_pit"
+    },
+    {
+      "line": 131,
+      "tag": "h4",
+      "text": "🌍 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 132,
+      "tag": "p",
+      "text": "Well-drained loamy soil",
+      "key": "well_drained_loamy_soil"
+    },
+    {
+      "line": 133,
+      "tag": "p",
+      "text": "pH: 6.0-7.0",
+      "key": "ph_6_0_7_0"
+    },
+    {
+      "line": 134,
+      "tag": "p",
+      "text": "Mix 20 tons/ha farmyard manure before planting",
+      "key": "mix_20_tons_ha_farmyard_manure_before_planting"
+    },
+    {
+      "line": 137,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 138,
+      "tag": "p",
+      "text": "First irrigation immediately after transplanting",
+      "key": "first_irrigation_immediately_after_transplanting"
+    },
+    {
+      "line": 139,
+      "tag": "p",
+      "text": "Irrigate every 7-10 days during dry season",
+      "key": "irrigate_every_7_10_days_during_dry_season"
+    },
+    {
+      "line": 140,
+      "tag": "p",
+      "text": "Avoid overhead irrigation to prevent fungal diseases",
+      "key": "avoid_overhead_irrigation_to_prevent_fungal_diseases"
+    },
+    {
+      "line": 143,
+      "tag": "h4",
+      "text": "🌾 Staking & Support",
+      "key": "staking_support"
+    },
+    {
+      "line": 144,
+      "tag": "p",
+      "text": "Provide bamboo/wooden stakes or strings for climbing support",
+      "key": "provide_bamboo_wooden_stakes_or_strings_for_climbing_support"
+    },
+    {
+      "line": 145,
+      "tag": "p",
+      "text": "Stake at 30-45 cm height after 3-4 weeks",
+      "key": "stake_at_30_45_cm_height_after_3_4_weeks"
+    },
+    {
+      "line": 148,
+      "tag": "h4",
+      "text": "✂️ Pruning & Thinning",
+      "key": "pruning_thinning"
+    },
+    {
+      "line": 149,
+      "tag": "p",
+      "text": "Remove lower leaves up to first fruit cluster",
+      "key": "remove_lower_leaves_up_to_first_fruit_cluster"
+    },
+    {
+      "line": 150,
+      "tag": "p",
+      "text": "Prune side shoots and maintain 2-3 main stems",
+      "key": "prune_side_shoots_and_maintain_2_3_main_stems"
+    },
+    {
+      "line": 151,
+      "tag": "p",
+      "text": "Limit to 4-5 fruit clusters per plant",
+      "key": "limit_to_4_5_fruit_clusters_per_plant"
+    },
+    {
+      "line": 154,
+      "tag": "h4",
+      "text": "🐛 Common Pests",
+      "key": "common_pests"
+    },
+    {
+      "line": 156,
+      "tag": "p",
+      "text": "Whitefly: Spray imidacloprid 17.8 SL (0.5 ml/L)",
+      "key": "whitefly_spray_imidacloprid_17_8_sl_0_5_ml_l"
+    },
+    {
+      "line": 157,
+      "tag": "p",
+      "text": "Mites: Use sulfur 80 WP (2 g/L) or fenpyroximate",
+      "key": "mites_use_sulfur_80_wp_2_g_l_or_fenpyroximate"
+    },
+    {
+      "line": 160,
+      "tag": "h4",
+      "text": "🦠 Disease Control",
+      "key": "disease_control"
+    },
+    {
+      "line": 161,
+      "tag": "p",
+      "text": "Early blight: Spray mancozeb 75 WP (2 g/L)",
+      "key": "early_blight_spray_mancozeb_75_wp_2_g_l"
+    },
+    {
+      "line": 162,
+      "tag": "p",
+      "text": "Powdery mildew: Use sulfur dust or spray hexaconazole",
+      "key": "powdery_mildew_use_sulfur_dust_or_spray_hexaconazole"
+    },
+    {
+      "line": 163,
+      "tag": "p",
+      "text": "Fusarium wilt: Use resistant varieties, crop rotation",
+      "key": "fusarium_wilt_use_resistant_varieties_crop_rotation"
+    },
+    {
+      "line": 166,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 167,
+      "tag": "p",
+      "text": "Harvest at pink/turning stage for long-distance transport",
+      "key": "harvest_at_pink_turning_stage_for_long_distance_transport"
+    },
+    {
+      "line": 168,
+      "tag": "p",
+      "text": "Mature red stage for local market",
+      "key": "mature_red_stage_for_local_market"
+    },
+    {
+      "line": 169,
+      "tag": "p",
+      "text": "Yield: 30-40 tons/hectare, ready in 90-110 days",
+      "key": "yield_30_40_tons_hectare_ready_in_90_110_days"
+    },
+    {
+      "line": 180,
+      "tag": "h3",
+      "text": "Turmeric Growing Guide",
+      "key": "turmeric_growing_guide"
+    },
+    {
+      "line": 180,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 186,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 187,
+      "tag": "p",
+      "text": "June to July (monsoon onset)",
+      "key": "june_to_july_monsoon_onset"
+    },
+    {
+      "line": 188,
+      "tag": "p",
+      "text": "Harvesting: January to March (8-10 months)",
+      "key": "harvesting_january_to_march_8_10_months"
+    },
+    {
+      "line": 191,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 192,
+      "tag": "p",
+      "text": "Recommended: Suguna, Suromaa, Krishnamurthy, Suvarna",
+      "key": "recommended_suguna_suromaa_krishnamurthy_suvarna"
+    },
+    {
+      "line": 193,
+      "tag": "p",
+      "text": "High curcumin varieties preferred",
+      "key": "high_curcumin_varieties_preferred"
+    },
+    {
+      "line": 196,
+      "tag": "h4",
+      "text": "🌱 Seed & Planting",
+      "key": "seed_planting"
+    },
+    {
+      "line": 197,
+      "tag": "p",
+      "text": "Seed rate: 20-25 tons of seed rhizomes/hectare",
+      "key": "seed_rate_20_25_tons_of_seed_rhizomes_hectare"
+    },
+    {
+      "line": 198,
+      "tag": "p",
+      "text": "Use healthy rhizomes (25-30 grams each)",
+      "key": "use_healthy_rhizomes_25_30_grams_each"
+    },
+    {
+      "line": 199,
+      "tag": "p",
+      "text": "Plant in furrows at 20-25 cm depth",
+      "key": "plant_in_furrows_at_20_25_cm_depth"
+    },
+    {
+      "line": 200,
+      "tag": "p",
+      "text": "Spacing: 25 cm × 20 cm",
+      "key": "spacing_25_cm_20_cm"
+    },
+    {
+      "line": 203,
+      "tag": "h4",
+      "text": "🌍 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 204,
+      "tag": "p",
+      "text": "Well-drained, fertile loamy soil",
+      "key": "well_drained_fertile_loamy_soil"
+    },
+    {
+      "line": 205,
+      "tag": "p",
+      "text": "pH: 5.5-7.5",
+      "key": "ph_5_5_7_5"
+    },
+    {
+      "line": 206,
+      "tag": "p",
+      "text": "High organic matter content essential",
+      "key": "high_organic_matter_content_essential"
+    },
+    {
+      "line": 209,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 210,
+      "tag": "p",
+      "text": "Keep soil moist during growing season",
+      "key": "keep_soil_moist_during_growing_season"
+    },
+    {
+      "line": 211,
+      "tag": "p",
+      "text": "Provide shade during hot months",
+      "key": "provide_shade_during_hot_months"
+    },
+    {
+      "line": 212,
+      "tag": "p",
+      "text": "Mulch with dry leaves (10-15 tons/ha) for moisture retention",
+      "key": "mulch_with_dry_leaves_10_15_tons_ha_for_moisture_retention"
+    },
+    {
+      "line": 215,
+      "tag": "h4",
+      "text": "🌾 Manuring",
+      "key": "manuring"
+    },
+    {
+      "line": 216,
+      "tag": "p",
+      "text": "Farmyard manure: 25-30 tons/hectare",
+      "key": "farmyard_manure_25_30_tons_hectare"
+    },
+    {
+      "line": 217,
+      "tag": "p",
+      "text": "Neem cake: 2 tons/hectare",
+      "key": "neem_cake_2_tons_hectare"
+    },
+    {
+      "line": 218,
+      "tag": "p",
+      "text": "Nitrogen: 25 kg/ha, Phosphorus: 50 kg/ha, Potassium: 50 kg/ha",
+      "key": "nitrogen_25_kg_ha_phosphorus_50_kg_ha_potassium_50_kg_ha"
+    },
+    {
+      "line": 221,
+      "tag": "h4",
+      "text": "🐛 Pest Management",
+      "key": "pest_management"
+    },
+    {
+      "line": 222,
+      "tag": "p",
+      "text": "Shoot borer: Remove infested leaves, spray quinolphos",
+      "key": "shoot_borer_remove_infested_leaves_spray_quinolphos"
+    },
+    {
+      "line": 223,
+      "tag": "p",
+      "text": "Scale insects: Use oil-based sprays",
+      "key": "scale_insects_use_oil_based_sprays"
+    },
+    {
+      "line": 226,
+      "tag": "h4",
+      "text": "🦠 Disease Control",
+      "key": "disease_control"
+    },
+    {
+      "line": 227,
+      "tag": "p",
+      "text": "Leaf blotch: Spray bordeux mixture (1%)",
+      "key": "leaf_blotch_spray_bordeux_mixture_1"
+    },
+    {
+      "line": 228,
+      "tag": "p",
+      "text": "Rhizome rot: Use Trichoderma-treated soil",
+      "key": "rhizome_rot_use_trichoderma_treated_soil"
+    },
+    {
+      "line": 231,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 232,
+      "tag": "p",
+      "text": "Harvest when leaves begin to dry (8-10 months)",
+      "key": "harvest_when_leaves_begin_to_dry_8_10_months"
+    },
+    {
+      "line": 233,
+      "tag": "p",
+      "text": "Dig rhizomes carefully to avoid damage",
+      "key": "dig_rhizomes_carefully_to_avoid_damage"
+    },
+    {
+      "line": 234,
+      "tag": "p",
+      "text": "Yield: 20-30 tons fresh, 3-5 tons dried/hectare",
+      "key": "yield_20_30_tons_fresh_3_5_tons_dried_hectare"
+    },
+    {
+      "line": 245,
+      "tag": "h3",
+      "text": "Ragi (Finger Millet) Growing Guide",
+      "key": "ragi_finger_millet_growing_guide"
+    },
+    {
+      "line": 245,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 251,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 252,
+      "tag": "p",
+      "text": "Kharif: June to August",
+      "key": "kharif_june_to_august"
+    },
+    {
+      "line": 253,
+      "tag": "p",
+      "text": "Rabi: October to November",
+      "key": "rabi_october_to_november"
+    },
+    {
+      "line": 256,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 257,
+      "tag": "p",
+      "text": "VL Mandua, K-1, MR-1, HR-374",
+      "key": "vl_mandua_k_1_mr_1_hr_374"
+    },
+    {
+      "line": 258,
+      "tag": "p",
+      "text": "High-yield varieties for Karnataka",
+      "key": "high_yield_varieties_for_karnataka"
+    },
+    {
+      "line": 261,
+      "tag": "h4",
+      "text": "🌱 Seed & Sowing",
+      "key": "seed_sowing"
+    },
+    {
+      "line": 262,
+      "tag": "p",
+      "text": "Seed rate: 8-10 kg/hectare",
+      "key": "seed_rate_8_10_kg_hectare"
+    },
+    {
+      "line": 263,
+      "tag": "p",
+      "text": "Spacing: 22.5 cm × 10 cm",
+      "key": "spacing_22_5_cm_10_cm"
+    },
+    {
+      "line": 264,
+      "tag": "p",
+      "text": "Sow at 3-4 cm depth",
+      "key": "sow_at_3_4_cm_depth"
+    },
+    {
+      "line": 267,
+      "tag": "h4",
+      "text": "🌍 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 268,
+      "tag": "p",
+      "text": "Well-drained, loamy or sandy loam soil",
+      "key": "well_drained_loamy_or_sandy_loam_soil"
+    },
+    {
+      "line": 269,
+      "tag": "p",
+      "text": "pH: 5.5-7.5",
+      "key": "ph_5_5_7_5"
+    },
+    {
+      "line": 270,
+      "tag": "p",
+      "text": "Requires less fertility than other cereals",
+      "key": "requires_less_fertility_than_other_cereals"
+    },
+    {
+      "line": 273,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 274,
+      "tag": "p",
+      "text": "Requires 60-65 cm rainfall or irrigation",
+      "key": "requires_60_65_cm_rainfall_or_irrigation"
+    },
+    {
+      "line": 275,
+      "tag": "p",
+      "text": "Light and frequent irrigations preferable",
+      "key": "light_and_frequent_irrigations_preferable"
+    },
+    {
+      "line": 278,
+      "tag": "h4",
+      "text": "🌾 Manuring",
+      "key": "manuring"
+    },
+    {
+      "line": 279,
+      "tag": "p",
+      "text": "FYM: 5 tons/hectare",
+      "key": "fym_5_tons_hectare"
+    },
+    {
+      "line": 280,
+      "tag": "p",
+      "text": "Nitrogen: 40 kg/ha, Phosphorus: 20 kg/ha, Potassium: 20 kg/ha",
+      "key": "nitrogen_40_kg_ha_phosphorus_20_kg_ha_potassium_20_kg_ha"
+    },
+    {
+      "line": 283,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 284,
+      "tag": "p",
+      "text": "Harvest at physiological maturity (80-90 days)",
+      "key": "harvest_at_physiological_maturity_80_90_days"
+    },
+    {
+      "line": 285,
+      "tag": "p",
+      "text": "Yield: 15-20 quintals/hectare",
+      "key": "yield_15_20_quintals_hectare"
+    },
+    {
+      "line": 286,
+      "tag": "p",
+      "text": "Highly nutritious grain for health",
+      "key": "highly_nutritious_grain_for_health"
+    },
+    {
+      "line": 297,
+      "tag": "h3",
+      "text": "Sugarcane Growing Guide",
+      "key": "sugarcane_growing_guide"
+    },
+    {
+      "line": 297,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 303,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 304,
+      "tag": "p",
+      "text": "Autumn: September to November",
+      "key": "autumn_september_to_november"
+    },
+    {
+      "line": 305,
+      "tag": "p",
+      "text": "Spring: February to March",
+      "key": "spring_february_to_march"
+    },
+    {
+      "line": 308,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 309,
+      "tag": "p",
+      "text": "CoM 265, CoM 148, CoK 05061",
+      "key": "com_265_com_148_cok_05061"
+    },
+    {
+      "line": 310,
+      "tag": "p",
+      "text": "Select disease-resistant varieties",
+      "key": "select_disease_resistant_varieties"
+    },
+    {
+      "line": 313,
+      "tag": "h4",
+      "text": "🌱 Seed & Planting",
+      "key": "seed_planting"
+    },
+    {
+      "line": 314,
+      "tag": "p",
+      "text": "Seed rate: 50-60 quintals/hectare",
+      "key": "seed_rate_50_60_quintals_hectare"
+    },
+    {
+      "line": 315,
+      "tag": "p",
+      "text": "Plant 2-3 buds per meter in furrows",
+      "key": "plant_2_3_buds_per_meter_in_furrows"
+    },
+    {
+      "line": 316,
+      "tag": "p",
+      "text": "Row spacing: 90 cm",
+      "key": "row_spacing_90_cm"
+    },
+    {
+      "line": 319,
+      "tag": "h4",
+      "text": "🌍 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 320,
+      "tag": "p",
+      "text": "Deep, fertile, well-drained soil",
+      "key": "deep_fertile_well_drained_soil"
+    },
+    {
+      "line": 321,
+      "tag": "p",
+      "text": "pH: 6.0-7.5",
+      "key": "ph_6_0_7_5"
+    },
+    {
+      "line": 322,
+      "tag": "p",
+      "text": "Good water-holding capacity",
+      "key": "good_water_holding_capacity"
+    },
+    {
+      "line": 325,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 326,
+      "tag": "p",
+      "text": "Requires 100-150 cm water annually",
+      "key": "requires_100_150_cm_water_annually"
+    },
+    {
+      "line": 327,
+      "tag": "p",
+      "text": "Regular irrigation during dry season",
+      "key": "regular_irrigation_during_dry_season"
+    },
+    {
+      "line": 328,
+      "tag": "p",
+      "text": "Avoid waterlogging",
+      "key": "avoid_waterlogging"
+    },
+    {
+      "line": 331,
+      "tag": "h4",
+      "text": "🌾 Manuring",
+      "key": "manuring"
+    },
+    {
+      "line": 332,
+      "tag": "p",
+      "text": "FYM: 20-25 tons/hectare",
+      "key": "fym_20_25_tons_hectare"
+    },
+    {
+      "line": 333,
+      "tag": "p",
+      "text": "Nitrogen: 120-150 kg/ha, Phosphorus: 60 kg/ha, Potassium: 60 kg/ha",
+      "key": "nitrogen_120_150_kg_ha_phosphorus_60_kg_ha_potassium_60_kg_h"
+    },
+    {
+      "line": 336,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 337,
+      "tag": "p",
+      "text": "Harvest at 12 months for plant crop, 11 months for ratoon",
+      "key": "harvest_at_12_months_for_plant_crop_11_months_for_ratoon"
+    },
+    {
+      "line": 338,
+      "tag": "p",
+      "text": "Yield: 60-80 tons/hectare",
+      "key": "yield_60_80_tons_hectare"
+    },
+    {
+      "line": 349,
+      "tag": "h3",
+      "text": "Onion Growing Guide",
+      "key": "onion_growing_guide"
+    },
+    {
+      "line": 349,
+      "tag": "p",
+      "text": "Tap to expand details",
+      "key": "tap_to_expand_details"
+    },
+    {
+      "line": 355,
+      "tag": "h4",
+      "text": "📅 Planting Season",
+      "key": "planting_season"
+    },
+    {
+      "line": 356,
+      "tag": "p",
+      "text": "Kharif: June to July",
+      "key": "kharif_june_to_july"
+    },
+    {
+      "line": 357,
+      "tag": "p",
+      "text": "Rabi: September to October",
+      "key": "rabi_september_to_october"
+    },
+    {
+      "line": 360,
+      "tag": "h4",
+      "text": "🌾 Variety Selection",
+      "key": "variety_selection"
+    },
+    {
+      "line": 361,
+      "tag": "p",
+      "text": "White Baswant, Red Baswant, Bombay Red",
+      "key": "white_baswant_red_baswant_bombay_red"
+    },
+    {
+      "line": 362,
+      "tag": "p",
+      "text": "Nasik Red for northern districts",
+      "key": "nasik_red_for_northern_districts"
+    },
+    {
+      "line": 365,
+      "tag": "h4",
+      "text": "🌱 Nursery & Transplanting",
+      "key": "nursery_transplanting"
+    },
+    {
+      "line": 366,
+      "tag": "p",
+      "text": "Nursery duration: 6-8 weeks",
+      "key": "nursery_duration_6_8_weeks"
+    },
+    {
+      "line": 367,
+      "tag": "p",
+      "text": "Spacing: 15 cm × 10 cm",
+      "key": "spacing_15_cm_10_cm"
+    },
+    {
+      "line": 368,
+      "tag": "p",
+      "text": "Plant 12-15 cm tall seedlings",
+      "key": "plant_12_15_cm_tall_seedlings"
+    },
+    {
+      "line": 371,
+      "tag": "h4",
+      "text": "🌍 Soil Requirement",
+      "key": "soil_requirement"
+    },
+    {
+      "line": 372,
+      "tag": "p",
+      "text": "Well-drained loamy soil",
+      "key": "well_drained_loamy_soil"
+    },
+    {
+      "line": 373,
+      "tag": "p",
+      "text": "pH: 6.0-7.0",
+      "key": "ph_6_0_7_0"
+    },
+    {
+      "line": 374,
+      "tag": "p",
+      "text": "High organic matter",
+      "key": "high_organic_matter"
+    },
+    {
+      "line": 377,
+      "tag": "h4",
+      "text": "💧 Water Management",
+      "key": "water_management"
+    },
+    {
+      "line": 378,
+      "tag": "p",
+      "text": "Light and frequent irrigations",
+      "key": "light_and_frequent_irrigations"
+    },
+    {
+      "line": 379,
+      "tag": "p",
+      "text": "Stop irrigation 3-4 weeks before harvest",
+      "key": "stop_irrigation_3_4_weeks_before_harvest"
+    },
+    {
+      "line": 382,
+      "tag": "h4",
+      "text": "🐛 Pest Management",
+      "key": "pest_management"
+    },
+    {
+      "line": 383,
+      "tag": "p",
+      "text": "Thrips: Spray spinosad",
+      "key": "thrips_spray_spinosad"
+    },
+    {
+      "line": 384,
+      "tag": "p",
+      "text": "Mites: Use sulfur dust",
+      "key": "mites_use_sulfur_dust"
+    },
+    {
+      "line": 387,
+      "tag": "h4",
+      "text": "✂️ Harvesting",
+      "key": "harvesting"
+    },
+    {
+      "line": 388,
+      "tag": "p",
+      "text": "Harvest when tops fall and bulbs mature (120-150 days)",
+      "key": "harvest_when_tops_fall_and_bulbs_mature_120_150_days"
+    },
+    {
+      "line": 389,
+      "tag": "p",
+      "text": "Yield: 25-30 tons/hectare",
+      "key": "yield_25_30_tons_hectare"
+    },
+    {
+      "line": 397,
+      "tag": "h2",
+      "text": "📋 General Tips for All Crops",
+      "key": "general_tips_for_all_crops"
+    }
+  ],
+  "index.html": [
+    {
+      "line": 12,
+      "tag": "button",
+      "text": "English",
+      "key": "english"
+    },
+    {
+      "line": 13,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 136,
+      "tag": "p",
+      "text": "Yield Matrix v1.0 | Made for Karnataka farmers",
+      "key": "yield_matrix_v1_0_made_for_karnataka_farmers"
+    },
+    {
+      "line": 137,
+      "tag": "p",
+      "text": "Tap a feature to start. \"Soon\" features coming by month end.",
+      "key": "tap_a_feature_to_start_soon_features_coming_by_month_end"
+    }
+  ],
+  "irrigation.html": [
+    {
+      "line": 15,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 24,
+      "tag": "h3",
+      "text": "Field Details",
+      "key": "field_details"
+    },
+    {
+      "line": 27,
+      "tag": "label",
+      "text": "🌾 Crop",
+      "key": "crop"
+    },
+    {
+      "line": 29,
+      "tag": "option",
+      "text": "Ragi",
+      "key": "ragi"
+    },
+    {
+      "line": 30,
+      "tag": "option",
+      "text": "Tomato",
+      "key": "tomato"
+    },
+    {
+      "line": 31,
+      "tag": "option",
+      "text": "Paddy",
+      "key": "paddy"
+    },
+    {
+      "line": 32,
+      "tag": "option",
+      "text": "Onion",
+      "key": "onion"
+    },
+    {
+      "line": 33,
+      "tag": "option",
+      "text": "Turmeric",
+      "key": "turmeric"
+    },
+    {
+      "line": 37,
+      "tag": "label",
+      "text": "💧 Irrigation Type",
+      "key": "irrigation_type"
+    },
+    {
+      "line": 39,
+      "tag": "option",
+      "text": "Drip",
+      "key": "drip"
+    },
+    {
+      "line": 40,
+      "tag": "option",
+      "text": "Sprinkler",
+      "key": "sprinkler"
+    },
+    {
+      "line": 41,
+      "tag": "option",
+      "text": "Furrow",
+      "key": "furrow"
+    },
+    {
+      "line": 42,
+      "tag": "option",
+      "text": "Flood",
+      "key": "flood"
+    },
+    {
+      "line": 46,
+      "tag": "label",
+      "text": "📍 Location",
+      "key": "location"
+    },
+    {
+      "line": 52,
+      "tag": "label",
+      "text": "📐 Area (Acres)",
+      "key": "area_acres"
+    },
+    {
+      "line": 56,
+      "tag": "button",
+      "text": "Get Irrigation Plan",
+      "key": "get_irrigation_plan"
+    },
+    {
+      "line": 61,
+      "tag": "p",
+      "text": "Fetching the next 5 days of weather forecast…",
+      "key": "fetching_the_next_5_days_of_weather_forecast"
+    },
+    {
+      "line": 159,
+      "tag": "span",
+      "text": "Temp:",
+      "key": "temp"
+    },
+    {
+      "line": 160,
+      "tag": "span",
+      "text": "Rain:",
+      "key": "rain"
+    },
+    {
+      "line": 161,
+      "tag": "span",
+      "text": "Water qty:",
+      "key": "water_qty"
+    },
+    {
+      "line": 176,
+      "tag": "p",
+      "text": "Unable to load weather forecast. Try again later.",
+      "key": "unable_to_load_weather_forecast_try_again_later"
+    }
+  ],
+  "market.html": [
+    {
+      "line": 68,
+      "tag": "h2",
+      "text": "Price Trend (7-Day Average)",
+      "key": "price_trend_7_day_average"
+    },
+    {
+      "line": 75,
+      "tag": "h2",
+      "text": "Mandi Comparison",
+      "key": "mandi_comparison"
+    },
+    {
+      "line": 91,
+      "tag": "h2",
+      "text": "💡 Selling Tips for --",
+      "key": "selling_tips_for"
+    }
+  ],
+  "notifications.html": [
+    {
+      "line": 270,
+      "tag": "a",
+      "text": "🌾 Yield Matrix",
+      "key": "yield_matrix"
+    },
+    {
+      "line": 277,
+      "tag": "button",
+      "text": "English",
+      "key": "english"
+    },
+    {
+      "line": 278,
+      "tag": "button",
+      "text": "ಕನ್ನಡ",
+      "key": "ಕನ್ನಡ"
+    },
+    {
+      "line": 296,
+      "tag": "h2",
+      "text": "✅ Enable Notifications",
+      "key": "enable_notifications"
+    },
+    {
+      "line": 298,
+      "tag": "button",
+      "text": "Enable Notifications",
+      "key": "enable_notifications"
+    },
+    {
+      "line": 305,
+      "tag": "h2",
+      "text": "⚙️ Notification Preferences",
+      "key": "notification_preferences"
+    },
+    {
+      "line": 394,
+      "tag": "h2",
+      "text": "ℹ️ How It Works",
+      "key": "how_it_works"
+    }
+  ],
+  "schemes.html": [
+    {
+      "line": 17,
+      "tag": "h2",
+      "text": "Choose Your Need",
+      "key": "choose_your_need"
+    },
+    {
+      "line": 23,
+      "tag": "h2",
+      "text": "Recommended Schemes",
+      "key": "recommended_schemes"
+    },
+    {
+      "line": 28,
+      "tag": "h2",
+      "text": "How to Apply",
+      "key": "how_to_apply"
+    },
+    {
+      "line": 143,
+      "tag": "a",
+      "text": "Apply Now →",
+      "key": "apply_now"
+    }
+  ],
+  "threat-alerts.html": [
+    {
+      "line": 18,
+      "tag": "h2",
+      "text": "Check Farm Alerts",
+      "key": "check_farm_alerts"
+    },
+    {
+      "line": 20,
+      "tag": "button",
+      "text": "🌦️ Get Alerts",
+      "key": "get_alerts"
+    },
+    {
+      "line": 25,
+      "tag": "h2",
+      "text": "Current Weather",
+      "key": "current_weather"
+    },
+    {
+      "line": 41,
+      "tag": "h2",
+      "text": "Farm Alerts",
+      "key": "farm_alerts"
+    },
+    {
+      "line": 375,
+      "tag": "h2",
+      "text": "📋 Threat Management Guide",
+      "key": "threat_management_guide"
+    },
+    {
+      "line": 377,
+      "tag": "h4",
+      "text": "🐛 For Insects & Pests:",
+      "key": "for_insects_pests"
+    },
+    {
+      "line": 387,
+      "tag": "h4",
+      "text": "🐗 For Animals:",
+      "key": "for_animals"
+    },
+    {
+      "line": 397,
+      "tag": "h4",
+      "text": "🦠 For Diseases:",
+      "key": "for_diseases"
+    }
+  ],
+  "tril.html": [
+    {
+      "line": 27,
+      "tag": "h2",
+      "text": "Farm Weather Overview",
+      "key": "farm_weather_overview"
+    },
+    {
+      "line": 28,
+      "tag": "p",
+      "text": "Clean, responsive layout for quick weather and alert information.",
+      "key": "clean_responsive_layout_for_quick_weather_and_alert_informat"
+    },
+    {
+      "line": 44,
+      "tag": "h2",
+      "text": "5-Day Forecast",
+      "key": "5_day_forecast"
+    },
+    {
+      "line": 78,
+      "tag": "h2",
+      "text": "Farm Alerts",
+      "key": "farm_alerts"
+    }
+  ],
+  "weather.html": [
+    {
+      "line": 50,
+      "tag": "p",
+      "text": "Mysore, Karnataka",
+      "key": "mysore_karnataka"
+    },
+    {
+      "line": 61,
+      "tag": "h4",
+      "text": "⚠️ Weather Alert",
+      "key": "weather_alert"
+    },
+    {
+      "line": 91,
+      "tag": "h2",
+      "text": "5-Day Forecast",
+      "key": "5_day_forecast"
+    },
+    {
+      "line": 218,
+      "tag": "h3",
+      "text": "What to do next?",
+      "key": "what_to_do_next"
+    }
+  ]
+}

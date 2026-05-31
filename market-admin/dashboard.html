@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Yield Matrix Admin</title>
+  <meta name="description" content="District market price management dashboard for Yield Matrix." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="dashboard-page">
+
+  <!-- Animated background -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- ── Header ─────────────────────────────────────────────────── -->
+  <header class="dash-header">
+    <div class="dash-header-inner">
+      <div class="brand brand-sm">
+        <div class="brand-icon brand-icon-sm">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="url(#g2)" stroke-width="2" fill="none"/>
+            <path d="M20 12L28 17V23L20 28L12 23V17L20 12Z" fill="url(#g2)" opacity="0.6"/>
+            <defs>
+              <linearGradient id="g2" x1="4" y1="4" x2="36" y2="36">
+                <stop offset="0%" stop-color="#4ade80"/>
+                <stop offset="100%" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-name brand-name-sm" data-i18n="app_name">Yield Matrix</span>
+          <span class="brand-sub brand-sub-sm" data-i18n="admin_portal">Admin Portal</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="district-badge">
+          <span class="district-dot"></span>
+          <span id="districtLabel">Loading…</span>
+        </div>
+        <button id="logoutBtn" class="btn-ghost" data-i18n="logout">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main Content ────────────────────────────────────────────── -->
+  <main class="dash-main">
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card glass-card">
+        <div class="stat-icon stat-green">🌾</div>
+        <div>
+          <div class="stat-value" id="statCropCount">—</div>
+          <div class="stat-label" data-i18n="crops_entered">Crops Entered</div>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-icon stat-blue">📅</div>
+        <div>
+          <div class="stat-value" id="statLastUpdate">—</div>
+          <div class="stat-label" data-i18n="last_updated">Last Updated</div>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-icon stat-yellow">✅</div>
+        <div>
+          <div class="stat-value" data-i18n="live">Live</div>
+          <div class="stat-label" data-i18n="data_status">Data Status</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="dash-grid">
+
+      <!-- Left: Add / Update Price Form -->
+      <div class="glass-card form-card">
+        <h2 class="section-title">
+          <span class="title-icon">➕</span>
+          <span data-i18n="add_update_price">Add / Update Price</span>
+        </h2>
+        <p class="section-desc" data-i18n="enter_todays_price">Enter today's market price for a crop in your district.</p>
+
+        <form id="priceForm" novalidate>
+          <div class="field-group">
+            <label for="cropSelect" class="field-label" data-i18n="crop_name">Crop Name</label>
+            <div class="select-wrapper">
+              <select id="cropSelect" class="field-input" required>
+                <option value="" disabled selected>Select a crop…</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+
+            <!-- Shown only when "+ Add new crop" is chosen -->
+            <div id="newCropRow" class="new-crop-row" hidden>
+              <input
+                type="text"
+                id="newCropInput"
+                class="field-input"
+                data-i18n-placeholder="type_new_crop"
+                placeholder="Type new crop name (e.g. Jowar)"
+                autocomplete="off"
+                maxlength="60"
+              />
+              <button type="button" id="addCropBtn" class="btn-add-crop" data-i18n="add">Add</button>
+              <button type="button" id="cancelNewCrop" class="btn-cancel-crop">✕</button>
+            </div>
+            <span id="newCropHint" class="field-hint" data-i18n="pick_from_existing">Pick from existing crops or choose "+ Add new crop" to add one.</span>
+          </div>
+          <!-- Hidden input carries the resolved crop name into form submission -->
+          <input type="hidden" id="cropName" />
+
+          <div class="fields-row">
+            <div class="field-group flex-1">
+              <label for="cropPrice" class="field-label" data-i18n="price_rs_q">Price <span class="unit">(₹ / quintal)</span></label>
+              <input type="number" id="cropPrice" class="field-input" placeholder="e.g. 2400" min="1" required />
+            </div>
+            <div class="field-group flex-1">
+              <label for="cropVolume" class="field-label" data-i18n="volume_quintals">Volume <span class="unit">(quintals)</span></label>
+              <input type="number" id="cropVolume" class="field-input" placeholder="e.g. 350" min="0" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="cropChange" class="field-label" data-i18n="change_pct">
+              Change % <span class="unit">(vs yesterday, e.g. +2.5 or -1.0)</span>
+            </label>
+            <input type="number" id="cropChange" class="field-input" placeholder="e.g. 1.5" step="0.1" />
+          </div>
+
+          <div id="priceError" class="error-msg" hidden></div>
+          <div id="priceSuccess" class="success-msg" hidden></div>
+
+          <button type="submit" id="submitBtn" class="btn-primary mt-8">
+            <span id="submitBtnText" data-i18n="save_price">Save Price</span>
+            <span id="submitSpinner" class="spinner" hidden></span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right: Current Prices Table -->
+      <div class="glass-card table-card">
+        <div class="table-header">
+          <h2 class="section-title">
+            <span class="title-icon">📊</span>
+            <span data-i18n="current_prices">Current Prices</span>
+          </h2>
+          <button id="refreshBtn" class="btn-ghost btn-sm" title="Refresh">
+            <span id="refreshIcon">↺</span> <span data-i18n="refresh">Refresh</span>
+          </button>
+        </div>
+
+        <div id="tableLoading" class="loading-state">
+          <div class="spin-ring"></div>
+          <p data-i18n="loading_prices">Loading prices…</p>
+        </div>
+
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-icon">🌱</div>
+          <p data-i18n="no_prices_yet">No prices entered yet.</p>
+          <p class="empty-sub" data-i18n="use_form_to_add">Use the form to add your first crop price.</p>
+        </div>
+
+        <div id="pricesTableWrap" hidden>
+          <table class="prices-table" id="pricesTable">
+            <thead>
+              <tr>
+                <th data-i18n="crop_col">Crop</th>
+                <th data-i18n="price_col">Price (₹/q)</th>
+                <th data-i18n="change_col">Change</th>
+                <th data-i18n="volume_col">Volume</th>
+                <th data-i18n="updated_col">Updated</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="pricesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /dash-grid -->
+  </main>
+
+  <!-- Confirm Delete Modal -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal glass-card">
+      <h3 class="modal-title" data-i18n="remove_price_entry">Remove Price Entry</h3>
+      <p class="modal-body"><span data-i18n="are_you_sure_remove">Are you sure you want to remove</span> <strong id="deleteCropName"></strong> <span data-i18n="from_price_list">from the price list? This cannot be undone.</span></p>
+      <div class="modal-actions">
+        <button id="cancelDelete" class="btn-ghost" data-i18n="cancel">Cancel</button>
+        <button id="confirmDelete" class="btn-danger" data-i18n="remove">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/i18n.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

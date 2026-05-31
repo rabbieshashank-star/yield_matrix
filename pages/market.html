@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .price-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+
+        .selector-btn {
+            padding: 10px 18px;
+            border: 1px solid rgba(4, 120, 87, 0.2);
+            background: var(--surface-soft);
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+        }
+
+        .selector-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(4, 120, 87, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .selector-btn:hover:not(.active) {
+            border-color: var(--primary);
+            background: var(--surface);
+        }
+
+        .mandi-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            border-bottom: 2px solid rgba(4, 120, 87, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .mandi-tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: -10px;
+        }
+
+        .mandi-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .price-card {
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            border-left: 5px solid var(--primary);
+            box-shadow: var(--card-shadow);
+            border: var(--glass-border);
+            border-left-color: var(--primary);
+        }
+
+        .price-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .price-title {
+            font-weight: 700;
+            color: var(--text);
+            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .price-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .price-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .price-stat {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(4, 120, 87, 0.1);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .trend-icon {
+            font-size: 16px;
+            margin-left: 4px;
+        }
+
+        .trend-up {
+            color: var(--danger);
+        }
+
+        .trend-down {
+            color: var(--primary);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 16px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(4, 120, 87, 0.1);
+        }
+
+        .comparison-table th {
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 14px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .comparison-table td {
+            padding: 14px;
+            border-bottom: 1px solid rgba(4, 120, 87, 0.05);
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .price-highest td {
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(209, 250, 229, 0.4) !important;
+        }
+
+        .last-updated {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 16px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="header">
+        <a href="../index.html" class="back">←</a>
+        <h1>ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು</h1>
+        <p>ನೇರ ಮಂಡಿ ದರಗಳು, ಪ್ರವೃತ್ತಿಗಳು ಮತ್ತು ಬೆಲೆ ಹೋಲಿಕೆ</p>
+    </div>
+
+    <div class="container">
+        <!-- Crop Selection -->
+        <div class="card">
+            <h2>ಬೆಳೆ ಆಯ್ಕೆ ಮಾಡಿ</h2>
+            <div class="price-selector" id="cropSelector"></div>
+        </div>
+
+        <!-- Mandi Selection & Current Prices -->
+        <div class="card" id="priceCard" style="display:none;">
+            <h2>ಬೆಲೆ ಹೋಲಿಕೆ</h2>
+            <div class="mandi-tabs" id="mandiTabs"></div>
+            <button class="btn btn-primary" onclick="loadPrices()">💰 ಬೆಲೆಗಳನ್ನು ನವೀಕರಿಸಿ</button>
+            <div class="loader" id="loader" style="display:none;"></div>
+            <div id="priceDisplay"></div>
+        </div>
+
+
+        <!-- Comparison Table -->
+        <div class="card" id="comparisonCard" style="display:none;">
+            <h2>ಮಂಡಿ ಹೋಲಿಕೆ</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>ಮಂಡಿ</th>
+                        <th>ಬೆಲೆ (₹/ಕ್ವಿಂಟಾಲ್)</th>
+                        <th>ಬದಲಾವಣೆ</th>
+                        <th>ಪ್ರಮಾಣ (ಕ್ವಿಂಟಾಲ್)</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Selling Tips -->
+        <div class="card" id="tipsCard" style="display:none;">
+            <h2>💡 <span>ಮಾರಾಟ ಸಲಹೆಗಳು</span> <span id="tipsCrop">--</span></h2>
+            <div id="tipsList"></div>
+        </div>
+
+        <script src="../js/i18n.js"></script>
+    </div>
+
+    <script>
+        // Default crop list — shown even when the DB is empty
+        const DEFAULT_CROPS = ['Tomato', 'Onion', 'Ragi', 'Paddy', 'Cotton', 'Sugarcane', 'Turmeric', 'Brinjal', 'Cabbage', 'Potato'];
+
+        const CROP_BASE_PRICES = {
+            'Tomato': 2200, 'Onion': 1800, 'Ragi': 3200, 'Paddy': 2100, 'Cotton': 6500,
+            'Sugarcane': 310, 'Turmeric': 7200, 'Brinjal': 1500, 'Cabbage': 1200, 'Potato': 1600
+        };
+
+        // Live crop list — updated from /api/prices on load
+        let CROPS = [...DEFAULT_CROPS];
+
+        const MANDIS = {
+            'Mysore': { code: 'mysore', lat: 12.2958, lon: 76.6394 },
+            'Bangalore': { code: 'bangalore', lat: 12.9716, lon: 77.5946 },
+            'Belgaum': { code: 'belgaum', lat: 15.8497, lon: 75.5713 },
+            'Davanagere': { code: 'davanagere', lat: 14.4644, lon: 75.9218 }
+        };
+        const CROP_TIPS = {
+            'Tomato': ['Sell in early morning for better prices', 'Grade by size and quality - premium tomatoes get 30% more price', 'Avoid storing for more than 2-3 days', 'Bundle with other vegetables at markets for better deals'],
+            'Onion': ['Store in cool, dry place to sell over time', 'Prices peak in off-season (June-August)', 'Sort and grade before selling', 'Bulk buyers pay better rates'],
+            'Ragi': ['Sell at cooperative to get fair price', 'Clean grain properly before weighing', 'Harvest at full maturity for better weight', 'Direct to processors for premium prices'],
+            'Paddy': ['Dry paddy sells for 10% more than fresh', 'Cooperative societies offer assured purchase', 'Wait for peak prices before selling', 'Bulk selling avoids middlemen cost'],
+            'Cotton': ['Sell through cotton ginning units for better rates', 'Grade cotton by staple length and color', 'Avoid selling immediately after harvest', 'Check futures market before selling'],
+            'Sugarcane': ['Sell to sugar mills for assured pricing', 'Join farmer cooperatives for better deals', 'Harvest at peak maturity (11-12 months)', 'Pre-contract with mills before harvest'],
+            'Turmeric': ['Dry before selling for better price', 'Sort by quality (color, size)', 'Process small quantity for value addition', 'Sell through spice exporters for premium'],
+            'Brinjal': ['Market early morning while fresh', 'Grade by size for better rates', 'Use foam cushioned packaging to reduce bruising', 'Sell in bulk to restaurants/hotels'],
+            'Cabbage': ['Harvest at peak firmness', 'Store in cool place if selling later', 'Sell to vegetable traders or directly at mandi', 'Bulk buyers offer better margins'],
+            'Potato': ['Store in cool dark place for extended selling', 'Grade potatoes by size and quality', 'Sell to chip factories for consistent price', 'Avoid selling in monsoon glut period']
+        };
+        // Generic tip shown for any crop not in CROP_TIPS
+        const DEFAULT_TIPS = [
+            'Check your nearest APMC mandi for the latest price before selling.',
+            'Grade produce by quality and size to fetch better rates.',
+            'Consider joining a farmer cooperative for assured prices.',
+            'Avoid selling immediately after harvest when supply is highest.'
+        ];
+
+        const CROP_TIPS_KN = {
+            'Tomato': ['ಉತ್ತಮ ಬೆಲೆಗಳಿಗಾಗಿ ಮುಂಜಾನೆ ಮಾರಾಟ ಮಾಡಿ', 'ಗಾತ್ರ ಮತ್ತು ಗುಣಮಟ್ಟದ ಪ್ರಕಾರ ವಿಂಗಡಿಸಿ - ಪ್ರೀಮಿಯಂ ಟೊಮೆಟೊಗಳಿಗೆ 30% ಹೆಚ್ಚಿನ ಬೆಲೆ ಸಿಗುತ್ತದೆ', '2-3 ದಿನಗಳಿಗಿಂತ ಹೆಚ್ಚು ಶೇಖರಿಸಿಡುವುದನ್ನು ತಪ್ಪಿಸಿ', 'ಉತ್ತಮ ವ್ಯವಹಾರಗಳಿಗಾಗಿ ಮಾರುಕಟ್ಟೆಯಲ್ಲಿ ಇತರ ತರಕಾರಿಗಳೊಂದಿಗೆ ಬಂಡಲ್ ಮಾಡಿ'],
+            'Onion': ['ಕಾಲಾನಂತರದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಲು ತಂಪಾದ, ಶುಷ್ಕ ಸ್ಥಳದಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ', 'ಆಫ್-ಸೀಸನ್‌ನಲ್ಲಿ (ಜೂನ್-ಆಗಸ್ಟ್) ಬೆಲೆಗಳು ಗರಿಷ್ಠ ಮಟ್ಟದಲ್ಲಿರುತ್ತವೆ', 'ಮಾರಾಟ ಮಾಡುವ ಮೊದಲು ವಿಂಗಡಿಸಿ ಮತ್ತು ಗ್ರೇಡ್ ಮಾಡಿ', 'ಬೃಹತ್ ಖರೀದಿದಾರರು ಉತ್ತಮ ದರಗಳನ್ನು ಪಾವತಿಸುತ್ತಾರೆ'],
+            'Ragi': ['ನ್ಯಾಯಯುತ ಬೆಲೆ ಪಡೆಯಲು ಸಹಕಾರಿ ಸಂಘದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ', 'ತೂಕ ಮಾಡುವ ಮೊದಲು ಧಾನ್ಯವನ್ನು ಸರಿಯಾಗಿ ಸ್ವಚ್ಛಗೊಳಿಸಿ', 'ಉತ್ತಮ ತೂಕಕ್ಕಾಗಿ ಸಂಪೂರ್ಣ ಪಕ್ವತೆಯ ಸಮಯದಲ್ಲಿ ಕೊಯ್ಲು ಮಾಡಿ', 'ಪ್ರೀಮಿಯಂ ಬೆಲೆಗಳಿಗಾಗಿ ನೇರವಾಗಿ ಸಂಸ್ಕಾರಕಗಳಿಗೆ ಮಾರಾಟ ಮಾಡಿ'],
+            'Paddy': ['ಒಣಗಿದ ಭತ್ತವು ತಾಜಾ ಭತ್ತಕ್ಕಿಂತ 10% ಹೆಚ್ಚು ಬೆಲೆಗೆ ಮಾರಾಟವಾಗುತ್ತದೆ', 'ಸಹಕಾರಿ ಸಂಘಗಳು ಖಚಿತವಾದ ಖರೀದಿಯನ್ನು ನೀಡುತ್ತವೆ', 'ಮಾರಾಟ ಮಾಡುವ ಮೊದಲು ಗರಿಷ್ಠ ಬೆಲೆಗಳಿಗಾಗಿ ಕಾಯಿರಿ', 'ಬೃಹತ್ ಮಾರಾಟವು ಮಧ್ಯವರ್ತಿಗಳ ವೆಚ್ಚವನ್ನು ತಪ್ಪಿಸುತ್ತದೆ'],
+            'Cotton': ['ಉತ್ತಮ ದರಗಳಿಗಾಗಿ ಕಾಟನ್ ಜಿನ್ನಿಂಗ್ ಘಟಕಗಳ ಮೂಲಕ ಮಾರಾಟ ಮಾಡಿ', 'ಪ್ರಧಾನ ಉದ್ದ ಮತ್ತು ಬಣ್ಣದಿಂದ ಹತ್ತಿಯನ್ನು ಗ್ರೇಡ್ ಮಾಡಿ', 'ಕೊಯ್ಲು ಮಾಡಿದ ತಕ್ಷಣ ಮಾರಾಟ ಮಾಡುವುದನ್ನು ತಪ್ಪಿಸಿ', 'ಮಾರಾಟ ಮಾಡುವ ಮೊದಲು ಭವಿಷ್ಯದ ಮಾರುಕಟ್ಟೆಯನ್ನು ಪರಿಶೀಲಿಸಿ'],
+            'Sugarcane': ['ಖಚಿತವಾದ ಬೆಲೆಗಾಗಿ ಸಕ್ಕರೆ ಕಾರ್ಖಾನೆಗಳಿಗೆ ಮಾರಾಟ ಮಾಡಿ', 'ಉತ್ತಮ ವ್ಯವಹಾರಗಳಿಗಾಗಿ ರೈತ ಸಹಕಾರಿ ಸಂಘಗಳಿಗೆ ಸೇರಿ', 'ಗರಿಷ್ಠ ಪಕ್ವತೆಯ ಸಮಯದಲ್ಲಿ (11-12 ತಿಂಗಳು) ಕೊಯ್ಲು ಮಾಡಿ', 'ಕೊಯ್ಲು ಮಾಡುವ ಮೊದಲು ಕಾರ್ಖಾನೆಗಳೊಂದಿಗೆ ಮುಂಚಿತವಾಗಿ ಒಪ್ಪಂದ ಮಾಡಿಕೊಳ್ಳಿ'],
+            'Turmeric': ['ಉತ್ತಮ ಬೆಲೆಗಾಗಿ ಮಾರಾಟ ಮಾಡುವ ಮೊದಲು ಒಣಗಿಸಿ', 'ಗುಣಮಟ್ಟದಿಂದ ವಿಂಗಡಿಸಿ (ಬಣ್ಣ, ಗಾತ್ರ)', 'ಮೌಲ್ಯವರ್ಧನೆಗಾಗಿ ಸಣ್ಣ ಪ್ರಮಾಣವನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಿ', 'ಪ್ರೀಮಿಯಂ ಪಡೆಯಲು ಮಸಾಲೆ ರಫ್ತುದಾರರ ಮೂಲಕ ಮಾರಾಟ ಮಾಡಿ'],
+            'Brinjal': ['ತಾಜಾವಾಗಿರುವಾಗ ಮುಂಜಾನೆ ಮಾರುಕಟ್ಟೆ ಮಾಡಿ', 'ಉತ್ತಮ ದರಗಳಿಗಾಗಿ ಗಾತ್ರದ ಪ್ರಕಾರ ಗ್ರೇಡ್ ಮಾಡಿ', 'ಜಜ್ಜುವುದನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಫೋಮ್ ಕುಶನ್ ಪ್ಯಾಕೇಜಿಂಗ್ ಬಳಸಿ', 'ರೆಸ್ಟೋರೆಂಟ್‌ಗಳು/ಹೋಟೆಲ್‌ಗಳಿಗೆ ಬೃಹತ್ ಪ್ರಮಾಣದಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ'],
+            'Cabbage': ['ಗರಿಷ್ಠ ದೃಢತೆಯಲ್ಲಿ ಕೊಯ್ಲು ಮಾಡಿ', 'ನಂತರ ಮಾರಾಟ ಮಾಡುವುದಾದರೆ ತಂಪಾದ ಸ್ಥಳದಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ', 'ತರಕಾರಿ ವ್ಯಾಪಾರಿಗಳಿಗೆ ಅಥವಾ ನೇರವಾಗಿ ಮಂಡಿಯಲ್ಲಿ ಮಾರಾಟ ಮಾಡಿ', 'ಬೃಹತ್ ಖರೀದಿದಾರರು ಉತ್ತಮ ಲಾಭಾಂಶವನ್ನು ನೀಡುತ್ತಾರೆ'],
+            'Potato': ['ವಿಸ್ತೃತ ಮಾರಾಟಕ್ಕಾಗಿ ತಂಪಾದ ಕತ್ತಲೆ ಸ್ಥಳದಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ', 'ಗಾತ್ರ ಮತ್ತು ಗುಣಮಟ್ಟದ ಪ್ರಕಾರ ಆಲೂಗಡ್ಡೆಯನ್ನು ಗ್ರೇಡ್ ಮಾಡಿ', 'ಸ್ಥಿರವಾದ ಬೆಲೆಗಾಗಿ ಚಿಪ್ಸ್ ಕಾರ್ಖಾನೆಗಳಿಗೆ ಮಾರಾಟ ಮಾಡಿ', 'ಮಾನ್ಸೂನ್ ಅಧಿಕ ಅವಧಿಯಲ್ಲಿ ಮಾರಾಟ ಮಾಡುವುದನ್ನು ತಪ್ಪಿಸಿ']
+        };
+
+        const DEFAULT_TIPS_KN = [
+            'ಮಾರಾಟ ಮಾಡುವ ಮೊದಲು ಇತ್ತೀಚಿನ ಬೆಲೆಗಾಗಿ ನಿಮ್ಮ ಹತ್ತಿರದ APMC ಮಂಡಿಯನ್ನು ಪರಿಶೀಲಿಸಿ.',
+            'ಉತ್ತಮ ದರಗಳನ್ನು ಪಡೆಯಲು ಗುಣಮಟ್ಟ ಮತ್ತು ಗಾತ್ರದ ಮೂಲಕ ಉತ್ಪನ್ನಗಳನ್ನು ವಿಂಗಡಿಸಿ.',
+            'ಖಚಿತವಾದ ಬೆಲೆಗಳಿಗಾಗಿ ರೈತ ಸಹಕಾರ ಸಂಘಕ್ಕೆ ಸೇರುವುದನ್ನು ಪರಿಗಣಿಸಿ.',
+            'ಪೂರೈಕೆ ಹೆಚ್ಚಿರುವಾಗ ಕೊಯ್ಲು ಮಾಡಿದ ತಕ್ಷಣ ಮಾರಾಟ ಮಾಡುವುದನ್ನು ತಪ್ಪಿಸಿ.'
+        ];
+
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000'
+            : 'https://roger95.pythonanywhere.com';
+
+        let selectedCrop = null;
+        let selectedMandi = 'Mysore';
+        let MARKET_DATA = null;
+
+        /**
+         * Build (or rebuild) the crop pill buttons from the current CROPS list.
+         * Marks the active crop and binds the click handler.
+         */
+        function initializeCropSelector() {
+            const selector = document.getElementById('cropSelector');
+            selector.innerHTML = CROPS.map(crop => `
+                <button class="selector-btn ${crop === selectedCrop ? 'active' : ''}" onclick="selectCrop('${crop}')">
+                    ${typeof t !== 'undefined' ? (t(crop) || crop) : crop}
+                </button>
+            `).join('');
+        }
+
+        function initializeMandiTabs() {
+            const tabs = document.getElementById('mandiTabs');
+            tabs.innerHTML = Object.keys(MANDIS).map(mandi => `
+                <div class="mandi-tab ${mandi === selectedMandi ? 'active' : ''}" onclick="selectMandi('${mandi}')">
+                    ${typeof t !== 'undefined' ? (t(mandi) || mandi) : mandi}
+                </div>
+            `).join('');
+        }
+
+        function selectCrop(crop) {
+            selectedCrop = crop;
+            document.querySelectorAll('.selector-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('priceCard').style.display = 'block';
+            document.getElementById('comparisonCard').style.display = 'block';
+            document.getElementById('tipsCard').style.display = 'block';
+
+            initializeMandiTabs();
+            loadPrices();
+        }
+
+        function selectMandi(mandi) {
+            selectedMandi = mandi;
+            document.querySelectorAll('.mandi-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            displayPrices();
+        }
+
+        function loadPrices() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('priceDisplay').innerHTML = '';
+
+            fetch(`${API_BASE}/api/prices`)
+                .then(response => response.json())
+                .then(data => {
+                    MARKET_DATA = data;
+                    document.getElementById('loader').style.display = 'none';
+
+                    // Rebuild crop selector — include any newly-added crops from the DB
+                    const dbCrops = Object.keys(data);
+                    const merged = [...new Set([...DEFAULT_CROPS, ...dbCrops])].sort();
+                    if (merged.length !== CROPS.length || merged.some((c, i) => c !== CROPS[i])) {
+                        CROPS = merged;
+                        initializeCropSelector(); // re-render pills if crop list changed
+                    }
+
+                    displayPrices();
+                    displayComparison();
+                    displayTips();
+                })
+                .catch(error => {
+                    console.error('Error fetching prices:', error);
+                    document.getElementById('loader').style.display = 'none';
+                    const errTitle = typeof t !== 'undefined' ? (t('connection_error') || 'ಸಂಪರ್ಕ ದೋಷ') : 'ಸಂಪರ್ಕ ದೋಷ';
+                    const errDesc = typeof t !== 'undefined' ? (t('connection_error_desc') || 'ನೇರ ಬೆಲೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. Python ಬ್ಯಾಕೆಂಡ್ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿ.') : 'ನೇರ ಬೆಲೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. Python ಬ್ಯಾಕೆಂಡ್ ಚಾಲನೆಯಲ್ಲಿದೆಯೇ ಎಂದು ಖಚಿತಪಡಿಸಿ.';
+                    document.getElementById('priceDisplay').innerHTML = `<div class="alert-box" style="display:block; margin: 16px 0;"><h4>⚠️ ${errTitle}</h4><p>${errDesc}</p></div>`;
+                });
+        }
+
+        function displayPrices() {
+            let data = MARKET_DATA ? MARKET_DATA[selectedCrop] : null;
+            
+            // Local fallback if crop data is missing from the backend response
+            if (!data) {
+                data = {};
+                const base = CROP_BASE_PRICES[selectedCrop] || 1500;
+                Object.keys(MANDIS).forEach(mandi => {
+                    data[mandi] = { price: base, change: 0.0, volume: 100 };
+                });
+            }
+
+            const price = data[selectedMandi];
+            if (!price) return;
+
+            const trendDirection = price.change >= 0 ? '📈' : '📉';
+            const trendColor = price.change >= 0 ? 'trend-up' : 'trend-down';
+
+            document.getElementById('priceDisplay').innerHTML = `
+                <div class="price-card">
+                    <div class="price-header">
+                        <div>
+                            <div class="price-label">${typeof t !== 'undefined' ? (t(selectedMandi) || selectedMandi) : selectedMandi} ${typeof t !== 'undefined' ? (t('mandi_apmc') || 'APMC') : 'APMC'}</div>
+                            <div class="price-title">${typeof t !== 'undefined' ? (t('modal_price') || 'Modal Price') : 'Modal Price'}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="price-value">₹${price.price}</div>
+                            <div class="price-label">${typeof t !== 'undefined' ? (t('per_quintal') || 'per Quintal') : 'per Quintal'}</div>
+                        </div>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-stat">
+                            <div class="stat-label">${typeof t !== 'undefined' ? (t('24hr_change') || '24-Hour Change') : '24-Hour Change'}</div>
+                            <div class="stat-value"><span class="${trendColor}">${trendDirection} ${Math.abs(price.change)}%</span></div>
+                        </div>
+                        <div class="price-stat">
+                            <div class="stat-label">${typeof t !== 'undefined' ? (t('trading_volume') || 'Trading Volume') : 'Trading Volume'}</div>
+                            <div class="stat-value">${price.volume} ${typeof t !== 'undefined' ? (t('quintals') || 'Quintals') : 'Quintals'}</div>
+                        </div>
+                    </div>
+                    <div class="last-updated">📡 ${typeof t !== 'undefined' ? (t('last_updated_time') || 'Last updated:') : 'Last updated:'} ${new Date().toLocaleTimeString()}</div>
+                </div>
+            `;
+        }
+
+        function displayComparison() {
+            let data = MARKET_DATA ? MARKET_DATA[selectedCrop] : null;
+            
+            // Local fallback if crop data is missing from the backend response
+            if (!data) {
+                data = {};
+                const base = CROP_BASE_PRICES[selectedCrop] || 1500;
+                Object.keys(MANDIS).forEach(mandi => {
+                    data[mandi] = { price: base, change: 0.0, volume: 100 };
+                });
+            }
+
+            const mandis = Object.keys(data);
+            const rows = mandis.map(mandi => {
+                const price = data[mandi];
+                const isHighest = price.price === Math.max(...mandis.map(m => data[m].price));
+                const rowClass = isHighest ? 'price-highest' : '';
+                return `
+                    <tr class="${rowClass}">
+                        <td><strong>${typeof t !== 'undefined' ? (t(mandi) || mandi) : mandi}</strong></td>
+                        <td>₹${price.price}</td>
+                        <td><span class="${price.change >= 0 ? 'trend-up' : 'trend-down'}">${price.change >= 0 ? '+' : ''}${price.change}%</span></td>
+                        <td>${price.volume}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('comparisonBody').innerHTML = rows;
+        }
+
+
+        function displayTips() {
+            const currentLang = localStorage.getItem('language') || 'kn';
+            const tipsSource = currentLang === 'kn' ? CROP_TIPS_KN : CROP_TIPS;
+            const defaultTipsSource = currentLang === 'kn' ? DEFAULT_TIPS_KN : DEFAULT_TIPS;
+            const tips = tipsSource[selectedCrop] || defaultTipsSource;
+            document.getElementById('tipsCrop').innerText = typeof t !== 'undefined' ? (t(selectedCrop) || selectedCrop) : selectedCrop;
+            document.getElementById('tipsList').innerHTML = `
+                <ul style="padding-left:18px; color:#555; margin-top:12px; font-size:13px; line-height:1.8;">
+                    ${tips.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        // ── Initialise: fetch live prices first, then build the crop selector ──
+        window.onload = async () => {
+            try {
+                const res = await fetch(`${API_BASE}/api/prices`);
+                const data = await res.json();
+                MARKET_DATA = data;
+
+                // Merge DB crop names into CROPS (preserving DEFAULT_CROPS order)
+                const dbCrops = Object.keys(data);
+                const merged = [...new Set([...DEFAULT_CROPS, ...dbCrops])].sort();
+                CROPS = merged;
+
+                // Auto-select first DB crop, or Tomato as fallback
+                selectedCrop = dbCrops.length > 0 ? dbCrops[0] : DEFAULT_CROPS[0];
+
+            } catch (err) {
+                // Backend not running — use defaults silently
+                console.warn('Could not reach backend:', err.message);
+                selectedCrop = DEFAULT_CROPS[0];
+            }
+
+            initializeCropSelector();
+            initializeMandiTabs();
+
+            // Show cards for the auto-selected crop
+            document.getElementById('priceCard').style.display = 'block';
+            document.getElementById('comparisonCard').style.display = 'block';
+            document.getElementById('tipsCard').style.display = 'block';
+
+            displayPrices();
+            displayComparison();
+            displayTips();
+        };
+    </script>
+    <script src="../js/offline.js"></script>
+</body>
+
+</html>

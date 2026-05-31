@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Schemes — Yield Matrix Admin</title>
+  <meta name="description" content="Add and remove government schemes displayed in the Yield Matrix farmer app." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/schemes-admin.css" />
+</head>
+<body class="dashboard-page">
+
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- ── Header ── -->
+  <header class="dash-header">
+    <div class="dash-header-inner">
+      <div class="brand brand-sm">
+        <div class="brand-icon brand-icon-sm">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4L36 13V27L20 36L4 27V13L20 4Z" stroke="url(#g2)" stroke-width="2" fill="none"/>
+            <path d="M20 12L28 17V23L20 28L12 23V17L20 12Z" fill="url(#g2)" opacity="0.6"/>
+            <defs>
+              <linearGradient id="g2" x1="4" y1="4" x2="36" y2="36">
+                <stop offset="0%" stop-color="#a78bfa"/>
+                <stop offset="100%" stop-color="#60a5fa"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-name brand-name-sm">Yield Matrix</span>
+          <span class="brand-sub brand-sub-sm">Schemes Admin</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="admin-badge">
+          <span class="admin-dot"></span>
+          <span>Superadmin</span>
+        </div>
+        <button id="logoutBtn" class="btn-ghost">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main ── -->
+  <main class="dash-main">
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card glass-card">
+        <div class="stat-icon">📋</div>
+        <div>
+          <div class="stat-value" id="statTotal">—</div>
+          <div class="stat-label">Total Schemes</div>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-icon">🏷️</div>
+        <div>
+          <div class="stat-value" id="statCategories">—</div>
+          <div class="stat-label">Categories</div>
+        </div>
+      </div>
+      <div class="stat-card glass-card">
+        <div class="stat-icon">🔗</div>
+        <div>
+          <div class="stat-value" id="statLinks">—</div>
+          <div class="stat-label">With Links</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div class="dash-grid">
+
+      <!-- Left: Add Scheme Form -->
+      <div class="glass-card form-card">
+        <h2 class="section-title"><span class="title-icon">➕</span> Add New Scheme</h2>
+        <p class="section-desc">Fill in the details to add a scheme visible to farmers.</p>
+
+        <form id="schemeForm" novalidate>
+          <div class="field-group">
+            <label for="schemeName" class="field-label">Scheme Name <span class="req">*</span></label>
+            <input type="text" id="schemeName" class="field-input" placeholder="e.g. PM-KISAN" required maxlength="120" />
+          </div>
+
+          <div class="field-group">
+            <label for="schemeCategory" class="field-label">Category <span class="req">*</span></label>
+            <div class="input-combo">
+              <div class="select-wrapper">
+                <select id="schemeCategory" class="field-input">
+                  <option value="" disabled selected>Select or type below…</option>
+                  <option>Income Support</option>
+                  <option>Crop Insurance</option>
+                  <option>Irrigation Support</option>
+                  <option>Soil Health</option>
+                  <option>Organic Farming</option>
+                  <option>Equipment & Machinery</option>
+                  <option>Credit & Loans</option>
+                  <option>Training & Education</option>
+                  <option>Market Linkage</option>
+                  <option>Other</option>
+                </select>
+                <span class="select-arrow">▾</span>
+              </div>
+              <span class="combo-or">or</span>
+              <input type="text" id="schemeCategoryCustom" class="field-input" placeholder="Type a new category…" maxlength="60" />
+            </div>
+            <span class="field-hint">Select from list, or type a custom category.</span>
+          </div>
+
+          <div class="field-group">
+            <label for="schemeDesc" class="field-label">Description <span class="req">*</span></label>
+            <textarea id="schemeDesc" class="field-input field-textarea" placeholder="Brief description of the scheme, eligibility and benefits…" required maxlength="600" rows="4"></textarea>
+          </div>
+
+          <div class="field-group">
+            <label for="schemeLink" class="field-label">Official Link <span class="optional">(optional)</span></label>
+            <input type="url" id="schemeLink" class="field-input" placeholder="https://pmkisan.gov.in" />
+          </div>
+
+          <div id="schemeError"   class="error-msg"   hidden></div>
+          <div id="schemeSuccess" class="success-msg" hidden></div>
+
+          <button type="submit" id="submitBtn" class="btn-primary mt-8">
+            <span id="submitBtnText">Add Scheme</span>
+            <span id="submitSpinner" class="spinner" hidden></span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right: Schemes Table -->
+      <div class="glass-card table-card">
+        <div class="table-header">
+          <h2 class="section-title"><span class="title-icon">📋</span> Current Schemes</h2>
+          <div class="table-controls">
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search…" />
+            <button id="refreshBtn" class="btn-ghost btn-sm" title="Refresh">↺ Refresh</button>
+          </div>
+        </div>
+
+        <div id="tableLoading" class="loading-state">
+          <div class="spin-ring"></div>
+          <p>Loading schemes…</p>
+        </div>
+
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-icon">📭</div>
+          <p>No schemes added yet.</p>
+          <p class="empty-sub">Use the form to add the first scheme.</p>
+        </div>
+
+        <div id="schemesTableWrap" hidden>
+          <table class="schemes-table" id="schemesTable">
+            <thead>
+              <tr>
+                <th>Scheme</th>
+                <th>Category</th>
+                <th>Link</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="schemesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /dash-grid -->
+  </main>
+
+  <!-- Confirm Delete Modal -->
+  <div id="deleteModal" class="modal-overlay">
+    <div class="modal glass-card">
+      <h3 class="modal-title">Remove Scheme</h3>
+      <p class="modal-body">Are you sure you want to remove <strong id="deleteSchemeName"></strong>? This cannot be undone.</p>
+      <div class="modal-actions">
+        <button id="cancelDelete" class="btn-ghost">Cancel</button>
+        <button id="confirmDelete" class="btn-danger">Remove</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/schemes-admin.js"></script>
+</body>
+</html>

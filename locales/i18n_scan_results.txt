@@ -1,0 +1,371 @@
+file	line	tag	text
+chatbot.html	292	button	ಕನ್ನಡ
+chatbot.html	293	a	📸 Disease
+chatbot.html	294	a	🌱 Crops
+chatbot.html	313	button	🗑️ Clear Chat
+chatbot.html	321	h3	ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ
+chatbot.html	322	p	ನಿಮ್ಮ ಕೃಷಿ ಸಮಸ್ಯೆಗಳನ್ನು ಕನ್ನಡದಲ್ಲಿ ಕೇಳಿ       ಬೆಳೆ ರೋಗ, ಮಳೆ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ — ಎಲ್ಲದಕ್ಕೂ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ
+chatbot.html	329	button	🌿 ಬೆಳೆ ರೋಗ
+chatbot.html	330	button	🌱 ಯಾವ ಬೆಳೆ?
+chatbot.html	331	button	💧 ನೀರಾವರಿ
+chatbot.html	332	button	🛒 ಮಾರುಕಟ್ಟೆ ಬೆಲೆ
+chatbot.html	333	button	🚨 ಸರ್ಕಾರಿ ಯೋಜನೆ
+chatbot.html	564	h3	ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿ ಸಹಾಯಕ
+chatbot.html	565	p	ನಿಮ್ಮ ಕೃಷಿ ಸಮಸ್ಯೆಗಳನ್ನು ಕನ್ನಡದಲ್ಲಿ ಕೇಳಿ         ಬೆಳೆ ರೋಗ, ಮಳೆ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆ — ಎಲ್ಲದಕ್ಕೂ ಸಹಾಯ ಮಾಡುತ್ತೇನೆ
+crop-health.html	18	h2	Step 1: Upload Crop Photo
+crop-health.html	19	p	Take a clear photo of your crop. AI will check health using current weather.
+crop-health.html	21	button	📷 Take Photo
+crop-health.html	32	button	🔊 Listen
+crop-health.html	38	p	Loading weather...
+crop-health.html	150	h3	What to do next?
+crop-health.html	151	a	📷                                              Disease Check                         If health analysis shows disease signs                                          →
+crop-health.html	159	a	💧                                              Smart Irrigation                         Adjust watering based on health                                          →
+crop-recommend.html	277	button	ಕನ್ನಡ
+crop-recommend.html	278	a	📸 Disease Scanner
+crop-recommend.html	288	h3	📋 Your Farm Details
+crop-recommend.html	293	label	📍 District
+crop-recommend.html	295	option	Select your district
+crop-recommend.html	301	label	🌱 Soil Type
+crop-recommend.html	303	option	Select soil type
+crop-recommend.html	304	option	Black Cotton Soil
+crop-recommend.html	305	option	Red Loamy Soil
+crop-recommend.html	306	option	Sandy Soil
+crop-recommend.html	307	option	Loamy Soil
+crop-recommend.html	308	option	Clay Soil
+crop-recommend.html	309	option	Laterite Soil
+crop-recommend.html	315	label	💧 Water Source
+crop-recommend.html	317	option	Select water source
+crop-recommend.html	318	option	Rainfed only
+crop-recommend.html	319	option	Borewell
+crop-recommend.html	320	option	Canal Irrigation
+crop-recommend.html	321	option	River / Tank
+crop-recommend.html	322	option	Drip Irrigation
+crop-recommend.html	328	label	🗓️ Season
+crop-recommend.html	330	option	Select season
+crop-recommend.html	331	option	Kharif (June - October)
+crop-recommend.html	332	option	Rabi (November - March)
+crop-recommend.html	333	option	Zaid (March - June)
+crop-recommend.html	339	label	📐 Land Size (Acres)
+crop-recommend.html	345	label	🎯 Farming Goal
+crop-recommend.html	349	span	Max Profit
+crop-recommend.html	353	span	Easy to Grow
+crop-recommend.html	357	span	Organic Farming
+crop-recommend.html	375	p	🤖 AI is finding the best crops for your farm...
+crop-recommend.html	376	p	Analysing soil, season, and market conditions
+crop-recommend.html	477	span	#${crop.rank} Pick
+crop-recommend.html	478	span	${demandClass} Demand
+crop-recommend.html	514	span	${crop.type}
+crop-recommend.html	533	p	🗓️ Season Tip: ${d.season_advice}
+crop-recommend.html	534	p	🌱 Soil Tip: ${d.soil_advice}
+crop-recommend.html	537	button	🔄 Try Different Farm Details
+disease.html	15	button	ಕನ್ನಡ
+disease.html	28	p	Click to upload a crop leaf photoJPG, PNG supported
+disease.html	47	p	🤖 AI is analysing your crop...
+disease.html	48	p	This may take a few seconds
+disease.html	206	button	📸 Scan Another Photo
+forum.html	61	h2	Recent Questions
+forum.html	68	h2	Most Helpful Answers
+forum.html	74	h2	Post Your Question
+forum.html	78	option	Select Category
+forum.html	79	option	Pest Control
+forum.html	80	option	Irrigation
+forum.html	81	option	Soil Health
+forum.html	82	option	Market Prices
+forum.html	83	option	Seed Selection
+forum.html	84	option	Disease
+forum.html	85	option	Equipment
+forum.html	86	option	Other
+forum.html	90	button	📤 Post Question
+forum.html	96	button	← Back to Questions
+forum.html	99	h3	Post an Answer
+forum.html	102	button	📤 Post Answer
+forum.html	109	h2	💡 Community Guidelines
+forum.html	227	span	${q.category}
+forum.html	265	button	👍 Helpful ${a.helpful}
+forum.html	286	button	👍 Helpful ${q.helpful}
+forum.html	291	h3	${q.answers.length} Answer${q.answers.length !== 1 ? 's' : ''}
+forum.html	297	button	👍 Helpful ${a.helpful}
+forum.html	300	p	No answers yet. Be the first to help! 🤝
+guide.html	30	h2	Select a Crop
+guide.html	32	button	🌾 Paddy
+guide.html	33	button	🍅 Tomato
+guide.html	34	button	🧡 Turmeric
+guide.html	35	button	🌱 Ragi
+guide.html	36	button	🎋 Sugarcane
+guide.html	37	button	🧅 Onion
+guide.html	45	h3	Paddy (Rice) Growing Guide
+guide.html	45	p	Tap to expand details
+guide.html	51	h4	📅 Planting Season
+guide.html	52	p	Kharif: June to August (monsoon crop)
+guide.html	53	p	Rabi: September to October (winter crop)
+guide.html	56	h4	🌾 Variety Selection
+guide.html	57	p	Recommended varieties for Karnataka: BPT 5204, Jyothi, IR 64, Hybrid rice (Arjun, Rajendra)
+guide.html	60	h4	🌱 Seed Rate & Preparation
+guide.html	61	p	Seed rate: 40-50 kg/hectare for direct sowing
+guide.html	62	p	Soak seeds for 24 hours before sowing
+guide.html	63	p	Treat seeds with Trichoderma for disease prevention
+guide.html	66	h4	🧂 Soil Requirement
+guide.html	67	p	Loamy or clay-loam soil preferred
+guide.html	68	p	pH: 6.0-7.5
+guide.html	69	p	Field should be leveled for uniform water distribution
+guide.html	72	h4	💧 Water Management
+guide.html	73	p	Maintain 5-10 cm standing water during growing season
+guide.html	74	p	Drain 10 days before harvest
+guide.html	75	p	Total water requirement: 100-150 cm (with rainfall)
+guide.html	78	h4	🌾 Manuring
+guide.html	79	p	Farmyard manure: 5-10 tons/hectare
+guide.html	80	p	Nitrogen: 60 kg/ha, Phosphorus: 30 kg/ha, Potassium: 30 kg/ha
+guide.html	81	p	Apply 50% N at planting, 25% at tillering, 25% at panicle initiation
+guide.html	84	h4	🐛 Pest Management
+guide.html	85	p	Stem borer: Spray quinolphos 25 EC (2 ml/L)
+guide.html	86	p	Leaf folder: Use Bacillus thuringiensis (2 g/L)
+guide.html	87	p	Gall midge: Spray monocrotophos 36 SL (1 ml/L)
+guide.html	90	h4	🦠 Disease Management
+guide.html	91	p	Blast: Spray tricyclazole 75 WP (0.6 g/L) at boot stage
+guide.html	92	p	Sheath blight: Use hexaconazole 5 EC (2 ml/L)
+guide.html	95	h4	✂️ Harvesting
+guide.html	96	p	Harvest when 80% grains turn golden yellow
+guide.html	97	p	Crop duration: 120-150 days depending on variety
+guide.html	98	p	Yield: 40-60 quintals/hectare
+guide.html	109	h3	Tomato Growing Guide
+guide.html	109	p	Tap to expand details
+guide.html	115	h4	📅 Planting Season
+guide.html	116	p	Summer: December to January (harvest April-June)
+guide.html	117	p	Monsoon: June to July (harvest September-November)
+guide.html	120	h4	🌾 Variety Selection
+guide.html	121	p	For fresh market: Arka Vikas, Arka Meghali, Lakshmi
+guide.html	122	p	For processing: Roma, Bhagya, Pusa Ruby
+guide.html	125	h4	🌱 Nursery & Transplanting
+guide.html	126	p	Raise nursery for 6-8 weeks (25-30 cm height)
+guide.html	127	p	Spacing: 60 cm × 45 cm or 90 cm × 60 cm
+guide.html	128	p	Transplant 1-2 seedlings per pit
+guide.html	131	h4	🌍 Soil Requirement
+guide.html	132	p	Well-drained loamy soil
+guide.html	133	p	pH: 6.0-7.0
+guide.html	134	p	Mix 20 tons/ha farmyard manure before planting
+guide.html	137	h4	💧 Water Management
+guide.html	138	p	First irrigation immediately after transplanting
+guide.html	139	p	Irrigate every 7-10 days during dry season
+guide.html	140	p	Avoid overhead irrigation to prevent fungal diseases
+guide.html	143	h4	🌾 Staking & Support
+guide.html	144	p	Provide bamboo/wooden stakes or strings for climbing support
+guide.html	145	p	Stake at 30-45 cm height after 3-4 weeks
+guide.html	148	h4	✂️ Pruning & Thinning
+guide.html	149	p	Remove lower leaves up to first fruit cluster
+guide.html	150	p	Prune side shoots and maintain 2-3 main stems
+guide.html	151	p	Limit to 4-5 fruit clusters per plant
+guide.html	154	h4	🐛 Common Pests
+guide.html	155	p	Fruit borer: Use pheromone traps + spray cypermethrin 10 EC (2 ml/L)
+guide.html	156	p	Whitefly: Spray imidacloprid 17.8 SL (0.5 ml/L)
+guide.html	157	p	Mites: Use sulfur 80 WP (2 g/L) or fenpyroximate
+guide.html	160	h4	🦠 Disease Control
+guide.html	161	p	Early blight: Spray mancozeb 75 WP (2 g/L)
+guide.html	162	p	Powdery mildew: Use sulfur dust or spray hexaconazole
+guide.html	163	p	Fusarium wilt: Use resistant varieties, crop rotation
+guide.html	166	h4	✂️ Harvesting
+guide.html	167	p	Harvest at pink/turning stage for long-distance transport
+guide.html	168	p	Mature red stage for local market
+guide.html	169	p	Yield: 30-40 tons/hectare, ready in 90-110 days
+guide.html	180	h3	Turmeric Growing Guide
+guide.html	180	p	Tap to expand details
+guide.html	186	h4	📅 Planting Season
+guide.html	187	p	June to July (monsoon onset)
+guide.html	188	p	Harvesting: January to March (8-10 months)
+guide.html	191	h4	🌾 Variety Selection
+guide.html	192	p	Recommended: Suguna, Suromaa, Krishnamurthy, Suvarna
+guide.html	193	p	High curcumin varieties preferred
+guide.html	196	h4	🌱 Seed & Planting
+guide.html	197	p	Seed rate: 20-25 tons of seed rhizomes/hectare
+guide.html	198	p	Use healthy rhizomes (25-30 grams each)
+guide.html	199	p	Plant in furrows at 20-25 cm depth
+guide.html	200	p	Spacing: 25 cm × 20 cm
+guide.html	203	h4	🌍 Soil Requirement
+guide.html	204	p	Well-drained, fertile loamy soil
+guide.html	205	p	pH: 5.5-7.5
+guide.html	206	p	High organic matter content essential
+guide.html	209	h4	💧 Water Management
+guide.html	210	p	Keep soil moist during growing season
+guide.html	211	p	Provide shade during hot months
+guide.html	212	p	Mulch with dry leaves (10-15 tons/ha) for moisture retention
+guide.html	215	h4	🌾 Manuring
+guide.html	216	p	Farmyard manure: 25-30 tons/hectare
+guide.html	217	p	Neem cake: 2 tons/hectare
+guide.html	218	p	Nitrogen: 25 kg/ha, Phosphorus: 50 kg/ha, Potassium: 50 kg/ha
+guide.html	221	h4	🐛 Pest Management
+guide.html	222	p	Shoot borer: Remove infested leaves, spray quinolphos
+guide.html	223	p	Scale insects: Use oil-based sprays
+guide.html	226	h4	🦠 Disease Control
+guide.html	227	p	Leaf blotch: Spray bordeux mixture (1%)
+guide.html	228	p	Rhizome rot: Use Trichoderma-treated soil
+guide.html	231	h4	✂️ Harvesting
+guide.html	232	p	Harvest when leaves begin to dry (8-10 months)
+guide.html	233	p	Dig rhizomes carefully to avoid damage
+guide.html	234	p	Yield: 20-30 tons fresh, 3-5 tons dried/hectare
+guide.html	245	h3	Ragi (Finger Millet) Growing Guide
+guide.html	245	p	Tap to expand details
+guide.html	251	h4	📅 Planting Season
+guide.html	252	p	Kharif: June to August
+guide.html	253	p	Rabi: October to November
+guide.html	256	h4	🌾 Variety Selection
+guide.html	257	p	VL Mandua, K-1, MR-1, HR-374
+guide.html	258	p	High-yield varieties for Karnataka
+guide.html	261	h4	🌱 Seed & Sowing
+guide.html	262	p	Seed rate: 8-10 kg/hectare
+guide.html	263	p	Spacing: 22.5 cm × 10 cm
+guide.html	264	p	Sow at 3-4 cm depth
+guide.html	267	h4	🌍 Soil Requirement
+guide.html	268	p	Well-drained, loamy or sandy loam soil
+guide.html	269	p	pH: 5.5-7.5
+guide.html	270	p	Requires less fertility than other cereals
+guide.html	273	h4	💧 Water Management
+guide.html	274	p	Requires 60-65 cm rainfall or irrigation
+guide.html	275	p	Light and frequent irrigations preferable
+guide.html	278	h4	🌾 Manuring
+guide.html	279	p	FYM: 5 tons/hectare
+guide.html	280	p	Nitrogen: 40 kg/ha, Phosphorus: 20 kg/ha, Potassium: 20 kg/ha
+guide.html	283	h4	✂️ Harvesting
+guide.html	284	p	Harvest at physiological maturity (80-90 days)
+guide.html	285	p	Yield: 15-20 quintals/hectare
+guide.html	286	p	Highly nutritious grain for health
+guide.html	297	h3	Sugarcane Growing Guide
+guide.html	297	p	Tap to expand details
+guide.html	303	h4	📅 Planting Season
+guide.html	304	p	Autumn: September to November
+guide.html	305	p	Spring: February to March
+guide.html	308	h4	🌾 Variety Selection
+guide.html	309	p	CoM 265, CoM 148, CoK 05061
+guide.html	310	p	Select disease-resistant varieties
+guide.html	313	h4	🌱 Seed & Planting
+guide.html	314	p	Seed rate: 50-60 quintals/hectare
+guide.html	315	p	Plant 2-3 buds per meter in furrows
+guide.html	316	p	Row spacing: 90 cm
+guide.html	319	h4	🌍 Soil Requirement
+guide.html	320	p	Deep, fertile, well-drained soil
+guide.html	321	p	pH: 6.0-7.5
+guide.html	322	p	Good water-holding capacity
+guide.html	325	h4	💧 Water Management
+guide.html	326	p	Requires 100-150 cm water annually
+guide.html	327	p	Regular irrigation during dry season
+guide.html	328	p	Avoid waterlogging
+guide.html	331	h4	🌾 Manuring
+guide.html	332	p	FYM: 20-25 tons/hectare
+guide.html	333	p	Nitrogen: 120-150 kg/ha, Phosphorus: 60 kg/ha, Potassium: 60 kg/ha
+guide.html	336	h4	✂️ Harvesting
+guide.html	337	p	Harvest at 12 months for plant crop, 11 months for ratoon
+guide.html	338	p	Yield: 60-80 tons/hectare
+guide.html	349	h3	Onion Growing Guide
+guide.html	349	p	Tap to expand details
+guide.html	355	h4	📅 Planting Season
+guide.html	356	p	Kharif: June to July
+guide.html	357	p	Rabi: September to October
+guide.html	360	h4	🌾 Variety Selection
+guide.html	361	p	White Baswant, Red Baswant, Bombay Red
+guide.html	362	p	Nasik Red for northern districts
+guide.html	365	h4	🌱 Nursery & Transplanting
+guide.html	366	p	Nursery duration: 6-8 weeks
+guide.html	367	p	Spacing: 15 cm × 10 cm
+guide.html	368	p	Plant 12-15 cm tall seedlings
+guide.html	371	h4	🌍 Soil Requirement
+guide.html	372	p	Well-drained loamy soil
+guide.html	373	p	pH: 6.0-7.0
+guide.html	374	p	High organic matter
+guide.html	377	h4	💧 Water Management
+guide.html	378	p	Light and frequent irrigations
+guide.html	379	p	Stop irrigation 3-4 weeks before harvest
+guide.html	382	h4	🐛 Pest Management
+guide.html	383	p	Thrips: Spray spinosad
+guide.html	384	p	Mites: Use sulfur dust
+guide.html	387	h4	✂️ Harvesting
+guide.html	388	p	Harvest when tops fall and bulbs mature (120-150 days)
+guide.html	389	p	Yield: 25-30 tons/hectare
+guide.html	397	h2	📋 General Tips for All Crops
+index.html	12	button	English
+index.html	13	button	ಕನ್ನಡ
+index.html	25	a	🌦️                              1. Weather Information                 3-day forecast + spray advisory for your taluk.                          →
+index.html	34	a	📷                              2. Disease Detection via Photo                 Upload leaf photo. Get instant diagnosis + organic remedy.                          →
+index.html	44	a	🌱                              3. Crop Health Monitoring                 AI checks crop health using weather + photo history.                          →
+index.html	53	a	⚠️                              4. Threat Alerts: Pest/Animal                 Get alerts for locust, wild boar, insects in your area.                          →
+index.html	62	a	🌾                              5. Crop Recommendation                 Best crop to sow now based on soil, weather, market.                          →
+index.html	71	a	💧                              6. Smart Irrigation Schedule                 When to water, how much. Saves water + electricity.                          →
+index.html	80	a	💰                              7. Market Price Integration                 Live Mysore/Mandya mandi rates from Agmarknet.                          →
+index.html	89	a	🗣️                              8. AI Chatbot in Kannada                 Ask any farming question by voice. Get voice reply.                          →
+index.html	98	a	🏛️                              9. Govt Scheme Alerts                 PM-KISAN, crop insurance, subsidy alerts for you.                          →
+index.html	107	a	👨‍🌾                              10. Farmer Community Forum                 Ask questions, share tips with farmers near you.                          →
+index.html	116	a	📖                              11. Crop Growing Guide                 Step-by-step guide for 20+ crops from ICAR data.                          →
+index.html	125	a	🔔                              12. Push Notifications                 Real-time alerts for weather, pests, prices & schemes.                          →
+index.html	136	p	Yield Matrix v1.0 | Made for Karnataka farmers
+index.html	137	p	Tap a feature to start. "Soon" features coming by month end.
+irrigation.html	15	button	ಕನ್ನಡ
+irrigation.html	24	h3	Field Details
+irrigation.html	27	label	🌾 Crop
+irrigation.html	29	option	Ragi
+irrigation.html	30	option	Tomato
+irrigation.html	31	option	Paddy
+irrigation.html	32	option	Onion
+irrigation.html	33	option	Turmeric
+irrigation.html	37	label	💧 Irrigation Type
+irrigation.html	39	option	Drip
+irrigation.html	40	option	Sprinkler
+irrigation.html	41	option	Furrow
+irrigation.html	42	option	Flood
+irrigation.html	46	label	📍 Location
+irrigation.html	52	label	📐 Area (Acres)
+irrigation.html	56	button	Get Irrigation Plan
+irrigation.html	61	p	Fetching the next 5 days of weather forecast…
+irrigation.html	158	h3	${new Date(day.date).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}
+irrigation.html	159	span	Temp:
+irrigation.html	159	span	${day.low}° / ${day.high}°
+irrigation.html	160	span	Rain:
+irrigation.html	160	span	${day.rain} mm
+irrigation.html	161	span	Water qty:
+irrigation.html	161	span	${day.waterQty} mm
+irrigation.html	162	p	${day.advice}
+irrigation.html	168	p	Crop: ${crop}
+irrigation.html	169	p	Irrigation type: ${irrigationType}
+irrigation.html	170	p	Area: ${area} acres
+irrigation.html	171	p	Use this plan with local soil moisture checks. Adjust if soil is still wet.
+irrigation.html	176	p	Unable to load weather forecast. Try again later.
+market.html	68	h2	Price Trend (7-Day Average)
+market.html	75	h2	Mandi Comparison
+market.html	91	h2	💡 Selling Tips for --
+market.html	154	button	${crop}
+market.html	224	span	${trendDirection} ${Math.abs(price.change)}%
+market.html	249	span	= 0 ? 'trend-up' : 'trend-down'}">${price.change >= 0 ? '+' : ''}${price.change}%
+notifications.html	270	a	🌾 Yield Matrix
+notifications.html	277	button	English
+notifications.html	278	button	ಕನ್ನಡ
+notifications.html	296	h2	✅ Enable Notifications
+notifications.html	298	button	Enable Notifications
+notifications.html	305	h2	⚙️ Notification Preferences
+notifications.html	394	h2	ℹ️ How It Works
+schemes.html	17	h2	Choose Your Need
+schemes.html	18	p	Select a benefit category to see the best government schemes for your farm.
+schemes.html	23	h2	Recommended Schemes
+schemes.html	28	h2	How to Apply
+schemes.html	139	h3	${s.title}
+schemes.html	140	p	${s.description}
+schemes.html	141	p	Eligibility: ${s.eligibility}
+schemes.html	142	p	How to apply: ${s.action}
+schemes.html	143	a	Apply Now →
+threat-alerts.html	18	h2	Check Farm Alerts
+threat-alerts.html	19	p	Use current weather to detect risk from pests, insects, storms and high winds.
+threat-alerts.html	20	button	🌦️ Get Alerts
+threat-alerts.html	25	h2	Current Weather
+threat-alerts.html	41	h2	Farm Alerts
+threat-alerts.html	375	h2	📋 Threat Management Guide
+threat-alerts.html	377	h4	🐛 For Insects & Pests:
+threat-alerts.html	387	h4	🐗 For Animals:
+threat-alerts.html	397	h4	🦠 For Diseases:
+threat-alerts.html	408	a	🌱 					 						Crop Health Check 						Analyze your crop health with photos. 					 					→
+threat-alerts.html	416	a	💧 					 						Irrigation Plan 						Adjust watering based on upcoming weather. 					 					→
+tril.html	27	h2	Farm Weather Overview
+tril.html	28	p	Clean, responsive layout for quick weather and alert information.
+tril.html	44	h2	5-Day Forecast
+tril.html	78	h2	Farm Alerts
+tril.html	90	a	📋                              Static Frontend Design                 This page is intentionally built without JavaScript.
+weather.html	50	p	Mysore, Karnataka
+weather.html	61	h4	⚠️ Weather Alert
+weather.html	91	h2	5-Day Forecast
+weather.html	218	h3	What to do next?
+weather.html	219	a	📷                                              Disease Check                         High humidity? Check for fungus risk                                          →
+weather.html	227	a	💧                                              Smart Irrigation                         Plan watering based on rain forecast                                          →

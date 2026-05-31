@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="kn">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Farmer Forum – Yield Matrix</title>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+		.forum-tabs {
+			display: flex;
+			gap: 8px;
+			margin-bottom: 16px;
+			border-bottom: 2px solid #eee;
+		}
+
+		.forum-tab {
+			padding: 10px 14px;
+			cursor: pointer;
+			border-bottom: 3px solid transparent;
+			font-weight: 500;
+			color: #666;
+			transition: all 0.3s;
+		}
+
+		.forum-tab.active {
+			color: #2e7d32;
+			border-bottom-color: #2e7d32;
+		}
+
+		.forum-content {
+			display: none;
+		}
+
+		.forum-content.active {
+			display: block;
+		}
+
+		.post-form {
+			background: #f9f9f9;
+			padding: 16px;
+			border-radius: 10px;
+			margin-bottom: 16px;
+		}
+
+		.post-form input,
+		.post-form textarea,
+		.post-form select {
+			width: 100%;
+			padding: 10px;
+			margin: 8px 0;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			font-family: inherit;
+			font-size: 14px;
+			box-sizing: border-box;
+		}
+
+		.post-form textarea {
+			resize: vertical;
+			min-height: 100px;
+		}
+
+		.category-filter {
+			display: flex;
+			gap: 6px;
+			flex-wrap: wrap;
+			margin-bottom: 12px;
+		}
+
+		.category-pill {
+			padding: 6px 12px;
+			border: 1px solid #ddd;
+			border-radius: 20px;
+			cursor: pointer;
+			font-size: 12px;
+			transition: all 0.3s;
+			background: #fff;
+		}
+
+		.category-pill.active {
+			background: #2e7d32;
+			color: #fff;
+			border-color: #2e7d32;
+		}
+
+		.question-card {
+			background: #fff;
+			border: 1px solid #eee;
+			border-radius: 10px;
+			padding: 14px;
+			margin-bottom: 12px;
+			cursor: pointer;
+			transition: all 0.3s;
+		}
+
+		.question-card:hover {
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			border-color: #2e7d32;
+		}
+
+		.question-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: start;
+		}
+
+		.question-title {
+			font-weight: 600;
+			color: #1B4332;
+			margin-bottom: 4px;
+		}
+
+		.question-meta {
+			font-size: 12px;
+			color: #999;
+		}
+
+		.question-category {
+			display: inline-block;
+			background: #e8f5e9;
+			color: #2e7d32;
+			padding: 2px 8px;
+			border-radius: 3px;
+			font-size: 11px;
+			margin-top: 6px;
+		}
+
+		.answer-count {
+			background: #f0f0f0;
+			color: #555;
+			padding: 4px 8px;
+			border-radius: 4px;
+			font-size: 12px;
+			font-weight: 500;
+		}
+
+		.question-detail {
+			display: none;
+			background: #fafafa;
+			padding: 16px;
+			border-radius: 10px;
+			margin: 12px 0;
+		}
+
+		.question-detail.active {
+			display: block;
+		}
+
+		.answer-form {
+			background: #f0f7f0;
+			padding: 12px;
+			border-radius: 8px;
+			margin: 12px 0;
+		}
+
+		.answer-form textarea {
+			min-height: 80px;
+		}
+
+		.answer-card {
+			background: #fff;
+			border-left: 3px solid #2e7d32;
+			padding: 12px;
+			margin: 10px 0;
+			border-radius: 6px;
+		}
+
+		.answer-author {
+			font-weight: 600;
+			color: #2e7d32;
+			font-size: 13px;
+		}
+
+		.answer-time {
+			font-size: 11px;
+			color: #999;
+		}
+
+		.answer-text {
+			color: #555;
+			margin: 6px 0;
+			line-height: 1.5;
+			font-size: 13px;
+		}
+
+		.helpful-btn {
+			background: #fff;
+			border: 1px solid #ddd;
+			padding: 6px 12px;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 12px;
+			margin-top: 6px;
+			transition: all 0.2s;
+		}
+
+		.helpful-btn:hover {
+			background: #e8f5e9;
+			border-color: #2e7d32;
+		}
+
+		.helpful-count {
+			font-size: 11px;
+			color: #999;
+			margin-left: 4px;
+		}
+
+		.back-btn {
+			background: #f0f0f0;
+			border: none;
+			padding: 8px 12px;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-bottom: 12px;
+			font-size: 13px;
+		}
+
+		.empty-state {
+			text-align: center;
+			padding: 24px;
+			color: #999;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Language Switcher -->
+	<div class="lang-switcher">
+		<button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')" data-i18n="ಕನ್ನಡ">ಕನ್ನಡ</button>
+	</div>
+
+	<div class="header">
+		<a href="../index.html" class="back" data-i18n="back">←</a>
+		<h1 data-i18n="forum_title">Farmer Forum</h1>
+		<p data-i18n="forum_subtitle">Share questions, answers, and farming tips with your community.</p>
+	</div>
+
+	<div class="container">
+		<div class="card">
+			<div class="forum-tabs">
+				<div class="forum-tab active" onclick="switchTab('browse')">📖 Browse Questions</div>
+				<div class="forum-tab" onclick="switchTab('trending')">🔥 Trending</div>
+				<div class="forum-tab" onclick="switchTab('ask')">❓ Ask Question</div>
+			</div>
+
+			<!-- Browse Tab -->
+			<div id="browse" class="forum-content active">
+				<h2 data-i18n="recent_questions">Recent Questions</h2>
+				<div class="category-filter" id="categoryFilter"></div>
+				<div id="questionsList"></div>
+			</div>
+
+			<!-- Trending Tab -->
+			<div id="trending" class="forum-content">
+				<h2 data-i18n="most_helpful_answers">Most Helpful Answers</h2>
+				<div id="trendingList"></div>
+			</div>
+
+			<!-- Ask Question Tab -->
+			<div id="ask" class="forum-content">
+				<h2 data-i18n="post_your_question">Post Your Question</h2>
+				<div class="post-form">
+					<input type="text" id="askName" placeholder="Your name (optional)" maxlength="50">
+					<select id="askCategory">
+						<option value="" data-i18n="select_category">Select Category</option>
+						<option value="Pest Control" data-i18n="pest_control">Pest Control</option>
+						<option value="Irrigation" data-i18n="irrigation">Irrigation</option>
+						<option value="Soil Health" data-i18n="soil_health">Soil Health</option>
+						<option value="Market Prices" data-i18n="market_prices">Market Prices</option>
+						<option value="Seed Selection" data-i18n="seed_selection">Seed Selection</option>
+						<option value="Disease" data-i18n="disease">Disease</option>
+						<option value="Equipment" data-i18n="equipment">Equipment</option>
+						<option value="Other" data-i18n="other">Other</option>
+					</select>
+					<input type="text" id="askTitle" placeholder="Your question title" maxlength="100">
+					<textarea id="askDetails"
+						placeholder="Describe your situation in detail... (What crop? What problem? What have you tried?)"></textarea>
+					<button class="btn btn-primary" onclick="postQuestion()" data-i18n="post_question">📤 Post
+						Question</button>
+				</div>
+			</div>
+
+			<!-- Question Detail View -->
+			<div id="detailView" class="question-detail">
+				<button class="back-btn" onclick="backToList()" data-i18n="back_to_questions">← Back to
+					Questions</button>
+				<div id="questionDetail"></div>
+				<div class="answer-form">
+					<h3 style="margin-top:0; color:#2e7d32;" style="margin-top:0; color:#2e7d32;"
+						data-i18n="post_an_answer">Post an Answer</h3>
+					<input type="text" id="answerName" placeholder="Your name (optional)" maxlength="50">
+					<textarea id="answerText" placeholder="Share your experience and advice..."></textarea>
+					<button class="btn btn-primary" onclick="postAnswer()" data-i18n="post_answer">📤 Post
+						Answer</button>
+				</div>
+				<div id="answersContainer"></div>
+			</div>
+		</div>
+
+		<div class="card">
+			<h2 data-i18n="community_guidelines">💡 Community Guidelines</h2>
+			<ul style="padding-left:18px; color:#555; margin-top:12px; font-size:13px; line-height:1.8;">
+				<li>Be respectful and helpful to fellow farmers</li>
+				<li>Share your personal experience and what worked for you</li>
+				<li>Include crop type, field size, and location context in questions</li>
+				<li>Avoid promoting commercial products or services</li>
+				<li>Ask follow-up questions to clarify advice</li>
+				<li>Vote helpful answers to build community credibility</li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="../js/i18n.js"></script>
+	<script>
+		// Initialize with sample questions
+		const CATEGORIES = ['All', 'Pest Control', 'Irrigation', 'Soil Health', 'Market Prices', 'Seed Selection', 'Disease', 'Equipment', 'Other'];
+		let activeCategory = 'All';
+		let currentViewingQuestionId = null;
+
+		// Load or initialize forum data
+		function getForumData() {
+			const stored = localStorage.getItem('forumData');
+			if (stored) return JSON.parse(stored);
+
+			return {
+				questions: [
+					{
+						id: 1,
+						title: 'How to control stem borer in paddy?',
+						category: 'Pest Control',
+						author: 'Ravi K.',
+						content: 'We are losing about 15% of paddy to stem borer. What is the best time to spray? Should we use organic or chemical?',
+						date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+						helpful: 12,
+						answers: [
+							{ author: 'Priya M.', content: 'Use light traps at dusk and dawn. Spray quinolphos 25 EC (2ml/L) when you see 5-6 damaged tillers per meter. Best time is evening.', helpful: 8, date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toLocaleDateString() },
+							{ author: 'Farmer Group, Tumkur', content: 'We use pheromone traps and hand-pick affected stems. Chemical spray should be last resort. One spray at boot stage works well for us.', helpful: 6, date: new Date(Date.now() - 18 * 60 * 60 * 1000).toLocaleDateString() }
+						]
+					},
+					{
+						id: 2,
+						title: 'Best irrigation schedule for tomato in summer?',
+						category: 'Irrigation',
+						author: 'Suresh B.',
+						content: 'I have drip irrigation. How many hours per day during peak summer? Also, when should I stop before harvest?',
+						date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+						helpful: 8,
+						answers: [
+							{ author: 'Meera N.', content: '1.5-2 hours daily during May-June with drip. Reduce to 45-60 min in July. Stop 5-7 days before harvest for better flavor and shelf-life.', helpful: 7, date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toLocaleDateString() }
+						]
+					},
+					{
+						id: 3,
+						title: 'Soil testing - how often should I do it?',
+						category: 'Soil Health',
+						author: 'Vikram R.',
+						content: 'My soil is sandy loam. I want to grow multiple crops. Should I test every season or yearly?',
+						date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+						helpful: 15,
+						answers: [
+							{ author: 'Dr. Anand', content: 'Test yearly at least. For intensive cropping (3 crops/year), test every 6 months. Sandy loam loses nutrients faster, so more frequent testing helps.', helpful: 12, date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toLocaleDateString() },
+							{ author: 'Local KVK', content: 'Recommended: Test before main season + mid-season check. Soil health card from govt scheme is free. Visit your nearest KVK.', helpful: 10, date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toLocaleDateString() }
+						]
+					}
+				],
+				nextId: 4
+			};
+		}
+
+		function saveForumData(data) {
+			localStorage.setItem('forumData', JSON.stringify(data));
+		}
+
+		function switchTab(tab) {
+			document.querySelectorAll('.forum-tab').forEach(t => t.classList.remove('active'));
+			document.querySelectorAll('.forum-content').forEach(c => {
+				c.classList.remove('active');
+			});
+			// Hide detail view when switching tabs
+			document.getElementById('detailView').classList.remove('active');
+
+			event.target.classList.add('active');
+			document.getElementById(tab).classList.add('active');
+
+			if (tab === 'browse') loadQuestions();
+			if (tab === 'trending') loadTrending();
+		}
+
+		function renderCategories() {
+			const filter = document.getElementById('categoryFilter');
+			filter.innerHTML = CATEGORIES.map(cat => `
+				<div class="category-pill ${cat === activeCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">
+					${cat}
+				</div>
+			`).join('');
+		}
+
+		function filterCategory(cat) {
+			activeCategory = cat;
+			renderCategories();
+			loadQuestions();
+		}
+
+		function loadQuestions() {
+			const data = getForumData();
+			let questions = data.questions;
+			if (activeCategory !== 'All') {
+				questions = questions.filter(q => q.category === activeCategory);
+			}
+			questions = questions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+			const container = document.getElementById('questionsList');
+			if (questions.length === 0) {
+				container.innerHTML = '<div class="empty-state">No questions in this category yet. Be the first to ask! 🌱</div>';
+				return;
+			}
+
+			container.innerHTML = questions.map(q => `
+				<div class="question-card" onclick="viewQuestion(${q.id})">
+					<div class="question-header">
+						<div>
+							<div class="question-title">${q.title}</div>
+							<div class="question-meta">by ${q.author} • ${q.date}</div>
+							<span class="question-category">${q.category}</span>
+						</div>
+						<div class="answer-count">${q.answers.length} answers</div>
+					</div>
+					<div style="margin-top:8px; color:#666; font-size:13px;">
+						${q.content.substring(0, 100)}...
+					</div>
+					<div style="margin-top:6px; font-size:12px; color:#999;">👍 ${q.helpful} found helpful</div>
+				</div>
+			`).join('');
+		}
+
+		function loadTrending() {
+			const data = getForumData();
+			let allAnswers = [];
+			data.questions.forEach(q => {
+				q.answers.forEach(a => {
+					allAnswers.push({
+						qTitle: q.title,
+						qId: q.id,
+						...a
+					});
+				});
+			});
+			allAnswers = allAnswers.sort((a, b) => b.helpful - a.helpful).slice(0, 5);
+
+			const container = document.getElementById('trendingList');
+			if (allAnswers.length === 0) {
+				container.innerHTML = '<div class="empty-state">No answers yet. Be the first to help! 🤝</div>';
+				return;
+			}
+
+			container.innerHTML = allAnswers.map((a, i) => `
+				<div style="background:#f9f9f9; padding:12px; border-radius:8px; margin-bottom:12px;">
+					<div style="font-size:12px; color:#999; margin-bottom:6px;">Question: <strong style="color:#1B4332;">${a.qTitle}</strong></div>
+					<div class="answer-card">
+						<div class="answer-author">👤 ${a.author}</div>
+						<div class="answer-text">${a.content}</div>
+						<button class="helpful-btn" onclick="toggleHelpful(${i})">👍 Helpful <span class="helpful-count">${a.helpful}</span></button>
+					</div>
+				</div>
+			`).join('');
+		}
+
+		function viewQuestion(qId) {
+			currentViewingQuestionId = qId;
+			const data = getForumData();
+			const q = data.questions.find(x => x.id === qId);
+
+			document.getElementById('browse').classList.remove('active');
+			document.getElementById('trending').classList.remove('active');
+			document.getElementById('ask').classList.remove('active');
+			document.getElementById('detailView').classList.add('active');
+
+			document.getElementById('questionDetail').innerHTML = `
+				<div style="background:#f0f7f0; padding:14px; border-radius:10px; margin-bottom:14px;">
+					<div class="question-title" style="font-size:16px; margin-bottom:6px;">${q.title}</div>
+					<div class="question-meta">by ${q.author} • ${q.date} • ${q.category}</div>
+					<div style="margin-top:10px; color:#555; line-height:1.6;">${q.content}</div>
+					<button class="helpful-btn" onclick="markQuestionHelpful(${qId})">👍 Helpful <span class="helpful-count">${q.helpful}</span></button>
+				</div>
+			`;
+
+			document.getElementById('answersContainer').innerHTML = (q.answers.length > 0 ? `
+				<h3 style="color:#2e7d32; margin:16px 0 12px 0;">${q.answers.length} Answer${q.answers.length !== 1 ? 's' : ''}</h3>
+				${q.answers.map((a, i) => `
+					<div class="answer-card">
+						<div class="answer-author">👤 ${a.author}</div>
+						<div class="answer-time">${a.date}</div>
+						<div class="answer-text">${a.content}</div>
+						<button class="helpful-btn" onclick="markAnswerHelpful(${qId}, ${i})">👍 Helpful <span class="helpful-count">${a.helpful}</span></button>
+					</div>
+				`).join('')}
+			` : '<p style="color:#999; text-align:center; padding:20px;" style="color:#999; text-align:center; padding:20px;" data-i18n="no_answers_yet_be_the_first_to_help">No answers yet. Be the first to help! 🤝</p>');
+		}
+
+		function backToList() {
+			currentViewingQuestionId = null;
+			document.getElementById('detailView').classList.remove('active');
+			document.getElementById('browse').classList.add('active');
+			loadQuestions();
+		}
+
+		function getMyQuestions() {
+			return JSON.parse(localStorage.getItem('myQuestions')) || [];
+		}
+
+		function getMyAnswerCounts() {
+			return JSON.parse(localStorage.getItem('myAnswerCounts')) || {};
+		}
+
+		function saveMyQuestions(qs) {
+			localStorage.setItem('myQuestions', JSON.stringify(qs));
+		}
+
+		function saveMyAnswerCounts(counts) {
+			localStorage.setItem('myAnswerCounts', JSON.stringify(counts));
+		}
+
+		function checkForNewReplies() {
+			const data = getForumData();
+			const myQs = getMyQuestions();
+			const counts = getMyAnswerCounts();
+			let hasNewReplies = false;
+
+			myQs.forEach(qId => {
+				const q = data.questions.find(x => x.id === qId);
+				if (q) {
+					const prevCount = counts[qId] || 0;
+					if (q.answers.length > prevCount) {
+						// Optionally show browser notification if supported/enabled
+						if (window.Notification && Notification.permission === "granted") {
+							new Notification("Yield Matrix Forum", {
+								body: `You have ${q.answers.length - prevCount} new reply(s) on your question: "${q.title}"`,
+								icon: "../assets/favicon.ico"
+							});
+						} else {
+							alert(`🔔 Notification: You have ${q.answers.length - prevCount} new reply(s) on your question: "${q.title}"`);
+						}
+						counts[qId] = q.answers.length;
+						hasNewReplies = true;
+					}
+				}
+			});
+
+			if (hasNewReplies) {
+				saveMyAnswerCounts(counts);
+			}
+		}
+
+		// Initialize on load
+		window.onload = () => {
+			renderCategories();
+			loadQuestions();
+			setTimeout(checkForNewReplies, 1000); // Check after a short delay
+		};
+
+		function postQuestion() {
+			const name = document.getElementById('askName').value.trim() || 'Anonymous Farmer';
+			const category = document.getElementById('askCategory').value;
+			const title = document.getElementById('askTitle').value.trim();
+			const content = document.getElementById('askDetails').value.trim();
+
+			if (!category || !title || !content) {
+				alert('Please fill all fields');
+				return;
+			}
+
+			const data = getForumData();
+			const newId = data.nextId++;
+			data.questions.unshift({
+				id: newId,
+				title, category, content,
+				author: name,
+				date: new Date().toLocaleDateString(),
+				helpful: 0,
+				answers: []
+			});
+			saveForumData(data);
+
+			// Track my question
+			const myQs = getMyQuestions();
+			myQs.push(newId);
+			saveMyQuestions(myQs);
+
+			const counts = getMyAnswerCounts();
+			counts[newId] = 0;
+			saveMyAnswerCounts(counts);
+
+			alert('Question posted! Thank you for sharing with the community. 🙏');
+			document.getElementById('askName').value = '';
+			document.getElementById('askCategory').value = '';
+			document.getElementById('askTitle').value = '';
+			document.getElementById('askDetails').value = '';
+			switchTab('browse');
+		}
+
+		function postAnswer() {
+			const name = document.getElementById('answerName').value.trim() || 'Anonymous Farmer';
+			const text = document.getElementById('answerText').value.trim();
+
+			if (!text) {
+				alert('Please write an answer');
+				return;
+			}
+
+			const data = getForumData();
+			const q = data.questions.find(x => x.id === currentViewingQuestionId);
+			q.answers.push({
+				author: name,
+				content: text,
+				helpful: 0,
+				date: new Date().toLocaleDateString()
+			});
+			saveForumData(data);
+
+			// Update counts if I answered my own question, to avoid self-notification
+			const counts = getMyAnswerCounts();
+			if (counts[currentViewingQuestionId] !== undefined) {
+				counts[currentViewingQuestionId] = q.answers.length;
+				saveMyAnswerCounts(counts);
+			}
+
+			alert('Answer posted! Thank you for helping the community. 🙏');
+			document.getElementById('answerName').value = '';
+			document.getElementById('answerText').value = '';
+			viewQuestion(currentViewingQuestionId);
+		}
+
+		function markQuestionHelpful(qId) {
+			const data = getForumData();
+			const q = data.questions.find(x => x.id === qId);
+			q.helpful++;
+			saveForumData(data);
+			viewQuestion(qId);
+		}
+
+		function markAnswerHelpful(qId, ansIdx) {
+			const data = getForumData();
+			const q = data.questions.find(x => x.id === qId);
+			q.answers[ansIdx].helpful++;
+			saveForumData(data);
+			viewQuestion(qId);
+		}
+
+		// Hidden helper for testing: open console and call `simulateReply(qId)`
+		window.simulateReply = function (qId) {
+			const data = getForumData();
+			const q = data.questions.find(x => x.id === qId);
+			if (q) {
+				q.answers.push({
+					author: "System Test",
+					content: "This is an automatic test reply.",
+					helpful: 0,
+					date: new Date().toLocaleDateString()
+				});
+				saveForumData(data);
+				console.log("Simulated reply added. Refresh the page to see the notification!");
+			}
+		};
+	</script>
+	<script src="../js/offline.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು – ಯೀಲ್ಡ್ ಮ್ಯಾಟ್ರಿಕ್ಸ್</title>
+    <meta name="description" content="ನಿಮ್ಮ ಜಮೀನಿಗೆ ಸರಿಯಾದ ಸರ್ಕಾರಿ ಸಹಾಯಧನ, ವಿಮೆ ಮತ್ತು ಬೆಂಬಲ ಯೋಜನೆ ಹುಡುಕಿ.">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* ── Category Filter Pills ── */
+        .scheme-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .scheme-pill {
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(4,120,87,0.25);
+            background: var(--surface-soft);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: 'Outfit', sans-serif;
+        }
+        .scheme-pill:hover   { border-color: var(--primary); background: var(--surface); }
+        .scheme-pill.selected {
+            background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(4,120,87,0.2);
+        }
+
+        /* ── Scheme Cards ── */
+        .schemes-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .scheme-card {
+            background: var(--surface);
+            border: 1px solid rgba(4,120,87,0.12);
+            border-radius: 16px;
+            padding: 20px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: fadeIn 0.3s ease both;
+        }
+        .scheme-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(4,120,87,0.12); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .scheme-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .scheme-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+        }
+        .cat-badge {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 999px;
+            background: rgba(4,120,87,0.1);
+            border: 1px solid rgba(4,120,87,0.2);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .scheme-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+        .scheme-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            padding: 8px 18px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-strong));
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            transition: opacity 0.2s, transform 0.2s;
+            align-self: flex-start;
+        }
+        .scheme-link-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+        /* ── States ── */
+        .schemes-loading,
+        .schemes-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .schemes-empty .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+        .spin {
+            display: inline-block;
+            width: 28px; height: 28px;
+            border: 3px solid rgba(4,120,87,0.15);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── How to Apply ── */
+        .apply-steps {
+            padding-left: 18px;
+            color: var(--text-muted);
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* ── "No match" within filtered results ── */
+        .no-match {
+            padding: 28px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="kn" onclick="setLanguage('kn')">ಕನ್ನಡ</button>
+    </div>
+
+    <div class="header">
+        <a href="../index.html" class="back">←</a>
+        <h1>ಸರ್ಕಾರಿ ಯೋಜನೆಗಳು</h1>
+        <p>ನಿಮ್ಮ ಜಮೀನಿಗೆ ಸರಿಯಾದ ಸಹಾಯಧನ, ವಿಮೆ ಮತ್ತು ಬೆಂಬಲ ಯೋಜನೆ ಹುಡುಕಿ.</p>
+    </div>
+
+    <div class="container">
+
+        <!-- Category Filter -->
+        <div class="card">
+            <h2>ವರ್ಗದ ಪ್ರಕಾರ ಶೋಧಿಸಿ</h2>
+            <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">
+                ಹೊಂದಿಕೆಯಾಗುವ ಯೋಜನೆಗಳನ್ನು ನೋಡಲು ವರ್ಗ ಆಯ್ಕೆ ಮಾಡಿ.
+            </p>
+            <div class="scheme-filter" id="schemeFilter">
+                <!-- built dynamically -->
+            </div>
+        </div>
+
+        <!-- Schemes List -->
+        <div class="card">
+            <h2>ಲಭ್ಯವಿರುವ ಯೋಜನೆಗಳು</h2>
+
+            <!-- Loading -->
+            <div id="loadingState" class="schemes-loading">
+                <div class="spin"></div>
+                <p>ಯೋಜನೆಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ…</p>
+            </div>
+
+            <!-- Schemes grid -->
+            <div id="schemeList" class="schemes-grid" hidden></div>
+
+            <!-- Empty / error -->
+            <div id="emptyState" class="schemes-empty" hidden>
+                <div class="empty-icon">📭</div>
+                <p id="emptyMsg">ಇನ್ನೂ ಯಾವ ಯೋಜನೆಗಳನ್ನೂ ಸೇರಿಸಲಾಗಿಲ್ಲ.</p>
+                <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">
+                    ನಿರ್ವಾಹಕರು ನೇರ ಮಾಹಿತಿ ಸೇರಿಸುವವರೆಗೆ ಕೆಳಗಿನ ಮೂಲ ಯೋಜನೆಗಳನ್ನು ನೋಡಿ.
+                </p>
+            </div>
+        </div>
+
+        <!-- How to Apply -->
+        <div class="card">
+            <h2>ಅರ್ಜಿ ಸಲ್ಲಿಸುವುದು ಹೇಗೆ</h2>
+            <ul class="apply-steps">
+                <li>ನಿಮ್ಮ ಹತ್ತಿರದ ಕೃಷಿ ಕಚೇರಿ, KVK ಅಥವಾ ಗ್ರಾಮ ಪಂಚಾಯತಿಗೆ ಭೇಟಿ ನೀಡಿ.</li>
+                <li>ಭೂ ದಾಖಲೆಗಳು, ಆಧಾರ್, ಬ್ಯಾಂಕ್ ವಿವರ ಮತ್ತು ಬೆಳೆ ದಾಖಲೆಗಳನ್ನು ತನ್ನಿ.</li>
+                <li>ಸ್ಥಳೀಯ ಕೃಷಿ ವಿಸ್ತರಣಾ ಕಾರ್ಯಕರ್ತರಿಂದ ಸಹಾಯ ಪಡೆಯಿರಿ.</li>
+                <li>ಸಮಯ ಉಳಿಸಲು ಅರ್ಜಿ ಸಲ್ಲಿಸುವ ಮೊದಲು ಯೋಜನೆ ಅರ್ಹತೆ ಪರಿಶೀಲಿಸಿ.</li>
+            </ul>
+        </div>
+
+    </div><!-- /container -->
+
+    <script src="../js/i18n.js"></script>
+    <script>
+        const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://127.0.0.1:5000'
+            : 'https://roger95.pythonanywhere.com';
+
+        const FALLBACK_SCHEMES = [
+            { id: 'f1', name: 'ಪಿಎಂ-ಕಿಸಾನ್', category: 'ಆದಾಯ ಬೆಂಬಲ',
+              description: 'ಅರ್ಹ ಸಣ್ಣ ಮತ್ತು ಅತಿ ಸಣ್ಣ ರೈತರ ಖಾತೆಗೆ ವರ್ಷಕ್ಕೆ ₹6,000 ನೇರವಾಗಿ ಒದಗಿಸುತ್ತದೆ.',
+              link: 'https://pmkisan.gov.in' },
+            { id: 'f2', name: 'ಪ್ರಧಾನ ಮಂತ್ರಿ ಫಸಲ್ ಬಿಮಾ ಯೋಜನೆ', category: 'ಬೆಳೆ ವಿಮೆ',
+              description: 'ಬರಗಾಲ, ಪ್ರವಾಹ, ಕೀಟ ದಾಳಿ ಮತ್ತು ರೋಗದಂತಹ ನೈಸರ್ಗಿಕ ಅಪಾಯಗಳಿಂದ ಬೆಳೆ ರಕ್ಷಿಸುತ್ತದೆ.',
+              link: 'https://pmfby.gov.in' },
+            { id: 'f3', name: 'ಸೌರ ಪಂಪ್ ಸಹಾಯಧನ', category: 'ನೀರಾವರಿ ಬೆಂಬಲ',
+              description: 'ನೀರಾವರಿ ವೆಚ್ಚ ಮತ್ತು ವಿದ್ಯುತ್ ಬಳಕೆ ಕಡಿಮೆ ಮಾಡಲು ಸೌರ ನೀರಿನ ಪಂಪ್‌ಗಳಿಗೆ ಸಹಾಯಧನ.',
+              link: 'https://solarrooftop.gov.in' },
+            { id: 'f4', name: 'ಮಣ್ಣು ಆರೋಗ್ಯ ಕಾರ್ಡ್ ಯೋಜನೆ', category: 'ಮಣ್ಣು ಆರೋಗ್ಯ',
+              description: 'ನಿಮ್ಮ ಹೊಲಗಳಿಗೆ ವಾರ್ಷಿಕ ಮಣ್ಣು ಪರೀಕ್ಷೆ ಸೇವೆ ಮತ್ತು ರಸಗೊಬ್ಬರ ಶಿಫಾರಸು.',
+              link: 'https://soilhealth.dac.gov.in' },
+            { id: 'f5', name: 'ಪರಂಪರಾಗತ ಕೃಷಿ ವಿಕಾಸ ಯೋಜನೆ', category: 'ಸಾವಯವ ಕೃಷಿ',
+              description: 'ತರಬೇತಿ ಮತ್ತು ಪ್ರಮಾಣೀಕರಣದೊಂದಿಗೆ ಸಾವಯವ ಕೃಷಿಗೆ ಬದಲಾಯಿಸಲು ರೈತರಿಗೆ ಬೆಂಬಲ.',
+              link: 'https://pkvy.gov.in' },
+        ];
+
+        let ALL_SCHEMES    = [];
+        let activeCategory = 'ಎಲ್ಲಾ';
+
+        async function fetchSchemes() {
+            try {
+                const res  = await fetch(`${API}/api/schemes`);
+                const data = await res.json();
+                if (data.success && data.schemes.length > 0) {
+                    ALL_SCHEMES = data.schemes;
+                } else {
+                    ALL_SCHEMES = FALLBACK_SCHEMES;
+                }
+            } catch {
+                ALL_SCHEMES = FALLBACK_SCHEMES;
+            }
+
+            buildFilter();
+            renderSchemes();
+        }
+
+        function buildFilter() {
+            const cats = ['ಎಲ್ಲಾ', ...new Set(ALL_SCHEMES.map(s => s.category))].sort((a, b) =>
+                a === 'ಎಲ್ಲಾ' ? -1 : b === 'ಎಲ್ಲಾ' ? 1 : a.localeCompare(b)
+            );
+
+            const filter = document.getElementById('schemeFilter');
+            filter.innerHTML = cats.map(c => `
+                <div class="scheme-pill ${c === activeCategory ? 'selected' : ''}"
+                     onclick="selectCategory('${escHtml(c)}')">${escHtml(c)}</div>
+            `).join('');
+        }
+
+        function renderSchemes() {
+            const list    = document.getElementById('schemeList');
+            const loading = document.getElementById('loadingState');
+            const empty   = document.getElementById('emptyState');
+
+            loading.style.display = 'none';
+
+            const filtered = activeCategory === 'ಎಲ್ಲಾ'
+                ? ALL_SCHEMES
+                : ALL_SCHEMES.filter(s => s.category === activeCategory);
+
+            if (ALL_SCHEMES.length === 0) {
+                list.hidden  = true;
+                empty.hidden = false;
+                return;
+            }
+
+            empty.hidden = true;
+            list.hidden  = false;
+
+            if (filtered.length === 0) {
+                list.innerHTML = `<div class="no-match">ಈ ವರ್ಗದಲ್ಲಿ ಇನ್ನೂ ಯಾವ ಯೋಜನೆಗಳೂ ಇಲ್ಲ.</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map((s, i) => `
+                <div class="scheme-card" style="animation-delay:${i * 0.04}s">
+                    <div class="scheme-header">
+                        <span class="scheme-name">${escHtml(s.name)}</span>
+                        <span class="cat-badge">${escHtml(s.category)}</span>
+                    </div>
+                    <p class="scheme-desc">${escHtml(s.description)}</p>
+                    ${s.link
+                        ? `<a class="scheme-link-btn" href="${escHtml(s.link)}" target="_blank" rel="noopener">
+                             ಅರ್ಜಿ ಸಲ್ಲಿಸಿ / ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ →
+                           </a>`
+                        : ''
+                    }
+                </div>
+            `).join('');
+        }
+
+        function selectCategory(cat) {
+            activeCategory = cat;
+            buildFilter();
+            renderSchemes();
+        }
+
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        window.onload = fetchSchemes;
+    </script>
+    <script src="../js/offline.js"></script>
+</body>
+</html>
