@@ -1,8 +1,6 @@
 // guide-admin.js
 
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://127.0.0.1:5000'
-  : 'https://rabbieshashank.pythonanywhere.com';
+const API_BASE = 'https://rabbieshashank.pythonanywhere.com';
 
 // --- Authentication ---
 const tokenKey = "ym_superadmin_token";
